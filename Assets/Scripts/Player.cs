@@ -1,4 +1,6 @@
 ﻿using System.Collections;
+using System.Runtime.CompilerServices;
+using TMPro.EditorUtilities;
 using UnityEngine;
 
 public class Player : MonoBehaviour
@@ -24,6 +26,7 @@ public class Player : MonoBehaviour
     [SerializeField]
     private int _lives = 3; 
     private SpawnManager _spawnManager;
+    private UIManager _uiManager;
     private Vector3 _direction = new Vector3();
     private float verticalMove;
     private float horizontalMove;
@@ -43,21 +46,32 @@ public class Player : MonoBehaviour
     private bool _isSpeedBoostEnable = false;
     [SerializeField]
     private bool _isShieldEnable = false;
-
     [SerializeField]
     private GameObject _shieldVisualizer;
-    
 
+    private int _playerScore;
+
+
+
+    public int PlayerScore
+    {
+        get { return _playerScore; }        
+    }
 
 
 
     void Start()
     {        
         _spawnManager = GameObject.FindWithTag("Spawn_Manager").GetComponent<SpawnManager>();
+        _uiManager = GameObject.Find("Canvas").GetComponent<UIManager>();
 
         if (_spawnManager == null)
         {
             Debug.Log("Spawn Manager component is NULL");
+        }
+        if (_uiManager == null)
+        {
+            Debug.Log("UI manager component is NULL");
         }
     }
 
@@ -69,12 +83,9 @@ public class Player : MonoBehaviour
         if(Input.GetKeyDown(KeyCode.Space) && Time.time > _fireDelayControl)
         {
             FireLaser();
-        }
-
-        
+        }        
         
     }
-
 
     void CalculateMovement()
     {        
@@ -155,6 +166,7 @@ public class Player : MonoBehaviour
         }
 
         _lives--;
+        _uiManager.UpdateLivesImage(_lives);   
 
         if (_lives < 1) 
         {
@@ -192,6 +204,12 @@ public class Player : MonoBehaviour
     {
         _isShieldEnable = true;
         _shieldVisualizer.SetActive(true);
+    }
+
+    public void UpdatePlayerScore(int points)
+    {
+        _playerScore += points;
+        _uiManager.UpdateScoreText();
     }
 }
 

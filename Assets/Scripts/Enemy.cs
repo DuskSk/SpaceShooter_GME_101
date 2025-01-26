@@ -2,15 +2,17 @@
 
 public class Enemy : MonoBehaviour
 {
-    [SerializeField]
-    private float _enemySpeed = 4f;
+    [SerializeField] private float _enemySpeed = 4f;
 
     private float _yBottomLimit = -6f;
     private float _yTopRespawnPoint = 8f;
+    [SerializeField] private int _enemyScoreValue = 10;
+
+    private Player _player;
     
     void Start()
     {
-        
+        _player = FindObjectOfType<Player>();
     }
     
     void Update()
@@ -47,6 +49,7 @@ public class Enemy : MonoBehaviour
         }
         else if (other.CompareTag("Laser"))
         {
+            _player.UpdatePlayerScore(_enemyScoreValue);
             Destroy(other.gameObject);
             Destroy(this.gameObject);
         }
