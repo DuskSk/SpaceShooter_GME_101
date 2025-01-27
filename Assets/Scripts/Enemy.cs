@@ -7,12 +7,19 @@ public class Enemy : MonoBehaviour
     private float _yBottomLimit = -6f;
     private float _yTopRespawnPoint = 8f;
     [SerializeField] private int _enemyScoreValue = 10;
-
     private Player _player;
+    private Animator _animator;
+    [SerializeField] private float _delayToDestroyEnemy = 2.6f;
     
     void Start()
     {
-        _player = FindObjectOfType<Player>();
+        _player = FindObjectOfType<Player>().GetComponent<Player>();
+        if (_player == null)
+        {
+            Debug.Log("Player component is NULL");
+        }
+
+        _animator = GetComponent<Animator>();
     }
     
     void Update()
@@ -43,15 +50,18 @@ public class Enemy : MonoBehaviour
             if (player != null) 
             { 
                 player.DamagePlayer(); 
-            }
-
-            Destroy(this.gameObject);
+            }            
+            _animator.SetTrigger("OnEnemyDeath");
+            _enemySpeed = 0f;
+            Destroy(this.gameObject, _delayToDestroyEnemy);
         }
         else if (other.CompareTag("Laser"))
         {
             _player.UpdatePlayerScore(_enemyScoreValue);
             Destroy(other.gameObject);
-            Destroy(this.gameObject);
+            _animator.SetTrigger("OnEnemyDeath");
+            _enemySpeed = 0f;
+            Destroy(this.gameObject, _delayToDestroyEnemy);
         }
     }
 }
