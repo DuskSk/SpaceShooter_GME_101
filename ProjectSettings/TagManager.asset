@@ -9,6 +9,7 @@ TagManager:
   - Spawn_Manager
   - Powerup
   - Shield
+  - Game_Manager
   layers:
   - Default
   - TransparentFX
