@@ -3,34 +3,28 @@ using UnityEngine;
 
 public class SpawnManager : MonoBehaviour
 {
-    [SerializeField]
-    private GameObject _enemyPrefab;
-    [SerializeField]
-    private GameObject _enemyContainer;
-    [SerializeField]
-    private GameObject[] _powerupPrefab;
+    [SerializeField] private GameObject _enemyPrefab;
+    [SerializeField] private GameObject _enemyContainer;
+    [SerializeField] private GameObject[] _powerupPrefab;
 
-
-    [SerializeField]
-    private float _secondsToSpawn = 5f;
+    [Header("Spawn rate")]
+    [SerializeField] private float _enemySpawnRateInSeconds = 5f;    
+    [SerializeField] private float _delayToStartSpawnRoutine = 3.0f;
     private bool _isSpawning = true;
-    
-    void Start()
-    {
-        StartCoroutine(SpawnEnemyRoutine(_secondsToSpawn));
-        StartCoroutine(SpawnPowerupRoutine());
-        
-        
-    }
 
-    
-    void Update()
+
+
+    public void StartSpawning()
     {
-        
+        StartCoroutine(SpawnEnemyRoutine(_enemySpawnRateInSeconds));
+        StartCoroutine(SpawnPowerupRoutine());
     }
+   
 
     IEnumerator SpawnEnemyRoutine(float enemySpawnRate)
     {
+        yield return new WaitForSeconds(_delayToStartSpawnRoutine);
+
         while (_isSpawning) 
         {   
             Vector3 spawnPosition = new Vector3 (Random.Range(-10f, 10f), 8f, 0);
@@ -43,6 +37,8 @@ public class SpawnManager : MonoBehaviour
 
     IEnumerator SpawnPowerupRoutine()
     {
+        yield return new WaitForSeconds(_delayToStartSpawnRoutine);
+
         while (_isSpawning) 
         {
             Vector3 spawnPosition = new Vector3(Random.Range(-10f, 10f), 8f, 0);

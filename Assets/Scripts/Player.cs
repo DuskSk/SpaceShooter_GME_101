@@ -15,8 +15,7 @@ public class Player : MonoBehaviour
     private GameObject _tripleLaserPrefab;
     private Vector3 _laserOffset;
     [SerializeField]
-    private Vector3 _laserOffsetPosition = new Vector3(0, 1.05f, 0);
-    
+    private Vector3 _laserOffsetPosition = new Vector3(0, 1.05f, 0);   
 
 
     [SerializeField]
@@ -40,14 +39,18 @@ public class Player : MonoBehaviour
     [SerializeField] 
     float _xLimit = 9.5f;
 
+    [Header("PowerUps Enable")]
     [SerializeField]
     private bool _isTripleLaserEnable = false;
     [SerializeField]
     private bool _isSpeedBoostEnable = false;
     [SerializeField]
     private bool _isShieldEnable = false;
+
     [SerializeField]
-    private GameObject _shieldVisualizer;
+    private GameObject _shieldVisualizer;    
+
+    [SerializeField] private GameObject[] _fireOnEngine;
 
     private int _playerScore;
 
@@ -158,7 +161,7 @@ public class Player : MonoBehaviour
 
     public void DamagePlayer()
     {
-        if(_isShieldEnable)
+        if (_isShieldEnable)
         {
             _isShieldEnable = false;
             _shieldVisualizer.SetActive(false);
@@ -166,15 +169,40 @@ public class Player : MonoBehaviour
         }
 
         _lives--;
-        _uiManager.UpdateLivesImage(_lives);   
+        ActivateEngineFailureAnimation(_lives);
+        _uiManager.UpdateLivesImage(_lives);
 
-        if (_lives < 1) 
+        if (_lives < 1)
         {
 
-            _spawnManager.OnPlayerDeath();            
-            Destroy(this.gameObject);                   
+            _spawnManager.OnPlayerDeath();
+            Destroy(this.gameObject);
         }
     }
+
+    private void ActivateEngineFailureAnimation(int lives)
+    {
+        int randomEngine = Random.Range(0, 2);
+
+        switch (lives)
+        {
+            case 2:
+                _fireOnEngine[randomEngine].SetActive(true);
+                break;
+            case 1:
+                if (_fireOnEngine[0].activeSelf)
+                {
+                    _fireOnEngine[1].SetActive(true);
+                }
+                else
+                {
+                    _fireOnEngine[0].SetActive(true);
+                }
+                break;
+
+        }
+    }
+
 
     public void EnableTripleLaser()
     {
@@ -211,6 +239,8 @@ public class Player : MonoBehaviour
         _playerScore += points;
         _uiManager.UpdateScoreText();
     }
+
+    
 }
 
 
