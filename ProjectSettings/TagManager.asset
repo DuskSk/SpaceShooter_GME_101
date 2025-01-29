@@ -10,6 +10,8 @@ TagManager:
   - Powerup
   - Shield
   - Game_Manager
+  - Asteroid
+  - Audio_Manager
   layers:
   - Default
   - TransparentFX
@@ -19,7 +21,7 @@ TagManager:
   - UI
   - 
   - 
-  - 
+  - Post Process
   - 
   - 
   - 

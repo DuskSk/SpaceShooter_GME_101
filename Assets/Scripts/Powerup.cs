@@ -11,13 +11,10 @@ public class Powerup : MonoBehaviour
 
     [SerializeField]
     private int _powerupId;
-    
-    void Start()
-    {
-        
-    }
 
+    [SerializeField] private AudioClip _powerUpAudioClip;    
     
+       
     void Update()
     {
         transform.Translate(Vector3.down * _powerupSpeed * Time.deltaTime);
@@ -32,6 +29,8 @@ public class Powerup : MonoBehaviour
     {
         if (collision.CompareTag("Player"))
         {
+
+            AudioSource.PlayClipAtPoint(_powerUpAudioClip, transform.position);
             Player player = collision.GetComponent<Player>();
             if (player != null) 
             {

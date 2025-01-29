@@ -135,3 +135,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _powerupSpeed: 2
   _yLimitToDestroy: -6
+  _powerupId: 0
+  _powerUpClip: {fileID: 8300000, guid: 5ee343246919d2b4bba63ae629e95494, type: 3}

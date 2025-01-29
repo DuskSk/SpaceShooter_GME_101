@@ -10,10 +10,12 @@ public class Enemy : MonoBehaviour
     private Player _player;
     private Animator _animator;
     [SerializeField] private float _delayToDestroyEnemy = 2.6f;
+    private AudioManager _audioManager;
     
     void Start()
     {
         _player = FindObjectOfType<Player>().GetComponent<Player>();
+        _audioManager = GameObject.FindWithTag("Audio_Manager").GetComponent<AudioManager>();
         if (_player == null)
         {
             Debug.Log("Player component is NULL");
@@ -53,6 +55,7 @@ public class Enemy : MonoBehaviour
             }            
             _animator.SetTrigger("OnEnemyDeath");
             _enemySpeed = 0f;
+            _audioManager.PlayExplosionAudio();
             Destroy(this.gameObject, _delayToDestroyEnemy);
         }
         else if (other.CompareTag("Laser"))
@@ -61,7 +64,9 @@ public class Enemy : MonoBehaviour
             Destroy(other.gameObject);
             _animator.SetTrigger("OnEnemyDeath");
             _enemySpeed = 0f;
+            _audioManager.PlayExplosionAudio();
             Destroy(this.gameObject, _delayToDestroyEnemy);
         }
+        
     }
 }

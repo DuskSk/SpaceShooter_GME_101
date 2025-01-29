@@ -6,10 +6,12 @@ public class Asteroid : MonoBehaviour
     [SerializeField] private float _rotationSpeed = 3.0f;
     [SerializeField] private GameObject _explosionPrefab;
     private SpawnManager _spawnManager;
+    private AudioManager _audioManager;
 
     void Start()
     {
         _spawnManager = GameObject.FindGameObjectWithTag("Spawn_Manager").GetComponent<SpawnManager>();
+        _audioManager = GameObject.FindWithTag("Audio_Manager").GetComponent<AudioManager>();
         if (_spawnManager == null) { Debug.LogError("Spawn Manager is NULL for Asteroid"); }
     }
 
@@ -25,6 +27,7 @@ public class Asteroid : MonoBehaviour
         if (other.CompareTag("Laser")) 
         {  
             Instantiate(_explosionPrefab, transform.position, Quaternion.identity);
+            _audioManager.PlayExplosionAudio();
             _spawnManager.StartSpawning();
             Destroy(this.gameObject);
             Destroy(other.gameObject);            
