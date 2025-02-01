@@ -145,13 +145,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _enemySpeed: 4
+  _xMinLimit: -10
+  _xMaxLimit: 10
   _enemyScoreValue: 10
   _delayToDestroyEnemy: 2.6
   _laserOffsetPosition: {x: 0, y: -0.9, z: 0}
   _laserPrefab: {fileID: 8143371257873752616, guid: 3ed94ccddb5cf7443b29408ad7ec39fe,
     type: 3}
-  minDelayToShoot: 0.5
-  maxDelayToShoot: 2
+  _minDelayToShoot: 0.5
+  _maxDelayToShoot: 2
 --- !u!95 &1561466682
 Animator:
   serializedVersion: 3

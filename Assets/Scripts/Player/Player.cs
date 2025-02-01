@@ -3,8 +3,11 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    [SerializeField] private float _speed = 2.0f;
-    [SerializeField] private float _speedWithBoost = 4.5f;  
+    [Header("Player Speed")]
+    [SerializeField] private float _baseSpeed = 3.0f;
+    [SerializeField] private float _speedWithBoost = 7.0f;
+    [SerializeField] private float _speedWithThruster = 5.0f;
+
     
     private Vector3 _laserOffset;
     [SerializeField] private Vector3 _laserOffsetPosition = new Vector3(0, 1.05f, 0);   
@@ -31,12 +34,15 @@ public class Player : MonoBehaviour
     [SerializeField] private bool _isTripleLaserEnable = false;
     [SerializeField] private bool _isSpeedBoostEnable = false;
     [SerializeField] private bool _isShieldEnable = false;
+    [SerializeField] private bool _isThrusterEnable = false;
 
     [Header("Attached GameObjects")]
     [SerializeField] private GameObject _laserPrefab;
     [SerializeField] private GameObject _tripleLaserPrefab;
     [SerializeField] private GameObject _shieldVisualizer; 
     [SerializeField] private GameObject[] _fireOnEngine;
+    [SerializeField] private GameObject _thrusterVisualizer;
+    
 
     [SerializeField] private AudioClip _laserAudioClip;
 
@@ -84,8 +90,19 @@ public class Player : MonoBehaviour
     
     void Update()
     {        
+        if (Input.GetKey(KeyCode.LeftShift))
+        {
+            EnableThruster(true);            
+            
+        }else if (Input.GetKeyUp(KeyCode.LeftShift))
+        {
+            EnableThruster(false);
+        }
+        
         CalculateMovement();
+
         CheckScreenBoundaries();
+
         if(Input.GetKeyDown(KeyCode.Space) && Time.time > _fireDelayControl)
         {
             FireLaser();
@@ -102,13 +119,20 @@ public class Player : MonoBehaviour
 
         _direction.Set(_horizontalMove, _verticalMove, 0);
 
-        if(_isSpeedBoostEnable )
+        if(_isSpeedBoostEnable)
         {
             transform.Translate(_direction * _speedWithBoost * Time.deltaTime);
+            Debug.Log("speedboost active");
+        }
+        else if(_isThrusterEnable)
+        {
+            transform.Translate(_direction * _speedWithThruster * Time.deltaTime);
+            Debug.Log("thruster active");
         }
         else
         {
-            transform.Translate(_direction * _speed * Time.deltaTime);
+            transform.Translate(_direction * _baseSpeed * Time.deltaTime);
+            Debug.Log("none active");
         }
 
         
@@ -205,6 +229,12 @@ public class Player : MonoBehaviour
                 break;
 
         }
+    }
+    private void EnableThruster(bool enable)
+    {
+        _isThrusterEnable= enable;
+        _thrusterVisualizer.SetActive(enable);
+
     }
     public void EnableSpeedBoost()
     {

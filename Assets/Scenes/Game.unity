@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.18028378, g: 0.22571412, b: 0.30692285, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -419,12 +419,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b711fda7ab359cf42a9245c819a2beb3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _speed: 5
-  _speedWithBoost: 9
-  _laserPrefab: {fileID: 8675887681110026092, guid: 3ed94ccddb5cf7443b29408ad7ec39fe,
-    type: 3}
-  _tripleLaserPrefab: {fileID: 6988458246696329540, guid: 292021a7cbde7be45b6b0cb342240aee,
-    type: 3}
+  _baseSpeed: 3
+  _speedWithBoost: 12
+  _speedWithThruster: 6
   _laserOffsetPosition: {x: 0, y: 1.05, z: 0}
   _fireRate: 0.1
   _lives: 3
@@ -434,10 +431,16 @@ MonoBehaviour:
   _isTripleLaserEnable: 0
   _isSpeedBoostEnable: 0
   _isShieldEnable: 0
+  _isThrusterEnable: 0
+  _laserPrefab: {fileID: 8675887681110026092, guid: 3ed94ccddb5cf7443b29408ad7ec39fe,
+    type: 3}
+  _tripleLaserPrefab: {fileID: 6988458246696329540, guid: 292021a7cbde7be45b6b0cb342240aee,
+    type: 3}
   _shieldVisualizer: {fileID: 2114247123}
   _fireOnEngine:
   - {fileID: 647406958}
   - {fileID: 979475714}
+  _thrusterVisualizer: {fileID: 1489470706}
   _laserAudioClip: {fileID: 8300000, guid: 75676f361bdfeaf41a46623e95df3dbc, type: 3}
 --- !u!212 &498659302
 SpriteRenderer:
@@ -497,7 +500,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 498659300}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.07, y: -3.12, z: 0}
+  m_LocalPosition: {x: 0.33, y: -0.64, z: 0}
   m_LocalScale: {x: 0.45, y: 0.45, z: 1}
   m_Children:
   - {fileID: 2114247124}
@@ -987,6 +990,9 @@ MonoBehaviour:
   - {fileID: 6221563551128551034, guid: 5f7d1074843a5c946aa5b9dbcd02ce90, type: 3}
   _enemySpawnRateInSeconds: 3.5
   _delayToStartSpawnRoutine: 3
+  _minSpawnRangeX: -10
+  _maxSpawnRangeX: 10
+  _spawnRangeY: 8
 --- !u!4 &745990394
 Transform:
   m_ObjectHideFlags: 0
@@ -995,7 +1001,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 745990392}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.7360267, y: 6.6828485, z: -12.2914915}
+  m_LocalPosition: {x: -9.17, y: 8.2, z: -12.2914915}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1895423132}
@@ -1625,12 +1631,12 @@ GameObject:
   - component: {fileID: 1489470708}
   - component: {fileID: 1489470709}
   m_Layer: 0
-  m_Name: Thruster_00000
+  m_Name: Thruster
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1489470707
 Transform:
   m_ObjectHideFlags: 0
@@ -1685,7 +1691,7 @@ SpriteRenderer:
   m_SortingLayer: 2
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: a45d21c30e0154a9ca1a5d6fb2bf3cfa, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 0.68235296}
+  m_Color: {r: 0.086908154, g: 0.83703226, b: 0.8773585, a: 0.8235294}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -2000,6 +2006,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _scoreText: {fileID: 1402533217}
+  _gameOverText: {fileID: 30322211}
+  _reloadText: {fileID: 159312521}
   _player: {fileID: 498659301}
   _livesSpritesList:
   - {fileID: 21300000, guid: ba53e111f0125654cabfd4eefaf3a657, type: 3}
@@ -2007,8 +2015,6 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 482c8e4c0346b704aa5f1760c3c989d5, type: 3}
   - {fileID: 21300000, guid: 9fe6f40efddf0b64fb68a3382b14a4db, type: 3}
   _livesImage: {fileID: 1970284603}
-  _gameOverText: {fileID: 30322211}
-  _reloadText: {fileID: 159312521}
 --- !u!1 &2114247123
 GameObject:
   m_ObjectHideFlags: 0

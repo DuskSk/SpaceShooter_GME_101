@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using System.Threading;
 using UnityEngine;
 
 public class Enemy : MonoBehaviour
@@ -19,8 +20,10 @@ public class Enemy : MonoBehaviour
     [Header("Enemy Laser Configuration")]
     [SerializeField] private Vector3 _laserOffsetPosition = new Vector3(0, -0.9f, 0);    
     [SerializeField] private Laser _laserPrefab;
-    [SerializeField] private float _minDelayToShoot, _maxDelayToShoot;
+    [SerializeField] private float _minDelayToShoot = 0.5f, _maxDelayToShoot = 2.0f;
     private Vector3 _laserOffset;
+
+    private Collider2D _myEnemyCollider2d;
 
 
 
@@ -34,6 +37,7 @@ public class Enemy : MonoBehaviour
         }
 
         _animator = GetComponent<Animator>();
+        _myEnemyCollider2d = GetComponent<Collider2D>();
 
         StartCoroutine(LaserShootingCoroutine());
     }
@@ -70,12 +74,18 @@ public class Enemy : MonoBehaviour
     {
         while (true)
         {
+            
+            
             yield return new WaitForSeconds(Random.Range(_minDelayToShoot, _maxDelayToShoot));
-            if (this.GetComponent<Collider2D>() == null)
+            if (!_myEnemyCollider2d.enabled)
             {
                 break;
             }
             FireEnemyLaser();
+            
+                
+            
+            
         }
 
         
@@ -109,11 +119,11 @@ public class Enemy : MonoBehaviour
             Laser laser = other.GetComponent<Laser>();
             if (!laser.IsEnemyLaser)
             {
-                StopCoroutine(LaserShootingCoroutine());
+                StopAllCoroutines();
 
                 _player.UpdatePlayerScore(_enemyScoreValue);
                 Destroy(other.gameObject);                
-                GetComponent<Collider2D>().enabled = false;
+                _myEnemyCollider2d.enabled = false;
                 StartOnDeathEffects();                
                 
             }
