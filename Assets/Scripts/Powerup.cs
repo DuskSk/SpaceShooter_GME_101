@@ -1,18 +1,20 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿
 using UnityEngine;
 
 public class Powerup : MonoBehaviour
 {
-    [SerializeField]
-    private float _powerupSpeed = 3f;
-    [SerializeField]
-    private float _yLimitToDestroy = -6f;
+    [SerializeField] private float _powerupSpeed = 3f;
+    [SerializeField] private float _yLimitToDestroy = -6f;
+    [SerializeField] private int _powerUpId;
 
-    [SerializeField]
-    private int _powerupId;
+    [SerializeField] private AudioClip _powerUpAudioClip;
 
-    [SerializeField] private AudioClip _powerUpAudioClip;    
+
+    //testing enums
+    private enum PowerUpType {TripleLaser, SpeedBoost, Shield};
+    [SerializeField] private PowerUpType _powerUpType;
+    //
+         
     
        
     void Update()
@@ -35,18 +37,19 @@ public class Powerup : MonoBehaviour
             if (player != null) 
             {
                 //Grab powerUp based on it`s ID
-                switch (_powerupId)
+                //switch (_powerUpId)
+                switch (_powerUpType)
                 {
-                    case 0:
+                    case PowerUpType.TripleLaser:
                         player.EnableTripleLaser();
                         break;
-                    case 1:
+                    case PowerUpType.SpeedBoost:
                         player.EnableSpeedBoost();
                         break;
-                    case 2:
+                    case PowerUpType.Shield:
                         player.EnableShield();
                         break;
-                }
+                }          
                 
                 Destroy(this.gameObject);
             }

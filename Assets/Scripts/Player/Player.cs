@@ -1,61 +1,46 @@
 ﻿using System.Collections;
-using System.Runtime.CompilerServices;
-using TMPro.EditorUtilities;
 using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    [SerializeField]
-    private float _speed = 2.0f;
-    [SerializeField]
-    private float _speedWithBoost = 4.5f;
-    [SerializeField]
-    private GameObject _laserPrefab;
-    [SerializeField]
-    private GameObject _tripleLaserPrefab;
+    [SerializeField] private float _speed = 2.0f;
+    [SerializeField] private float _speedWithBoost = 4.5f;  
+    
     private Vector3 _laserOffset;
-    [SerializeField]
-    private Vector3 _laserOffsetPosition = new Vector3(0, 1.05f, 0);   
+    [SerializeField] private Vector3 _laserOffsetPosition = new Vector3(0, 1.05f, 0);   
 
 
     [SerializeField]
     private float _fireRate = 0.5f;
     private float _fireDelayControl = -1f;
 
-    [SerializeField]
-    private int _lives = 3; 
+    [SerializeField] private int _lives = 3; 
     private SpawnManager _spawnManager;
     private UIManager _uiManager;
     private Vector3 _direction = new Vector3();
-    private float verticalMove;
-    private float horizontalMove;
+    private float _verticalMove;
+    private float _horizontalMove;
 
 
     [Header("Scene Axis Limit")]
-    [SerializeField]
-    float _yLimitUp = 1.5f;
-    [SerializeField]
-    float _yLimitDown = -3.5f;    
-    [SerializeField] 
-    float _xLimit = 9.5f;
+    [SerializeField] float _yLimitUp = 1.5f;
+    [SerializeField] float _yLimitDown = -3.5f;    
+    [SerializeField] float _xLimit = 9.5f;
 
     [Header("PowerUps Enable")]
-    [SerializeField]
-    private bool _isTripleLaserEnable = false;
-    [SerializeField]
-    private bool _isSpeedBoostEnable = false;
-    [SerializeField]
-    private bool _isShieldEnable = false;
+    [SerializeField] private bool _isTripleLaserEnable = false;
+    [SerializeField] private bool _isSpeedBoostEnable = false;
+    [SerializeField] private bool _isShieldEnable = false;
 
-    [SerializeField]
-    private GameObject _shieldVisualizer;    
-
+    [Header("Attached GameObjects")]
+    [SerializeField] private GameObject _laserPrefab;
+    [SerializeField] private GameObject _tripleLaserPrefab;
+    [SerializeField] private GameObject _shieldVisualizer; 
     [SerializeField] private GameObject[] _fireOnEngine;
 
     [SerializeField] private AudioClip _laserAudioClip;
 
     private AudioManager _audioManager;
-
     private AudioSource _audioSource;
     private int _playerScore;
 
@@ -80,10 +65,12 @@ public class Player : MonoBehaviour
         {
             Debug.Log("Spawn Manager component is NULL");
         }
+
         if (_uiManager == null)
         {
             Debug.Log("UI manager component is NULL");
         }
+
         if( _audioSource == null)
         {
             Debug.LogError("Audio Source on PLayer is NULL");
@@ -94,7 +81,7 @@ public class Player : MonoBehaviour
         }
     }
 
-    // Update is called once per frame
+    
     void Update()
     {        
         CalculateMovement();
@@ -109,11 +96,11 @@ public class Player : MonoBehaviour
     void CalculateMovement()
     {        
         
-        horizontalMove = Input.GetAxis("Horizontal");
+        _horizontalMove = Input.GetAxis("Horizontal");
 
-        verticalMove = Input.GetAxis("Vertical");       
+        _verticalMove = Input.GetAxis("Vertical");       
 
-        _direction.Set(horizontalMove, verticalMove, 0);
+        _direction.Set(_horizontalMove, _verticalMove, 0);
 
         if(_isSpeedBoostEnable )
         {
@@ -131,10 +118,11 @@ public class Player : MonoBehaviour
 
     void CheckScreenBoundaries()
     {
-        Vector3 currentPosition = transform.position;
-        
-        
 
+        Vector3 currentPosition = transform.position;
+
+
+        //Rename to transform.position
         if (currentPosition.y > _yLimitUp)
         {
 
@@ -171,7 +159,7 @@ public class Player : MonoBehaviour
         {
             Instantiate(_laserPrefab, _laserOffset, Quaternion.identity);
         }        
-        _audioSource.Play(); 
+        //_audioSource.Play(); 
         
     }
 
@@ -218,31 +206,17 @@ public class Player : MonoBehaviour
 
         }
     }
-
-
-    public void EnableTripleLaser()
-    {
-        _isTripleLaserEnable = true;
-        StartCoroutine(TripleLaserCooldownRoutine());
-    }
-
-    IEnumerator TripleLaserCooldownRoutine()
-    {
-        yield return new WaitForSeconds(5f);
-        _isTripleLaserEnable = false;
-    }
-
     public void EnableSpeedBoost()
     {
         _isSpeedBoostEnable = true;
         StartCoroutine(SpeedBoostCooldownRoutine());
     }
 
-    IEnumerator SpeedBoostCooldownRoutine()
+    public void EnableTripleLaser()
     {
-        yield return new WaitForSeconds(7f);
-        _isSpeedBoostEnable = false;
-    }
+        _isTripleLaserEnable = true;
+        StartCoroutine(TripleLaserCooldownRoutine());
+    }    
 
     public void EnableShield()
     {
@@ -253,8 +227,22 @@ public class Player : MonoBehaviour
     public void UpdatePlayerScore(int points)
     {
         _playerScore += points;
-        _uiManager.UpdateScoreText();
+        _uiManager.UpdateScoreText(_playerScore);
     }
+
+    IEnumerator SpeedBoostCooldownRoutine()
+    {
+        yield return new WaitForSeconds(7f);
+        _isSpeedBoostEnable = false;
+    }
+
+    IEnumerator TripleLaserCooldownRoutine()
+    {
+        yield return new WaitForSeconds(5f);
+        _isTripleLaserEnable = false;
+    }
+
+    
 
     
 }

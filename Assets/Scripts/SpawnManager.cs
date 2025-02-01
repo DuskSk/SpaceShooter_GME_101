@@ -12,6 +12,9 @@ public class SpawnManager : MonoBehaviour
     [SerializeField] private float _delayToStartSpawnRoutine = 3.0f;
     private bool _isSpawning = true;
 
+    [Header("Spawn Position")]
+    [SerializeField] private float _minSpawnRangeX, _maxSpawnRangeX, _spawnRangeY;
+
 
 
     public void StartSpawning()
@@ -27,7 +30,7 @@ public class SpawnManager : MonoBehaviour
 
         while (_isSpawning) 
         {   
-            Vector3 spawnPosition = new Vector3 (Random.Range(-10f, 10f), 8f, 0);
+            Vector3 spawnPosition = new Vector3 (Random.Range(_minSpawnRangeX, _maxSpawnRangeX), _spawnRangeY, 0);
             GameObject newEnemy = Instantiate(_enemyPrefab, spawnPosition, Quaternion.identity);
             newEnemy.transform.parent = _enemyContainer.transform;
             yield return new WaitForSeconds(enemySpawnRate);            
@@ -41,9 +44,9 @@ public class SpawnManager : MonoBehaviour
 
         while (_isSpawning) 
         {
-            Vector3 spawnPosition = new Vector3(Random.Range(-10f, 10f), 8f, 0);
-            int powerupRandomId = Random.Range(0, 3);
-            GameObject newPowerup = Instantiate(_powerupPrefab[powerupRandomId], spawnPosition, Quaternion.identity);
+            Vector3 spawnPosition = new Vector3(Random.Range(_minSpawnRangeX, _maxSpawnRangeX), _spawnRangeY, 0);
+            int powerupRandomId = Random.Range(0, _powerupPrefab.Length);
+            Instantiate(_powerupPrefab[powerupRandomId], spawnPosition, Quaternion.identity);
             yield return new WaitForSeconds(Random.Range(5f, 8f));
         }
 

@@ -15,22 +15,23 @@ public class Asteroid : MonoBehaviour
         if (_spawnManager == null) { Debug.LogError("Spawn Manager is NULL for Asteroid"); }
     }
 
-    
+
     void Update()
     {
         transform.Rotate(Vector3.forward * _rotationSpeed * Time.deltaTime);
-        ;
+        
     }
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.CompareTag("Laser")) 
+        if (other.CompareTag("Laser") || other.CompareTag("Player")) 
         {  
             Instantiate(_explosionPrefab, transform.position, Quaternion.identity);
             _audioManager.PlayExplosionAudio();
             _spawnManager.StartSpawning();
+            if (other.CompareTag("Laser")) { Destroy(other.gameObject); }
             Destroy(this.gameObject);
-            Destroy(other.gameObject);            
+                        
         }
     }
 }

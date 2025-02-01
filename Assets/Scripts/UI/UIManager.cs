@@ -1,18 +1,18 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
-using UnityEngine.SceneManagement;
 
 public class UIManager : MonoBehaviour
 {
-    [SerializeField] private TMP_Text _scoreText;
+    [Header("TMP Text References")]
+    [SerializeField] private TMP_Text _scoreText;    
+    [SerializeField] private TMP_Text _gameOverText;
+    [SerializeField] private TMP_Text _reloadText;
+
     [SerializeField] private Player _player;
     [SerializeField] private Sprite[] _livesSpritesList;
     [SerializeField] private Image _livesImage;
-    [SerializeField] private TMP_Text _gameOverText;
-    [SerializeField] private TMP_Text _reloadText;    
     private GameManager _gameManager;
     
 
@@ -34,14 +34,17 @@ public class UIManager : MonoBehaviour
 
 
 
-    public void UpdateScoreText()
+    public void UpdateScoreText(int playerScore)
     {
-        _scoreText.text = $"Score: {_player.PlayerScore}";
+        _scoreText.text = $"Score: {playerScore}";
     }
 
     public void UpdateLivesImage(int currentPlayerLives)
     {
-        _livesImage.sprite = _livesSpritesList[currentPlayerLives];
+        if(currentPlayerLives >= 0)
+        {
+           _livesImage.sprite = _livesSpritesList[currentPlayerLives];
+        }        
 
         if (currentPlayerLives == 0) 
         {
