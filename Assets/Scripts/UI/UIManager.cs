@@ -9,6 +9,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] private TMP_Text _scoreText;    
     [SerializeField] private TMP_Text _gameOverText;
     [SerializeField] private TMP_Text _reloadText;
+    [SerializeField] private TMP_Text _ammoText;
 
     [SerializeField] private Player _player;
     [SerializeField] private Sprite[] _livesSpritesList;
@@ -30,11 +31,10 @@ public class UIManager : MonoBehaviour
     void Start()
     {
         _scoreText.text = $"Score: {0}";
+        _ammoText.text = $"Ammo: {15}";
         _gameOverText.gameObject.SetActive(false);
         _reloadText.gameObject.SetActive(false);
-        _gameManager = GameObject.FindWithTag("Game_Manager").GetComponent<GameManager>();
-
-        
+        _gameManager = GameObject.FindWithTag("Game_Manager").GetComponent<GameManager>();        
         _maxChargeValue = _chargeSlider.maxValue;
 
         if (_gameManager == null)
@@ -55,6 +55,8 @@ public class UIManager : MonoBehaviour
         {
             UpdateChargeValue();
         }
+
+        
         
     }
 
@@ -78,17 +80,17 @@ public class UIManager : MonoBehaviour
         {
             _isThrusterCharged = false;
         }
-    }
-
-    //ACheck if thruster is active
-    //deplete charge bar
-    //When reach 0, set thruster to false
-    //wait 1s? then start to recharge
+    }    
 
 
     public void UpdateScoreText(int playerScore)
     {
         _scoreText.text = $"Score: {playerScore}";
+    }
+
+    public void UpdateAmmoText(int ammoAmount)
+    {
+        _ammoText.text = $"Ammo:{ammoAmount}";
     }
 
     public void UpdateLivesImage(int currentPlayerLives)

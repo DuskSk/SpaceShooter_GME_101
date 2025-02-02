@@ -9,13 +9,16 @@ public class Player : MonoBehaviour
     [SerializeField] private float _speedWithThruster = 5.0f;
 
     
+    
+    [SerializeField] private Vector3 _laserOffsetPosition = new Vector3(0, 1.05f, 0);
     private Vector3 _laserOffset;
-    [SerializeField] private Vector3 _laserOffsetPosition = new Vector3(0, 1.05f, 0);   
 
 
-    [SerializeField]
-    private float _fireRate = 0.5f;
+    [SerializeField] private float _fireRate = 0.5f;
     private float _fireDelayControl = -1f;
+
+    [SerializeField] private int _maxAmmoAmount = 15;
+    private int _currentAmmo;
 
     [SerializeField] private int _lives = 3; 
     private SpawnManager _spawnManager;
@@ -57,9 +60,9 @@ public class Player : MonoBehaviour
 
     public bool IsThrusterEnable
     {
-        get { return _isThrusterEnable; }
-    }
+        get { return _isThrusterEnable; }    }
 
+    
 
 
 
@@ -70,6 +73,8 @@ public class Player : MonoBehaviour
         _audioManager = GameObject.FindWithTag("Audio_Manager").GetComponent<AudioManager>();
         _audioSource = GetComponent<AudioSource>();
         _shieldSpriteRenderer = _shieldVisualizer.GetComponent<SpriteRenderer>();
+
+        _currentAmmo = _maxAmmoAmount;
 
         
               
@@ -112,7 +117,15 @@ public class Player : MonoBehaviour
 
         if(Input.GetKeyDown(KeyCode.Space) && Time.time > _fireDelayControl)
         {
-            FireLaser();
+            if (_currentAmmo > 0)
+            {
+                FireLaser();
+            }
+            else 
+            {
+                Debug.Log("NO AMMO!");
+            }
+            
         }        
         
     }
@@ -179,6 +192,9 @@ public class Player : MonoBehaviour
         _fireDelayControl = Time.time + _fireRate;
         _laserOffset = transform.position + _laserOffsetPosition;
 
+        _currentAmmo--;
+        _uiManager.UpdateAmmoText(_currentAmmo);
+
         if (_isTripleLaserEnable)
         {
             Instantiate(_tripleLaserPrefab, transform.position, Quaternion.identity);
@@ -193,32 +209,12 @@ public class Player : MonoBehaviour
 
     public void DamagePlayer()
     {
-        //add 3 lives to shield
-        //remove 1 on damage and reduce the transparency, or change the color
-        //on 0 shield, take damage
-        //DONE
+        
         if (_isShieldEnable)
         {
-            _shieldLives--;
+            DamageShield();
+            return;
 
-            switch (_shieldLives)
-            {
-                case 2:
-                    _shieldColor.a = 0.6f;
-                    _shieldSpriteRenderer.color = _shieldColor;
-                    break;
-                case 1:
-                    _shieldColor.a = 0.3f;
-                    _shieldSpriteRenderer.color = _shieldColor;
-                    break;
-                case 0:
-                    _isShieldEnable = false;
-                    _shieldVisualizer.SetActive(false);
-                    break;
-
-            }
-            return;            
-            
         }
 
         _lives--;
@@ -233,6 +229,29 @@ public class Player : MonoBehaviour
         }
     }
 
+    private void DamageShield()
+    {
+        _shieldLives--;
+
+        switch (_shieldLives)
+        {
+            case 2:
+                _shieldColor.a = 0.6f;
+                _shieldSpriteRenderer.color = _shieldColor;
+                break;
+            case 1:
+                _shieldColor.a = 0.3f;
+                _shieldSpriteRenderer.color = _shieldColor;
+                break;
+            case 0:
+                _isShieldEnable = false;
+                _shieldVisualizer.SetActive(false);
+                break;
+
+        }
+    }
+
+    //Update the animation randomly based on current player lives
     private void ActivateEngineFailureAnimation(int lives)
     {
         int randomEngine = Random.Range(0, 2);
