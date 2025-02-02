@@ -24,6 +24,7 @@ public class Player : MonoBehaviour
     private float _verticalMove;
     private float _horizontalMove;
 
+    
 
     [Header("Scene Axis Limit")]
     [SerializeField] float _yLimitUp = 1.5f;
@@ -42,19 +43,19 @@ public class Player : MonoBehaviour
     [SerializeField] private GameObject _shieldVisualizer; 
     [SerializeField] private GameObject[] _fireOnEngine;
     [SerializeField] private GameObject _thrusterVisualizer;
-    
-    
-    
-
     [SerializeField] private AudioClip _laserAudioClip;
+
 
     private AudioManager _audioManager;
     private AudioSource _audioSource;
     private int _playerScore;
 
+    private SpriteRenderer _shieldSpriteRenderer;
+    private Color _shieldColor = Color.white;
+    private int _shieldLives = 3;
 
 
-   public bool IsThrusterEnable
+    public bool IsThrusterEnable
     {
         get { return _isThrusterEnable; }
     }
@@ -68,8 +69,10 @@ public class Player : MonoBehaviour
         _uiManager = GameObject.Find("Canvas").GetComponent<UIManager>();
         _audioManager = GameObject.FindWithTag("Audio_Manager").GetComponent<AudioManager>();
         _audioSource = GetComponent<AudioSource>();
+        _shieldSpriteRenderer = _shieldVisualizer.GetComponent<SpriteRenderer>();
 
-        //_shieldVisualizer.GetComponent<SpriteRenderer>().color       
+        
+              
         if (_spawnManager == null)
         {
             Debug.Log("Spawn Manager component is NULL");
@@ -193,11 +196,29 @@ public class Player : MonoBehaviour
         //add 3 lives to shield
         //remove 1 on damage and reduce the transparency, or change the color
         //on 0 shield, take damage
+        //DONE
         if (_isShieldEnable)
         {
-            _isShieldEnable = false;
-            _shieldVisualizer.SetActive(false);
-            return;
+            _shieldLives--;
+
+            switch (_shieldLives)
+            {
+                case 2:
+                    _shieldColor.a = 0.6f;
+                    _shieldSpriteRenderer.color = _shieldColor;
+                    break;
+                case 1:
+                    _shieldColor.a = 0.3f;
+                    _shieldSpriteRenderer.color = _shieldColor;
+                    break;
+                case 0:
+                    _isShieldEnable = false;
+                    _shieldVisualizer.SetActive(false);
+                    break;
+
+            }
+            return;            
+            
         }
 
         _lives--;
@@ -254,8 +275,15 @@ public class Player : MonoBehaviour
 
     public void EnableShield()
     {
+        
         _isShieldEnable = true;
         _shieldVisualizer.SetActive(true);
+        if (_shieldLives < 3)
+        {
+            _shieldLives = 3;
+            _shieldSpriteRenderer.color = Color.white;
+        }
+
     }
 
     public void UpdatePlayerScore(int points)
