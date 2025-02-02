@@ -14,7 +14,18 @@ public class UIManager : MonoBehaviour
     [SerializeField] private Sprite[] _livesSpritesList;
     [SerializeField] private Image _livesImage;
     private GameManager _gameManager;
+
+    [Header("Slider Section")]
+    [SerializeField] private Slider _chargeSlider;
+    [SerializeField] private float _chargeSpeed, _depleteChargeSpeed;
+    private bool _isThrusterCharged = false;
+    private float _maxChargeValue = 100;
     
+        
+    public bool IsThrusterCharged
+    {
+        get { return _isThrusterCharged; }
+    }
 
     void Start()
     {
@@ -22,6 +33,9 @@ public class UIManager : MonoBehaviour
         _gameOverText.gameObject.SetActive(false);
         _reloadText.gameObject.SetActive(false);
         _gameManager = GameObject.FindWithTag("Game_Manager").GetComponent<GameManager>();
+
+        
+        _maxChargeValue = _chargeSlider.maxValue;
 
         if (_gameManager == null)
         {
@@ -31,7 +45,45 @@ public class UIManager : MonoBehaviour
 
     }
 
+    private void Update()
+    {
+        if (_player.IsThrusterEnable)
+        {
+            DepleteCharge();
+        }
+        else 
+        {
+            UpdateChargeValue();
+        }
+        
+    }
 
+    private void UpdateChargeValue()
+    {
+        
+        _chargeSlider.value += _chargeSpeed * Time.deltaTime;
+        if(_chargeSlider.value >= _maxChargeValue)
+        {
+            _chargeSlider.value = _maxChargeValue;
+            _isThrusterCharged = true;
+        }
+
+    }
+
+    private void DepleteCharge()
+    {
+        
+        _chargeSlider.value -= _depleteChargeSpeed * Time.deltaTime;        
+        if (_chargeSlider.value <= 0)
+        {
+            _isThrusterCharged = false;
+        }
+    }
+
+    //ACheck if thruster is active
+    //deplete charge bar
+    //When reach 0, set thruster to false
+    //wait 1s? then start to recharge
 
 
     public void UpdateScoreText(int playerScore)

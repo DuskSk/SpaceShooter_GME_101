@@ -43,6 +43,8 @@ public class Player : MonoBehaviour
     [SerializeField] private GameObject[] _fireOnEngine;
     [SerializeField] private GameObject _thrusterVisualizer;
     
+    
+    
 
     [SerializeField] private AudioClip _laserAudioClip;
 
@@ -52,10 +54,11 @@ public class Player : MonoBehaviour
 
 
 
-    public int PlayerScore
+   public bool IsThrusterEnable
     {
-        get { return _playerScore; }        
+        get { return _isThrusterEnable; }
     }
+
 
 
 
@@ -66,7 +69,7 @@ public class Player : MonoBehaviour
         _audioManager = GameObject.FindWithTag("Audio_Manager").GetComponent<AudioManager>();
         _audioSource = GetComponent<AudioSource>();
 
-
+        //_shieldVisualizer.GetComponent<SpriteRenderer>().color       
         if (_spawnManager == null)
         {
             Debug.Log("Spawn Manager component is NULL");
@@ -90,14 +93,15 @@ public class Player : MonoBehaviour
     
     void Update()
     {        
-        if (Input.GetKey(KeyCode.LeftShift))
+        if (Input.GetKey(KeyCode.LeftShift) && _uiManager.IsThrusterCharged)
         {
-            EnableThruster(true);            
-            
-        }else if (Input.GetKeyUp(KeyCode.LeftShift))
+            EnableThruster(true);
+        }
+        else
         {
             EnableThruster(false);
-        }
+        }          
+        
         
         CalculateMovement();
 
@@ -143,30 +147,27 @@ public class Player : MonoBehaviour
     void CheckScreenBoundaries()
     {
 
-        Vector3 currentPosition = transform.position;
-
-
-        //Rename to transform.position
-        if (currentPosition.y > _yLimitUp)
+               
+        if (transform.position.y > _yLimitUp)
         {
 
-            transform.position = new Vector3(currentPosition.x, _yLimitUp, 0);
+            transform.position = new Vector3(transform.position.x, _yLimitUp, 0);
         }
-        else if (currentPosition.y < _yLimitDown)
+        else if (transform.position.y < _yLimitDown)
         {
 
-            transform.position = new Vector3(currentPosition.x, _yLimitDown, 0);
+            transform.position = new Vector3(transform.position.x, _yLimitDown, 0);
         }
         
 
-        if (currentPosition.x >= _xLimit)
+        if (transform.position.x >= _xLimit)
         {
 
-            transform.position = new Vector3(-_xLimit, currentPosition.y, 0);
+            transform.position = new Vector3(-_xLimit, transform.position.y, 0);
         }
-        else if (currentPosition.x <= -_xLimit)
+        else if (transform.position.x <= -_xLimit)
         {
-            transform.position = new Vector3(_xLimit, currentPosition.y, 0);
+            transform.position = new Vector3(_xLimit, transform.position.y, 0);
         }
     }
 
@@ -183,12 +184,15 @@ public class Player : MonoBehaviour
         {
             Instantiate(_laserPrefab, _laserOffset, Quaternion.identity);
         }        
-        //_audioSource.Play(); 
+        
         
     }
 
     public void DamagePlayer()
     {
+        //add 3 lives to shield
+        //remove 1 on damage and reduce the transparency, or change the color
+        //on 0 shield, take damage
         if (_isShieldEnable)
         {
             _isShieldEnable = false;
