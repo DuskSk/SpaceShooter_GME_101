@@ -115,17 +115,9 @@ public class Player : MonoBehaviour
 
         CheckScreenBoundaries();
 
-        if(Input.GetKeyDown(KeyCode.Space) && Time.time > _fireDelayControl)
+        if(Input.GetKeyDown(KeyCode.Space) && Time.time > _fireDelayControl && _currentAmmo > 0)
         {
-            if (_currentAmmo > 0)
-            {
-                FireLaser();
-            }
-            else 
-            {
-                Debug.Log("NO AMMO!");
-            }
-            
+            FireLaser();            
         }        
         
     }
