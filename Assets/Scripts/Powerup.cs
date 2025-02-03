@@ -4,16 +4,15 @@ using UnityEngine;
 public class Powerup : MonoBehaviour
 {
     [SerializeField] private float _powerupSpeed = 3f;
-    [SerializeField] private float _yLimitToDestroy = -6f;
-    [SerializeField] private int _powerUpId;
+    [SerializeField] private float _yLimitToDestroy = -6f;    
 
     [SerializeField] private AudioClip _powerUpAudioClip;
 
 
-    //testing enums
-    private enum PowerUpType {TripleLaser, SpeedBoost, Shield};
+    
+    private enum PowerUpType {TripleLaser, SpeedBoost, Shield, AmmoRefil};
     [SerializeField] private PowerUpType _powerUpType;
-    //
+    
          
     
        
@@ -27,6 +26,12 @@ public class Powerup : MonoBehaviour
         
     }
 
+    //TO-DO
+    //life powerup
+    //regen 1 player life
+    //update UI life image
+    //update engine fail animation
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.CompareTag("Player"))
@@ -36,8 +41,7 @@ public class Powerup : MonoBehaviour
             Player player = collision.GetComponent<Player>();
             if (player != null) 
             {
-                //Grab powerUp based on it`s ID
-                //switch (_powerUpId)
+                
                 switch (_powerUpType)
                 {
                     case PowerUpType.TripleLaser:
@@ -49,6 +53,10 @@ public class Powerup : MonoBehaviour
                     case PowerUpType.Shield:
                         player.EnableShield();
                         break;
+                    case PowerUpType.AmmoRefil:
+                        player.RefillAmmo();
+                        break;
+                    
                 }          
                 
                 Destroy(this.gameObject);

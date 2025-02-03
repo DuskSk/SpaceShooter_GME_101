@@ -305,6 +305,12 @@ public class Player : MonoBehaviour
 
     }
 
+    public void RefillAmmo()
+    {
+        _currentAmmo = _maxAmmoAmount;
+        _uiManager.UpdateAmmoText(_currentAmmo);
+    }
+
     public void UpdatePlayerScore(int points)
     {
         _playerScore += points;

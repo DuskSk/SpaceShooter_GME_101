@@ -47,7 +47,7 @@ public class SpawnManager : MonoBehaviour
             Vector3 spawnPosition = new Vector3(Random.Range(_minSpawnRangeX, _maxSpawnRangeX), _spawnRangeY, 0);
             int powerupRandomId = Random.Range(0, _powerupPrefab.Length);
             Instantiate(_powerupPrefab[powerupRandomId], spawnPosition, Quaternion.identity);
-            yield return new WaitForSeconds(Random.Range(5f, 8f));
+            yield return new WaitForSeconds(Random.Range(7f, 9f));
         }
 
     }
