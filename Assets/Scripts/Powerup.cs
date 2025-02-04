@@ -10,7 +10,7 @@ public class Powerup : MonoBehaviour
 
 
     
-    private enum PowerUpType {TripleLaser, SpeedBoost, Shield, AmmoRefil};
+    private enum PowerUpType {TripleLaser, SpeedBoost, Shield, AmmoRefil, LifeRegeneration};
     [SerializeField] private PowerUpType _powerUpType;
     
          
@@ -55,6 +55,9 @@ public class Powerup : MonoBehaviour
                         break;
                     case PowerUpType.AmmoRefil:
                         player.RefillAmmo();
+                        break;
+                    case PowerUpType.LifeRegeneration:
+                        player.RegenerateLife();
                         break;
                     
                 }          

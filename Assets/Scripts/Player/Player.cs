@@ -210,7 +210,7 @@ public class Player : MonoBehaviour
         }
 
         _lives--;
-        ActivateEngineFailureAnimation(_lives);
+        UpdateEngineFailureAnimation(_lives);
         _uiManager.UpdateLivesImage(_lives);
 
         if (_lives < 1)
@@ -244,25 +244,29 @@ public class Player : MonoBehaviour
     }
 
     //Update the animation randomly based on current player lives
-    private void ActivateEngineFailureAnimation(int lives)
+    private void UpdateEngineFailureAnimation(int lives)
     {
-        int randomEngine = Random.Range(0, 2);
+        //int randomEngine = Random.Range(0, 2);
 
         switch (lives)
         {
             case 2:
-                _fireOnEngine[randomEngine].SetActive(true);
+                _fireOnEngine[0].SetActive(true);
+                if (_fireOnEngine[1].activeSelf)
+                {
+                    _fireOnEngine[1].SetActive(false);
+                } 
                 break;
             case 1:
-                if (_fireOnEngine[0].activeSelf)
+                _fireOnEngine[1].SetActive(true);
+                break;
+            default:
+                foreach(GameObject gameObject in _fireOnEngine)
                 {
-                    _fireOnEngine[1].SetActive(true);
-                }
-                else
-                {
-                    _fireOnEngine[0].SetActive(true);
+                    gameObject.SetActive(false);
                 }
                 break;
+
 
         }
     }
@@ -301,6 +305,14 @@ public class Player : MonoBehaviour
     {
         _currentAmmo = _maxAmmoAmount;
         _uiManager.UpdateAmmoText(_currentAmmo);
+    }
+
+    public void RegenerateLife()
+    {
+        _lives++;
+        _uiManager.UpdateLivesImage(_lives);
+        UpdateEngineFailureAnimation(_lives);
+
     }
 
     public void UpdatePlayerScore(int points)
