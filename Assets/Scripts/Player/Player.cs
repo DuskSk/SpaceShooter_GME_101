@@ -11,7 +11,7 @@ public class Player : MonoBehaviour
     
     
     [SerializeField] private Vector3 _laserOffsetPosition = new Vector3(0, 1.05f, 0);
-    private Vector3 _laserOffset;
+    private Vector3 _weaponOffset;
 
 
     [SerializeField] private float _fireRate = 0.5f;
@@ -39,10 +39,12 @@ public class Player : MonoBehaviour
     [SerializeField] private bool _isSpeedBoostEnable = false;
     [SerializeField] private bool _isShieldEnable = false;
     [SerializeField] private bool _isThrusterEnable = false;
+    [SerializeField] private bool _isAoeBombEnable = false;
 
     [Header("Attached GameObjects")]
     [SerializeField] private GameObject _laserPrefab;
     [SerializeField] private GameObject _tripleLaserPrefab;
+    [SerializeField] private GameObject _aoeBombPrefab;
     [SerializeField] private GameObject _shieldVisualizer; 
     [SerializeField] private GameObject[] _fireOnEngine;
     [SerializeField] private GameObject _thrusterVisualizer;
@@ -115,9 +117,17 @@ public class Player : MonoBehaviour
 
         CheckScreenBoundaries();
 
-        if(Input.GetKeyDown(KeyCode.Space) && Time.time > _fireDelayControl && _currentAmmo > 0)
+        if(Input.GetKeyDown(KeyCode.Space) && Time.time > _fireDelayControl)
         {
-            FireLaser();            
+            if (_isAoeBombEnable)
+            {
+                FireAoeBomb();
+            }
+            else if(_currentAmmo > 0)
+            {
+                FireLaser();
+            }
+                        
         }        
         
     }
@@ -179,10 +189,11 @@ public class Player : MonoBehaviour
         }
     }
 
-    void FireLaser()
+    private void FireLaser()
     {
+        
         _fireDelayControl = Time.time + _fireRate;
-        _laserOffset = transform.position + _laserOffsetPosition;
+        _weaponOffset = transform.position + _laserOffsetPosition;
 
         _currentAmmo--;
         _uiManager.UpdateAmmoText(_currentAmmo);
@@ -193,10 +204,19 @@ public class Player : MonoBehaviour
         }
         else
         {
-            Instantiate(_laserPrefab, _laserOffset, Quaternion.identity);
+            Instantiate(_laserPrefab, _weaponOffset, Quaternion.identity);
         }        
         
         
+    }
+    
+
+    private void FireAoeBomb()
+    {
+        _fireDelayControl = Time.time + _fireRate;
+        _weaponOffset = transform.position + _laserOffsetPosition;
+
+        Instantiate(_aoeBombPrefab, _weaponOffset, Quaternion.identity);
     }
 
     public void DamagePlayer()
@@ -288,6 +308,12 @@ public class Player : MonoBehaviour
         StartCoroutine(TripleLaserCooldownRoutine());
     }    
 
+    public void EnableAoeBomb()
+    {
+        _isAoeBombEnable = true;
+        StartCoroutine(AoeBombCooldownRoutine());
+    }
+
     public void EnableShield()
     {
         
@@ -309,6 +335,10 @@ public class Player : MonoBehaviour
 
     public void RegenerateLife()
     {
+        if (_lives >= 3)
+        {
+            return;
+        }
         _lives++;
         _uiManager.UpdateLivesImage(_lives);
         UpdateEngineFailureAnimation(_lives);
@@ -333,9 +363,14 @@ public class Player : MonoBehaviour
         _isTripleLaserEnable = false;
     }
 
-    
+    IEnumerator AoeBombCooldownRoutine()
+    {
+        yield return new WaitForSeconds(5f);
+        _isAoeBombEnable = false;
+    }
 
-    
+
+
 }
 
 
