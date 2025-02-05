@@ -10,11 +10,11 @@ public class Powerup : MonoBehaviour
 
 
     
-    private enum PowerUpType {TripleLaser, SpeedBoost, Shield, AmmoRefil, LifeRegeneration};
+    public enum PowerUpType {TripleLaser, SpeedBoost, Shield, AmmoRefil, LifeRegeneration, AoeBomb};
     [SerializeField] private PowerUpType _powerUpType;
     
-         
     
+     
        
     void Update()
     {
@@ -25,12 +25,7 @@ public class Powerup : MonoBehaviour
         }
         
     }
-
-    //TO-DO
-    //life powerup
-    //regen 1 player life
-    //update UI life image
-    //update engine fail animation
+    
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -58,6 +53,9 @@ public class Powerup : MonoBehaviour
                         break;
                     case PowerUpType.LifeRegeneration:
                         player.RegenerateLife();
+                        break;
+                    case PowerUpType.AoeBomb:
+                        player.EnableAoeBomb();
                         break;
                     
                 }          

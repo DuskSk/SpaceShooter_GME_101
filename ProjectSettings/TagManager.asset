@@ -12,6 +12,7 @@ TagManager:
   - Game_Manager
   - Asteroid
   - Audio_Manager
+  - Bomb
   layers:
   - Default
   - TransparentFX

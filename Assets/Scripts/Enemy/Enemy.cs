@@ -81,8 +81,7 @@ public class Enemy : MonoBehaviour
             {
                 break;
             }
-            FireEnemyLaser();
-            
+            FireEnemyLaser();           
                 
             
             
