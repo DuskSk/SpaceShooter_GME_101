@@ -59,6 +59,7 @@ public class Player : MonoBehaviour
     private Color _shieldColor = Color.white;
     private int _shieldLives = 3;
 
+    private CameraShake _cameraShake;
 
     public bool IsThrusterEnable
     {
@@ -75,6 +76,7 @@ public class Player : MonoBehaviour
         _audioManager = GameObject.FindWithTag("Audio_Manager").GetComponent<AudioManager>();
         _audioSource = GetComponent<AudioSource>();
         _shieldSpriteRenderer = _shieldVisualizer.GetComponent<SpriteRenderer>();
+        _cameraShake = GameObject.FindWithTag("MainCamera").GetComponent<CameraShake>();
 
         _currentAmmo = _maxAmmoAmount;
 
@@ -232,6 +234,7 @@ public class Player : MonoBehaviour
         _lives--;
         UpdateEngineFailureAnimation(_lives);
         _uiManager.UpdateLivesImage(_lives);
+        _cameraShake.StartCameraShake();
 
         if (_lives < 1)
         {
