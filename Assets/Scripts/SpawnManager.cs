@@ -66,7 +66,7 @@ public class SpawnManager : MonoBehaviour
         while (_isSpawning) 
         {
             Vector3 spawnPosition = new Vector3(Random.Range(_minSpawnRangeX, _maxSpawnRangeX), _spawnRangeY, 0);
-            _spawnRarityControl = Random.Range(0f, 1f);
+            _spawnRarityControl = Random.Range(0f, 1.01f);
             if (_spawnRarityControl <= _commonMaxPercentage)
             {
                 int powerupRandomId = Random.Range(0, _commonPowerupPrefab.Length);

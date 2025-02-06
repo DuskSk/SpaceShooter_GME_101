@@ -7,8 +7,8 @@ public class Enemy : MonoBehaviour
     [Header("Enemy Movement")]
     [SerializeField] private float _enemySpeed = 4f;
     [SerializeField] private float _xMinLimit = -10f, _xMaxLimit = 10f;
-    private float _yBottomLimit = -6f;
-    private float _yTopRespawnPoint = 8f;
+    [SerializeField]private float _yBottomLimitToRespawn = -6f;
+    [SerializeField]private float _yTopRespawnPoint = 8f;
 
     [SerializeField] private int _enemyScoreValue = 10;
     private Player _player;
@@ -25,6 +25,7 @@ public class Enemy : MonoBehaviour
 
     private Collider2D _myEnemyCollider2d;
 
+    
 
 
     void Start()
@@ -49,11 +50,14 @@ public class Enemy : MonoBehaviour
         
     }
 
+    //create enum for different movements
+    //if move = this, then do it
+    //zigzag? circles? horizontal? diagonal?
     void CalculateMovement()
     {
         transform.Translate(Vector3.down * _enemySpeed * Time.deltaTime);
 
-        if (transform.position.y <= _yBottomLimit) 
+        if (transform.position.y <= _yBottomLimitToRespawn) 
         {
             
             transform.position = new Vector3(Random.Range(_xMinLimit, _xMaxLimit), _yTopRespawnPoint, 0);

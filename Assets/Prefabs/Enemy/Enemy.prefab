@@ -144,9 +144,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8c843d0243e8fdc4398e71425cc66de4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _enemySpeed: 4
-  _xMinLimit: -10
-  _xMaxLimit: 10
+  _enemySpeed: 3
+  _xMinLimit: -16
+  _xMaxLimit: 16
+  _yBottomLimitToRespawn: -10
+  _yTopRespawnPoint: 12
   _enemyScoreValue: 10
   _delayToDestroyEnemy: 2.6
   _laserOffsetPosition: {x: 0, y: -0.9, z: 0}
