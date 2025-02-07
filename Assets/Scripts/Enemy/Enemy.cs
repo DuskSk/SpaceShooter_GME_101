@@ -1,14 +1,26 @@
 ﻿using System.Collections;
-using System.Threading;
 using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
-    [Header("Enemy Movement")]
-    [SerializeField] private float _enemySpeed = 4f;
+    
+    [Header("Enemy Current Movement Type")]
+    [SerializeField] private Movement _movementType;
+    public enum Movement { Vertical, ZigZag };
+
+    [Header("Enemy Vertical Movement")]
+    [SerializeField] private float _enemyVerticalSpeed = 4f;
     [SerializeField] private float _xMinLimit = -10f, _xMaxLimit = 10f;
-    [SerializeField]private float _yBottomLimitToRespawn = -6f;
-    [SerializeField]private float _yTopRespawnPoint = 8f;
+    [SerializeField] private float _yBottomLimitToRespawn = -6f;
+    [SerializeField] private float _yTopRespawnPoint = 8f;
+
+    [Header("Enemy ZigZag Movement")]
+    [SerializeField] private float _zzSpeed = 4f;
+    [SerializeField] private float _frequency;
+    [SerializeField] private float _amplitude;
+    [SerializeField] private Direction _zigZagDirection;
+    public enum Direction {Right, Left}
+    private float _xCalculation, _yCalculation;
 
     [SerializeField] private int _enemyScoreValue = 10;
     private Player _player;
@@ -24,12 +36,27 @@ public class Enemy : MonoBehaviour
     private Vector3 _laserOffset;
 
     private Collider2D _myEnemyCollider2d;
+    private Vector3 _startPosition;
+
+
+    public Movement MovementType
+    {
+        get { return _movementType; }
+    }
+
+    public Direction ZigZagDirection
+    {
+        get { return _zigZagDirection; }
+    }
 
     
 
 
     void Start()
+
     {
+         _startPosition = transform.position;
+
         _player = FindObjectOfType<Player>().GetComponent<Player>();
         _audioManager = GameObject.FindWithTag("Audio_Manager").GetComponent<AudioManager>();
         if (_player == null)
@@ -53,16 +80,34 @@ public class Enemy : MonoBehaviour
     //create enum for different movements
     //if move = this, then do it
     //zigzag? circles? horizontal? diagonal?
-    void CalculateMovement()
+    void CalculateMovement()    
     {
-        transform.Translate(Vector3.down * _enemySpeed * Time.deltaTime);
-
-        if (transform.position.y <= _yBottomLimitToRespawn) 
+        switch (_movementType)
         {
-            
-            transform.position = new Vector3(Random.Range(_xMinLimit, _xMaxLimit), _yTopRespawnPoint, 0);
-        
+            case Movement.Vertical:
+                transform.Translate(Vector3.down * _enemyVerticalSpeed * Time.deltaTime);
+
+                if (transform.position.y <= _yBottomLimitToRespawn)
+                {
+
+                    transform.position = new Vector3(UnityEngine.Random.Range(_xMinLimit, _xMaxLimit), _yTopRespawnPoint, 0);
+
+                }
+                break;
+            case Movement.ZigZag:
+
+                _xCalculation = (_zigZagDirection == Direction.Right ? 1 : -1) * _zzSpeed * Time.deltaTime;
+                _yCalculation = Mathf.Sin(Time.time * _frequency) * _amplitude;
+
+                transform.position = new Vector3(_xCalculation + transform.position.x, _yCalculation + _startPosition.y, 0);                
+                
+                if(transform.position.x > _xMaxLimit || transform.position.x < -_xMaxLimit)
+                {
+                    transform.position = _startPosition;
+                }
+                break;
         }
+        
     }
 
     void FireEnemyLaser()
@@ -80,7 +125,7 @@ public class Enemy : MonoBehaviour
         {
             
             
-            yield return new WaitForSeconds(Random.Range(_minDelayToShoot, _maxDelayToShoot));
+            yield return new WaitForSeconds(UnityEngine.Random.Range(_minDelayToShoot, _maxDelayToShoot));
             if (!_myEnemyCollider2d.enabled)
             {
                 break;
@@ -97,7 +142,7 @@ public class Enemy : MonoBehaviour
     private void StartOnDeathEffects()
     {
         _animator.SetTrigger("OnEnemyDeath");
-        _enemySpeed = 0f;
+        _enemyVerticalSpeed = 0f;
         _audioManager.PlayExplosionAudio();
         Destroy(this.gameObject, _delayToDestroyEnemy);
     }

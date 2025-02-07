@@ -1210,6 +1210,9 @@ MonoBehaviour:
   _minSpawnRangeX: -16
   _maxSpawnRangeX: 16
   _spawnRangeY: 12
+  _zzMinSpawnRangeY: 8
+  _zzMaxSpawnRangeY: 1
+  _zzSpawnRangeX: 18
   _commonMaxPercentage: 0.9
   _rareMaxPercentage: 0
 --- !u!4 &745990394

@@ -5,6 +5,7 @@ public class SpawnManager : MonoBehaviour
 {
     [SerializeField] private GameObject _enemyPrefab;
     [SerializeField] private GameObject _enemyContainer;
+    private Enemy _enemy;
     
 
     [Header("Common PowerUp Spawns")]
@@ -22,10 +23,15 @@ public class SpawnManager : MonoBehaviour
     [SerializeField] private float _minPowerUpSpawnRate;
     [SerializeField] private float _maxPowerUpSpawnRate;
 
-    [Header("Spawn Position")]
+    [Header("Spawn Position - Vertical")]
     [SerializeField] private float _minSpawnRangeX;
     [SerializeField] private float _maxSpawnRangeX;
     [SerializeField] private float _spawnRangeY;
+
+    [Header("Spawn Position - ZigZag")]
+    [SerializeField] private float _zzMinSpawnRangeY;
+    [SerializeField] private float _zzMaxSpawnRangeY;
+    [SerializeField] private float _zzSpawnRangeX;
 
 
     [Header("Rarity Range Control")]
@@ -35,7 +41,7 @@ public class SpawnManager : MonoBehaviour
 
     private void Start()
     {
-        //StartSpawning();
+        _enemy = _enemyPrefab.GetComponent<Enemy>();
     }
 
     public void StartSpawning()
@@ -43,18 +49,40 @@ public class SpawnManager : MonoBehaviour
         StartCoroutine(SpawnEnemyRoutine(_enemySpawnRateInSeconds));
         StartCoroutine(SpawnPowerupRoutine());
     }
+
+    
    
 
     IEnumerator SpawnEnemyRoutine(float enemySpawnRate)
     {
+        
         yield return new WaitForSeconds(_delayToStartSpawnRoutine);
+        Vector3 spawnPosition;
 
-        while (_isSpawning) 
-        {   
-            Vector3 spawnPosition = new Vector3 (Random.Range(_minSpawnRangeX, _maxSpawnRangeX), _spawnRangeY, 0);
+        while (_isSpawning)
+        {
+            
+            if (_enemy.MovementType == Enemy.Movement.Vertical)
+            {
+                spawnPosition = new Vector3(Random.Range(_minSpawnRangeX, _maxSpawnRangeX), _spawnRangeY, 0);
+            }
+            else if (_enemy.MovementType == Enemy.Movement.ZigZag)
+            {
+                float xLimit = (_enemy.ZigZagDirection == Enemy.Direction.Right ? -_zzSpawnRangeX : _zzSpawnRangeX);
+                spawnPosition = new Vector3(xLimit, Random.Range(_zzMinSpawnRangeY, _zzMaxSpawnRangeY), 0);
+            }
+            else
+            {
+                Debug.LogError("Enemy movement type is NULL");
+                break;
+            }
+
+
             GameObject newEnemy = Instantiate(_enemyPrefab, spawnPosition, Quaternion.identity);
             newEnemy.transform.parent = _enemyContainer.transform;
-            yield return new WaitForSeconds(enemySpawnRate);            
+            yield return new WaitForSeconds(enemySpawnRate);
+             
+                      
             
         }
     }

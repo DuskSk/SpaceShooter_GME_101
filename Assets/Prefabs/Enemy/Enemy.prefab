@@ -12,8 +12,8 @@ GameObject:
   - component: {fileID: -2681173675553452210}
   - component: {fileID: 2798325186864031182}
   - component: {fileID: -473986354178014778}
-  - component: {fileID: 4418072376925275980}
   - component: {fileID: 1561466682}
+  - component: {fileID: -130056208340895836}
   m_Layer: 0
   m_Name: Enemy
   m_TagString: Enemy
@@ -132,30 +132,6 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 2.081685, y: 2.5504565}
   m_EdgeRadius: 0
---- !u!114 &4418072376925275980
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7635470433513147934}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8c843d0243e8fdc4398e71425cc66de4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _enemySpeed: 3
-  _xMinLimit: -16
-  _xMaxLimit: 16
-  _yBottomLimitToRespawn: -10
-  _yTopRespawnPoint: 12
-  _enemyScoreValue: 10
-  _delayToDestroyEnemy: 2.6
-  _laserOffsetPosition: {x: 0, y: -0.9, z: 0}
-  _laserPrefab: {fileID: 8143371257873752616, guid: 3ed94ccddb5cf7443b29408ad7ec39fe,
-    type: 3}
-  _minDelayToShoot: 0.5
-  _maxDelayToShoot: 2
 --- !u!95 &1561466682
 Animator:
   serializedVersion: 3
@@ -175,3 +151,32 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &-130056208340895836
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7635470433513147934}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8c843d0243e8fdc4398e71425cc66de4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _movementType: 1
+  _enemyVerticalSpeed: 4
+  _xMinLimit: -18
+  _xMaxLimit: 18
+  _yBottomLimitToRespawn: -6
+  _yTopRespawnPoint: 8
+  _zzSpeed: 4
+  _frequency: 2
+  _amplitude: 4
+  _zigZagDirection: 1
+  _enemyScoreValue: 10
+  _delayToDestroyEnemy: 2.6
+  _laserOffsetPosition: {x: 0, y: -0.9, z: 0}
+  _laserPrefab: {fileID: 8143371257873752616, guid: 3ed94ccddb5cf7443b29408ad7ec39fe,
+    type: 3}
+  _minDelayToShoot: 0.5
+  _maxDelayToShoot: 2
