@@ -433,7 +433,7 @@ MonoBehaviour:
   _isSpeedBoostEnable: 0
   _isShieldEnable: 0
   _isThrusterEnable: 0
-  _isAoeBombEnable: 0
+  _isAoeBombEnable: 1
   _laserPrefab: {fileID: 8675887681110026092, guid: 3ed94ccddb5cf7443b29408ad7ec39fe,
     type: 3}
   _tripleLaserPrefab: {fileID: 6988458246696329540, guid: 292021a7cbde7be45b6b0cb342240aee,
@@ -504,7 +504,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 498659300}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.86, y: -6.79, z: 0}
+  m_LocalPosition: {x: -0.78, y: -4.88, z: 0}
   m_LocalScale: {x: 0.45, y: 0.45, z: 1}
   m_Children:
   - {fileID: 2114247124}
@@ -1203,10 +1203,10 @@ MonoBehaviour:
   _rarePowerupPrefab:
   - {fileID: 1206529448549707878, guid: bceacf672e7c74145929bb1383f347f8, type: 3}
   - {fileID: 5226624074175360245, guid: c8f53813ff7e4224ab8e3900f5dec074, type: 3}
-  _enemySpawnRateInSeconds: 4
+  _enemySpawnRateInSeconds: 3
   _delayToStartSpawnRoutine: 3
   _minPowerUpSpawnRate: 5
-  _maxPowerUpSpawnRate: 12
+  _maxPowerUpSpawnRate: 10
   _minSpawnRangeX: -16
   _maxSpawnRangeX: 16
   _spawnRangeY: 12
