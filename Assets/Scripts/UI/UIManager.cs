@@ -115,6 +115,13 @@ public class UIManager : MonoBehaviour
         _gameManager.GameOver();
     }
 
+    //placeholder for final wave WIN sequence
+    public void StartWinSequence()
+    {
+        _gameOverText.text = "YOU WIN!!";
+        StartGameOverSequence();
+    }
+
 
     private IEnumerator GameOverFlickerRoutine()
     {

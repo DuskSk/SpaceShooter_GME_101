@@ -68,7 +68,7 @@ public class AoeBomb : MonoBehaviour
                 Debug.Log(colliderList[i].tag);
                 if (colliderList[i].CompareTag("Enemy"))
                 {
-                    Destroy(colliderList[i].gameObject);
+                    colliderList[i].gameObject.GetComponent<Enemy>().StartOnDeathEffects();                    
                 }
             }
 

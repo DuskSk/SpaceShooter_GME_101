@@ -433,7 +433,7 @@ MonoBehaviour:
   _isSpeedBoostEnable: 0
   _isShieldEnable: 0
   _isThrusterEnable: 0
-  _isAoeBombEnable: 1
+  _isAoeBombEnable: 0
   _laserPrefab: {fileID: 8675887681110026092, guid: 3ed94ccddb5cf7443b29408ad7ec39fe,
     type: 3}
   _tripleLaserPrefab: {fileID: 6988458246696329540, guid: 292021a7cbde7be45b6b0cb342240aee,
@@ -1205,14 +1205,19 @@ MonoBehaviour:
   - {fileID: 5226624074175360245, guid: c8f53813ff7e4224ab8e3900f5dec074, type: 3}
   _enemySpawnRateInSeconds: 3
   _delayToStartSpawnRoutine: 3
-  _minPowerUpSpawnRate: 5
-  _maxPowerUpSpawnRate: 10
+  _delayToStartPowerUpSpawnRoutine: 5
+  _minPowerUpSpawnRate: 1
+  _maxPowerUpSpawnRate: 2
   _minSpawnRangeX: -16
   _maxSpawnRangeX: 16
   _spawnRangeY: 12
   _zzMinSpawnRangeY: 8
   _zzMaxSpawnRangeY: 1
   _zzSpawnRangeX: 18
+  _waveWeight: 1.5
+  _currentWave: 1
+  _maxWaveAmount: 2
+  _maxEnemyCount: 2
   _commonMaxPercentage: 0.9
   _rareMaxPercentage: 0
 --- !u!4 &745990394
@@ -2223,6 +2228,52 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1864894128
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1864894129}
+  - component: {fileID: 1864894130}
+  m_Layer: 0
+  m_Name: WaveManager
+  m_TagString: Wave_Manager
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1864894129
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1864894128}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -3.432853, y: 2.5654411, z: -3.4151165}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 11
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1864894130
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1864894128}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f584dd7c642e96a41a56c0d0d0341c50, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _currentWave: 1
+  _maxWaveAmount: 3
+  _maxEnemyCount: 5
 --- !u!1 &1895423131
 GameObject:
   m_ObjectHideFlags: 0

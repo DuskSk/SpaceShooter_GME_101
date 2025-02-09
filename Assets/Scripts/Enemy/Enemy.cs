@@ -38,6 +38,8 @@ public class Enemy : MonoBehaviour
     private Collider2D _myEnemyCollider2d;
     private Vector3 _startPosition;
 
+    private SpawnManager _spawnManager;
+
 
     public Movement MovementType
     {
@@ -56,7 +58,7 @@ public class Enemy : MonoBehaviour
 
     {
          _startPosition = transform.position;
-
+        _spawnManager = GameObject.FindGameObjectWithTag("Spawn_Manager").GetComponent<SpawnManager>();
         _player = FindObjectOfType<Player>().GetComponent<Player>();
         _audioManager = GameObject.FindWithTag("Audio_Manager").GetComponent<AudioManager>();
         if (_player == null)
@@ -77,9 +79,7 @@ public class Enemy : MonoBehaviour
         
     }
 
-    //create enum for different movements
-    //if move = this, then do it
-    //zigzag? circles? horizontal? diagonal?
+    
     void CalculateMovement()    
     {
         switch (_movementType)
@@ -90,7 +90,7 @@ public class Enemy : MonoBehaviour
                 if (transform.position.y <= _yBottomLimitToRespawn)
                 {
 
-                    transform.position = new Vector3(UnityEngine.Random.Range(_xMinLimit, _xMaxLimit), _yTopRespawnPoint, 0);
+                    transform.position = new Vector3(Random.Range(_xMinLimit, _xMaxLimit), _yTopRespawnPoint, 0);
 
                 }
                 break;
@@ -101,6 +101,9 @@ public class Enemy : MonoBehaviour
 
                 transform.position = new Vector3(_xCalculation + transform.position.x, _yCalculation + _startPosition.y, 0);                
                 
+                //TO-DO 
+                //make enemy re-appear at a random Y position when it goes offscreen
+                //adjust according to Direction enum
                 if(transform.position.x > _xMaxLimit || transform.position.x < -_xMaxLimit)
                 {
                     transform.position = _startPosition;
@@ -139,11 +142,12 @@ public class Enemy : MonoBehaviour
         
     }
 
-    private void StartOnDeathEffects()
+    public void StartOnDeathEffects()
     {
         _animator.SetTrigger("OnEnemyDeath");
         _enemyVerticalSpeed = 0f;
         _audioManager.PlayExplosionAudio();
+        _spawnManager.UpdateAvailableEnemies();        
         Destroy(this.gameObject, _delayToDestroyEnemy);
     }
 
@@ -167,11 +171,10 @@ public class Enemy : MonoBehaviour
             Laser laser = other.GetComponent<Laser>();
             if (!laser.IsEnemyLaser)
             {
-                StopAllCoroutines();
-
-                _player.UpdatePlayerScore(_enemyScoreValue);
-                Destroy(other.gameObject);                
                 _myEnemyCollider2d.enabled = false;
+                StopAllCoroutines();                
+                _player.UpdatePlayerScore(_enemyScoreValue);
+                Destroy(other.gameObject);
                 StartOnDeathEffects();                
                 
             }

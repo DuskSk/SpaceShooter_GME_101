@@ -13,6 +13,7 @@ TagManager:
   - Asteroid
   - Audio_Manager
   - Bomb
+  - Wave_Manager
   layers:
   - Default
   - TransparentFX
