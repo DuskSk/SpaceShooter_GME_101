@@ -15,15 +15,23 @@ public class SpawnManager : MonoBehaviour
     [Header("Rare PowerUp Spawns")]
     [SerializeField] private GameObject[] _rarePowerupPrefab;
 
+    [Header("Debuff Spawns")]
+    [SerializeField] private GameObject[] _debuffPrefab;
+
     [Header("Spawn rate")]
     [SerializeField] private float _enemySpawnRateInSeconds = 5f;    
     [SerializeField] private float _delayToStartSpawnRoutine = 3.0f;
     [SerializeField] private float _delayToStartPowerUpSpawnRoutine = 4.0f;
+    [SerializeField] private float _delayToStartDebuffSpawnRoutine = 3.0f;
     private bool _isSpawning = true;
 
     [Header("Spawn rate Power Up")]
     [SerializeField] private float _minPowerUpSpawnRate;
     [SerializeField] private float _maxPowerUpSpawnRate;
+
+    [Header("Spawn rate Debuff")]
+    [SerializeField] private float _minDebuffSpawnRate;
+    [SerializeField] private float _maxDebuffSpawnRate;
 
     [Header("Enemy Spawn Position - Vertical")]
     [SerializeField] private float _minSpawnRangeX;
@@ -49,7 +57,16 @@ public class SpawnManager : MonoBehaviour
     [Tooltip("Set between 0 and 1")][SerializeField] private float _commonMaxPercentage;
     [Tooltip("Set it higher then Common range")][SerializeField] private float _rareMaxPercentage;
     private float _spawnRarityControl;
+
+    private WaveState _currentWaveState;
     #endregion
+
+    public enum WaveState 
+    { 
+        Spawning, 
+        Waiting, 
+        Transitioning 
+    };
 
     private void Start()
     {
@@ -57,20 +74,32 @@ public class SpawnManager : MonoBehaviour
         _uiManager = GameObject.Find("Canvas").GetComponent<UIManager>();
         _enemiesToNextWave = (int)_maxEnemyCount;
         _currentWave = 1;
+        _currentWaveState = WaveState.Waiting;
     }
 
     private void Update()
     {
-        if (_enemySpawnCount == Mathf.RoundToInt(_maxEnemyCount))
+        switch (_currentWaveState)
         {
-            CheckCurrentWave();
+            case WaveState.Spawning:
+                if (_enemySpawnCount == Mathf.RoundToInt(_maxEnemyCount))
+                {
+                    CheckCurrentWave();                    
+                }
+                break;
+            case WaveState.Waiting:
+                if (_enemiesToNextWave <= 0)
+                {                    
+                    _currentWaveState = WaveState.Transitioning;
+                }
+                break;
+            case WaveState.Transitioning:
+                PrepareNextWave();
+                break;
         }
+        
 
-        if (_enemiesToNextWave <= 0)
-        {
-            
-            PrepareNextWave();
-        }        
+               
 
         if (_isGameOver)
         {
@@ -85,8 +114,11 @@ public class SpawnManager : MonoBehaviour
     {
         _enemySpawnCount = 0;
         _isSpawning = true;
+        _currentWaveState = WaveState.Spawning;
         StartCoroutine(SpawnEnemyRoutine(_enemySpawnRateInSeconds));
         StartCoroutine(SpawnPowerupRoutine());
+        StartCoroutine(SpawnDebuffRoutine());
+
     }
 
     public void UpdateAvailableEnemies()
@@ -104,7 +136,8 @@ public class SpawnManager : MonoBehaviour
     {    
         _isSpawning = false;
         StopCoroutine("SpawnEnemyRoutine");
-        
+        _currentWaveState = WaveState.Waiting;
+
     }
     private void PrepareNextWave()
     {
@@ -191,6 +224,19 @@ public class SpawnManager : MonoBehaviour
             yield return new WaitForSeconds(Random.Range(_minPowerUpSpawnRate, _maxPowerUpSpawnRate));
         }
 
+    }
+
+    IEnumerator SpawnDebuffRoutine()
+    {
+        yield return new WaitForSeconds(_delayToStartDebuffSpawnRoutine);
+        while (_isSpawning)
+        {
+            Vector3 spawnPosition = new Vector3(Random.Range(_minSpawnRangeX, _maxSpawnRangeX), _spawnRangeY, 0);
+            int debuffRandomId = Random.Range(0, _commonPowerupPrefab.Length);
+            Instantiate(_debuffPrefab[debuffRandomId], spawnPosition, Quaternion.identity);
+
+            yield return new WaitForSeconds(Random.Range(_minDebuffSpawnRate, _maxDebuffSpawnRate));
+        }
     }
 
     #endregion

@@ -299,6 +299,9 @@ public class Player : MonoBehaviour
         _thrusterVisualizer.SetActive(enable);
 
     }
+
+    #region PowerUp effects
+
     public void EnableSpeedBoost()
     {
         _isSpeedBoostEnable = true;
@@ -348,11 +351,22 @@ public class Player : MonoBehaviour
 
     }
 
+    #endregion
+
+    #region Debuff Effects
+
+    public void ApplySlow()
+    {
+        StartCoroutine(SlowDebuffCooldownRoutine()); 
+    }
+
+    #endregion
     public void UpdatePlayerScore(int points)
     {
         _playerScore += points;
         _uiManager.UpdateScoreText(_playerScore);
     }
+
 
     IEnumerator SpeedBoostCooldownRoutine()
     {
@@ -372,7 +386,13 @@ public class Player : MonoBehaviour
         _isAoeBombEnable = false;
     }
 
-
+    IEnumerator SlowDebuffCooldownRoutine()
+    {
+         float currentSpeed = _baseSpeed;
+        _baseSpeed *= 0.2f;
+        yield return new WaitForSeconds(7f);
+        _baseSpeed = currentSpeed;
+    }
 
 }
 
