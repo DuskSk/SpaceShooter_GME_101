@@ -42,7 +42,7 @@ public class Player : MonoBehaviour
     [SerializeField] private bool _isAoeBombEnable = false;
 
     [Header("Attached GameObjects")]
-    [SerializeField] private GameObject _laserPrefab;
+    [SerializeField] private Laser _laserPrefab;
     [SerializeField] private GameObject _tripleLaserPrefab;
     [SerializeField] private GameObject _aoeBombPrefab;
     [SerializeField] private GameObject _shieldVisualizer; 
@@ -77,7 +77,7 @@ public class Player : MonoBehaviour
         _audioSource = GetComponent<AudioSource>();
         _shieldSpriteRenderer = _shieldVisualizer.GetComponent<SpriteRenderer>();
         _cameraShake = GameObject.FindWithTag("MainCamera").GetComponent<CameraShake>();
-
+        
         _currentAmmo = _maxAmmoAmount;
 
         
@@ -199,14 +199,16 @@ public class Player : MonoBehaviour
 
         _currentAmmo--;
         _uiManager.UpdateAmmoText(_currentAmmo);
-
+       
         if (_isTripleLaserEnable)
         {
-            Instantiate(_tripleLaserPrefab, transform.position, Quaternion.identity);
+             Instantiate(_tripleLaserPrefab, transform.position, Quaternion.identity);
+            
         }
         else
         {
-            Instantiate(_laserPrefab, _weaponOffset, Quaternion.identity);
+            Laser laserObject = Instantiate(_laserPrefab, _weaponOffset, Quaternion.identity);
+            laserObject.SetEnemyLaser(false);
         }        
         
         

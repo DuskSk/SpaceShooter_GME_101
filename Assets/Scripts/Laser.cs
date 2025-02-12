@@ -3,9 +3,10 @@
 public class Laser : MonoBehaviour
 {
     [SerializeField] private float _laserSpeed = 8f, _yLaserLimit = 7.5f;
-    private bool _isEnemyLaser = false;
+    private bool _isEnemyLaser = true;
 
     [SerializeField] AudioClip _laserAudioClip;
+    private Vector3 _direction;
     
     public bool IsEnemyLaser
     {
@@ -15,6 +16,7 @@ public class Laser : MonoBehaviour
     void Start()
     {
         AudioSource.PlayClipAtPoint(_laserAudioClip, transform.position);
+        //_direction = Vector3.down;
     }
     
     void Update()
@@ -39,15 +41,16 @@ public class Laser : MonoBehaviour
 
         switch (isEnemy)
         {
-            case true:
-                transform.Translate(Vector3.down * _laserSpeed * Time.deltaTime);
+            case true:                
+                transform.Translate(_direction * _laserSpeed * Time.deltaTime, Space.World);
                 if (transform.position.y <= -_yLaserLimit)
                 {
                     DestroyLaser();
                 }
                 break;
             case false:
-                transform.Translate(Vector3.up * _laserSpeed * Time.deltaTime);
+                _direction = Vector3.up;
+                transform.Translate(_direction * _laserSpeed * Time.deltaTime);
                 if (transform.position.y >= _yLaserLimit)
                 {
                     DestroyLaser();
@@ -57,10 +60,38 @@ public class Laser : MonoBehaviour
         
     }
 
-    public void EnableEnemyLaser()
+    public void SetEnemyLaser(bool isEnemy)
     {
-        _isEnemyLaser = true;
+        _isEnemyLaser = isEnemy;
+
     }
+    public void InitializeLaser(Vector3 direction, bool isEnemyLaser)
+    {
+        Debug.Log("Laser script: " + _direction);
+        _direction = direction;
+        _isEnemyLaser = isEnemyLaser;
+
+        if (direction == Vector3.left)
+        {
+            transform.rotation = Quaternion.Euler(0, 0, 90);
+        }
+        else if (direction == Vector3.right)
+        {
+            transform.rotation = Quaternion.Euler(0, 0, -90);
+        }
+        else if (direction == Vector3.up)
+        { 
+            transform.rotation = Quaternion.Euler(0, 0, 0);
+        }
+        else if (direction == Vector3.down)
+        {
+            transform.rotation = Quaternion.Euler(0, 0, 180);
+        }
+
+
+    }
+
+    
 
     private void OnTriggerEnter2D(Collider2D other)
     {

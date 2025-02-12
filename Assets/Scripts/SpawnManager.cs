@@ -176,21 +176,8 @@ public class SpawnManager : MonoBehaviour
         while (_isSpawning)
         {
             
-            if (_enemy.MovementType == Enemy.Movement.Vertical)
-            {
-                spawnPosition = new Vector3(Random.Range(_minSpawnRangeX, _maxSpawnRangeX), _spawnRangeY, 0);
-            }
-            else if (_enemy.MovementType == Enemy.Movement.ZigZag)
-            {
-                float xLimit = (_enemy.ZigZagDirection == Enemy.Direction.Right ? -_zzSpawnRangeX : _zzSpawnRangeX);
-                spawnPosition = new Vector3(xLimit, Random.Range(_zzMinSpawnRangeY, _zzMaxSpawnRangeY), 0);
-            }
-            else
-            {
-                Debug.LogError("Enemy movement type is NULL");
-                break;
-            }
-
+            
+            spawnPosition = new Vector3(Random.Range(_minSpawnRangeX, _maxSpawnRangeX), _spawnRangeY, 0);
             _enemySpawnCount++;
             GameObject newEnemy = Instantiate(_enemyPrefab, spawnPosition, Quaternion.identity);
             newEnemy.transform.parent = _enemyContainer.transform;
@@ -232,7 +219,7 @@ public class SpawnManager : MonoBehaviour
         while (_isSpawning)
         {
             Vector3 spawnPosition = new Vector3(Random.Range(_minSpawnRangeX, _maxSpawnRangeX), _spawnRangeY, 0);
-            int debuffRandomId = Random.Range(0, _commonPowerupPrefab.Length);
+            int debuffRandomId = Random.Range(0, _debuffPrefab.Length);
             Instantiate(_debuffPrefab[debuffRandomId], spawnPosition, Quaternion.identity);
 
             yield return new WaitForSeconds(Random.Range(_minDebuffSpawnRate, _maxDebuffSpawnRate));
