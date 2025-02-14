@@ -11,6 +11,7 @@ public abstract class BaseEnemy : MonoBehaviour
     protected SpawnManager _spawnManager;
     protected Collider2D _myCollider2D;
     protected Player _player;
+    protected Camera _mainCamera;
 
 
     protected virtual void Start()
@@ -21,10 +22,12 @@ public abstract class BaseEnemy : MonoBehaviour
         _spawnManager = GameObject.FindGameObjectWithTag("Spawn_Manager").GetComponent<SpawnManager>();
         _myCollider2D = GetComponent<Collider2D>();
         _player = FindObjectOfType<Player>().GetComponent<Player>();
+        _mainCamera = Camera.main;
 
     }
     protected abstract void MoveEnemy();
     protected abstract void Fire();
+    protected abstract void CheckIfEnemyHasLeftScreen();
 
     public virtual void StartOnDeathEffects()
     {
@@ -63,6 +66,10 @@ public abstract class BaseEnemy : MonoBehaviour
 
             }
 
+        }else if (other.CompareTag("Bomb"))
+        {
+            Destroy(other.gameObject);
+            StartOnDeathEffects();
         }
     }
 }

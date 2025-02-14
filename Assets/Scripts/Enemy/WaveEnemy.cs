@@ -34,15 +34,19 @@ public class WaveEnemy : BaseEnemy
         float _yCalculation = Mathf.Sin(Time.time * _waveFrequency) * _waveAmplitude;
 
         transform.position = new Vector3(_xCalculation + transform.position.x, _yCalculation + _startPosition.y, 0);
-
         
+        CheckIfEnemyHasLeftScreen();
 
+    }
+
+    protected override void CheckIfEnemyHasLeftScreen()
+    {
         // Check if the enemy has left the screen horizontally using viewport coordinates
-        Vector3 viewportPosition = Camera.main.WorldToViewportPoint(transform.position);
+        Vector3 viewportPosition = _mainCamera.WorldToViewportPoint(transform.position);
         if (viewportPosition.x > 1 + _screenOffset || viewportPosition.x < 0 - _screenOffset)
         {
             float newXPosition = (_waveDirection == Direction.LeftToRight) ? -_screenOffset : 1 + _screenOffset;
-            Vector3 newWorldPosition = Camera.main.ViewportToWorldPoint(new Vector3(newXPosition, viewportPosition.y, viewportPosition.z));
+            Vector3 newWorldPosition = _mainCamera.ViewportToWorldPoint(new Vector3(newXPosition, viewportPosition.y, viewportPosition.z));
             transform.position = new Vector3(newWorldPosition.x, transform.position.y, transform.position.z);
         }
     }

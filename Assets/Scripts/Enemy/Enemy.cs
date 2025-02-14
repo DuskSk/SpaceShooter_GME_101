@@ -9,8 +9,7 @@ public class Enemy : BaseEnemy
 
     [Header("Enemy Vertical Movement")]
     [SerializeField] private float _enemyVerticalSpeed = 4f;
-    [SerializeField] private float _xMinLimit = -10f, _xMaxLimit = 10f;
-    [SerializeField] private float _yBottomLimitToRespawn = -6f;
+    [SerializeField] private float _xMinLimit = -10f, _xMaxLimit = 10f;    
     [SerializeField] private float _yTopRespawnPoint = 8f;
   
       
@@ -20,8 +19,11 @@ public class Enemy : BaseEnemy
     [SerializeField] private Laser _laserPrefab;
     [SerializeField] private float _minDelayToShoot = 0.5f, _maxDelayToShoot = 2.0f;
     private Vector3 _laserOffset;
-    
-             
+
+    [Header("Screen Boundary Offset")]
+    [SerializeField] private float _screenOffset = 0.5f;
+
+
 
 
     protected override void Start()
@@ -48,20 +50,20 @@ public class Enemy : BaseEnemy
     {
         transform.Translate(Vector3.down * _enemyVerticalSpeed * Time.deltaTime);
 
-        if (transform.position.y <= _yBottomLimitToRespawn)
-        {
-
-            transform.position = new Vector3(Random.Range(_xMinLimit, _xMaxLimit), _yTopRespawnPoint, 0);
-
-        }
+        CheckIfEnemyHasLeftScreen();
 
     }
 
-    //public override void StartOnDeathEffects()
-    //{
-    //    base.StartOnDeathEffects();
-    //    Destroy(this.gameObject, _delayToDestroyEnemy);
-    //}
+    protected override void CheckIfEnemyHasLeftScreen()
+    {
+        Vector3 viewportPosition = Camera.main.WorldToViewportPoint(transform.position);
+        if (viewportPosition.y < 0 - _screenOffset)
+        {
+            transform.position = new Vector3(Random.Range(_xMinLimit, _xMaxLimit), _yTopRespawnPoint, 0);
+            
+        }
+    }
+    
 
     //fires Laser for now
     //TODO 

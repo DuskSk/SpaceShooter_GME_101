@@ -165,18 +165,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _enemyScoreValue: 10
   _enemySpeed: 0
-  _movementType: 0
   _enemyVerticalSpeed: 4
   _xMinLimit: -18
   _xMaxLimit: 18
-  _yBottomLimitToRespawn: -6
-  _yTopRespawnPoint: 8
-  _zzSpeed: 4
-  _frequency: 2
-  _amplitude: 4
-  _zigZagDirection: 1
+  _yTopRespawnPoint: 12
   _laserOffsetPosition: {x: 0, y: -0.9, z: 0}
   _laserPrefab: {fileID: 8143371257873752616, guid: 3ed94ccddb5cf7443b29408ad7ec39fe,
     type: 3}
   _minDelayToShoot: 0.5
   _maxDelayToShoot: 2
+  _screenOffset: 0.2

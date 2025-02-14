@@ -4,12 +4,15 @@ using UnityEngine;
 public class SpawnManager : MonoBehaviour
 {
     #region Variables
-    [SerializeField] private GameObject _enemyPrefab;
+    
     [SerializeField] private GameObject _enemyContainer;    
     private UIManager _uiManager;
 
     [Header("Common PowerUp Spawns")]
     [SerializeField] private GameObject[] _commonPowerupPrefab;
+
+    [Header("Uncommon PowerUp Spawns")]
+    [SerializeField] private GameObject[] _uncommonPowerupPrefab;
 
     [Header("Rare PowerUp Spawns")]
     [SerializeField] private GameObject[] _rarePowerupPrefab;
@@ -60,6 +63,7 @@ public class SpawnManager : MonoBehaviour
 
     [Header("PowerUp Rarity Range Control")]
     [Tooltip("Set between 0 and 1")][SerializeField] private float _commonMaxPercentage;
+    [SerializeField] private float _uncommonMaxPercentage;
     [Tooltip("Set it higher then Common range")][SerializeField] private float _rareMaxPercentage;
 
     [Header("Enemy Rarity Range Control")]
@@ -67,6 +71,8 @@ public class SpawnManager : MonoBehaviour
     [SerializeField] private float _uncommonEnemyMaxPercentage;
     [Tooltip("Set it higher then Common range")][SerializeField] private float _rareEnemyMaxPercentage;
     private float _spawnRarityControl;
+
+    private Camera _maincamera;
 
     private WaveState _currentWaveState;
     #endregion
@@ -85,6 +91,7 @@ public class SpawnManager : MonoBehaviour
         _enemiesToNextWave = (int)_maxEnemyCount;
         _currentWave = 1;
         _currentWaveState = WaveState.Waiting;
+        _maincamera = Camera.main;  
     }
 
     private void Update()
@@ -182,28 +189,32 @@ public class SpawnManager : MonoBehaviour
         
         yield return new WaitForSeconds(_delayToStartSpawnRoutine);
         Vector3 spawnPosition;
+        Vector3 viewportSpawnPosition;
 
         while (_isSpawning)
         {
-            
-            
-            spawnPosition = new Vector3(Random.Range(_minSpawnRangeX, _maxSpawnRangeX), _spawnRangeY, 0);
+
+            GameObject enemyPrefab;
             _spawnRarityControl = Random.Range(0f, 1.01f);
             if (_spawnRarityControl <= _commonEnemyMaxPercentage)
             {
-                _enemyPrefab = _commonEnemyPrefab;
+                enemyPrefab = _commonEnemyPrefab;
+                viewportSpawnPosition = new Vector3(Random.Range(0.05f, 1f), 1.1f, 0);
             }
             else if (_spawnRarityControl > _commonEnemyMaxPercentage && _spawnRarityControl <= _uncommonEnemyMaxPercentage)
             {
-                _enemyPrefab = _uncommonEnemyPrefab;
+                enemyPrefab = _uncommonEnemyPrefab;                
+                viewportSpawnPosition = new Vector3(-0.1f, Random.Range(0.5f, 0.9f), 0);
             }
-            else if (_spawnRarityControl > _rareEnemyMaxPercentage)
+            else
             {
-                //_enemyPrefab = _uncommonEnemyPrefab;
+                enemyPrefab = _commonEnemyPrefab;
+                viewportSpawnPosition = new Vector3(Random.Range(0.05f, 1f), 1.1f, 0);
                 Debug.Log("Rare Enemy Spawned");
-            }   
+            }
+            spawnPosition = _maincamera.ViewportToWorldPoint(viewportSpawnPosition);
             _enemySpawnCount++;
-            GameObject newEnemy = Instantiate(_enemyPrefab, spawnPosition, Quaternion.identity);
+            GameObject newEnemy = Instantiate(enemyPrefab, spawnPosition, Quaternion.identity);
             newEnemy.transform.parent = _enemyContainer.transform;
             yield return new WaitForSeconds(enemySpawnRate);
              
@@ -218,20 +229,30 @@ public class SpawnManager : MonoBehaviour
 
         while (_isSpawning) 
         {
+            GameObject powerupPrefab;
+            int powerupRandomId;
             Vector3 spawnPosition = new Vector3(Random.Range(_minSpawnRangeX, _maxSpawnRangeX), _spawnRangeY, 0);
+
             _spawnRarityControl = Random.Range(0f, 1.01f);
             if (_spawnRarityControl <= _commonMaxPercentage)
             {
-                int powerupRandomId = Random.Range(0, _commonPowerupPrefab.Length);
-                Instantiate(_commonPowerupPrefab[powerupRandomId], spawnPosition, Quaternion.identity);
+                powerupRandomId = Random.Range(0, _commonPowerupPrefab.Length);
+                powerupPrefab = _commonPowerupPrefab[powerupRandomId];
+                
             }
-            else if(_spawnRarityControl > _commonMaxPercentage)
+            else if(_spawnRarityControl > _commonMaxPercentage && _spawnRarityControl <= _uncommonMaxPercentage)
             {
-                int powerupRandomId = Random.Range(0, _rarePowerupPrefab.Length);
-                Instantiate(_rarePowerupPrefab[powerupRandomId], spawnPosition, Quaternion.identity);
+                powerupRandomId = Random.Range(0, _uncommonPowerupPrefab.Length);
+                powerupPrefab = _uncommonPowerupPrefab[powerupRandomId];
+            }
+            else
+            {
+                powerupRandomId = Random.Range(0, _rarePowerupPrefab.Length);
+                powerupPrefab = _rarePowerupPrefab[powerupRandomId];   
             }
 
-                      
+            Instantiate(powerupPrefab, spawnPosition, Quaternion.identity);
+
             yield return new WaitForSeconds(Random.Range(_minPowerUpSpawnRate, _maxPowerUpSpawnRate));
         }
 
