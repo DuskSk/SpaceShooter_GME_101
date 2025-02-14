@@ -9,11 +9,13 @@ public class AoeBomb : MonoBehaviour
     [SerializeField] private float _yBombLimit = 7.5f;
     
     private CircleCollider2D _circleCollider;
+    private Transform _imageTransform;
 
     private Coroutine _radiusCoroutine;
     void Start()
     {
         _circleCollider = GetComponent<CircleCollider2D>();
+        _imageTransform = GetComponentInChildren<Transform>();
     }
 
    
@@ -32,6 +34,11 @@ public class AoeBomb : MonoBehaviour
             Destroy(this.gameObject);
         }
         
+    }
+
+    private void IncreaseBombImageScale()
+    {
+        this._imageTransform.localScale = new Vector3(5, 5, 0);
     }
 
     //Increases the collider radius in a steady rate
@@ -53,7 +60,7 @@ public class AoeBomb : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D other)
     {
           
-        if ( other.CompareTag("Enemy"))
+        if (other.CompareTag("Enemy"))
         {
             _bombSpeed = 0f;            
             //if(_radiusCoroutine == null)
@@ -62,13 +69,14 @@ public class AoeBomb : MonoBehaviour
             //    Debug.LogWarning("New radius Coroutine started");
             //}            
             Collider2D[] colliderList = Physics2D.OverlapCircleAll(transform.position, _bombMaxRadius);
-
+            IncreaseBombImageScale();
             for (int i = 0; i < colliderList.Length;i++)
             {
                 Debug.Log(colliderList[i].tag);
                 if (colliderList[i].CompareTag("Enemy"))
                 {
-                    colliderList[i].gameObject.GetComponent<Enemy>().StartOnDeathEffects();                    
+                    colliderList[i].gameObject.GetComponent<BaseEnemy>().StartOnDeathEffects();
+
                 }
             }
 

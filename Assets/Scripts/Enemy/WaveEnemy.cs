@@ -8,7 +8,7 @@ public class WaveEnemy : BaseEnemy
     [Header("Wave Movement Parameters")]
     [SerializeField] private float _waveFrequency = 1f;
     [SerializeField] private float _waveAmplitude = 1f;
-    [SerializeField] private Laser _laserPrefab;
+    [SerializeField] private GameObject _projectilePrefab;
     [SerializeField] private Direction _waveDirection;
     [SerializeField] private float _screenOffset = 0.5f;
     private Vector3 _startPosition;
@@ -56,16 +56,15 @@ public class WaveEnemy : BaseEnemy
             Vector3.left,
             Vector3.right
         };
-
         
 
         foreach (var direction in directions)
         {            
             
-            Vector3 laserOffset = transform.position + direction * 0.5f; // Adjust offset as needed
-            Laser laserObject = Instantiate(_laserPrefab, laserOffset, Quaternion.identity);
-            Debug.Log("Enemy script: " + direction);
-            laserObject.InitializeLaser(direction, true);
+            Vector3 shootOffset = transform.position + direction * 0.5f; // Adjust offset as needed
+            GameObject projectileObject = Instantiate(_projectilePrefab, shootOffset, Quaternion.identity);
+            IProjectile projectile = projectileObject.GetComponent<IProjectile>();
+            projectile.Initialize(direction, true);
             
         }
     }

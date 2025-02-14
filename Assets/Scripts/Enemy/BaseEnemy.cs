@@ -28,10 +28,13 @@ public abstract class BaseEnemy : MonoBehaviour
 
     public virtual void StartOnDeathEffects()
     {
+        _myCollider2D.enabled = false;
         _animator.SetTrigger("OnEnemyDeath");
         _enemySpeed = 0f;
         _audioManager.PlayExplosionAudio();
-        _spawnManager.UpdateAvailableEnemies();
+        _spawnManager.UpdateAvailableEnemies();        
+        _player.UpdatePlayerScore(_enemyScoreValue);
+        StopAllCoroutines();
         Destroy(gameObject, _delayToDestroyEnemy);
     }
 
@@ -53,10 +56,8 @@ public abstract class BaseEnemy : MonoBehaviour
         {
             Laser laser = other.GetComponent<Laser>();
             if (!laser.IsEnemyLaser)
-            {
-                _myCollider2D.enabled = false;
-                StopAllCoroutines();
-                _player.UpdatePlayerScore(_enemyScoreValue);
+            {   
+                
                 Destroy(other.gameObject);
                 StartOnDeathEffects();
 

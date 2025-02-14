@@ -208,7 +208,7 @@ public class Player : MonoBehaviour
         else
         {
             Laser laserObject = Instantiate(_laserPrefab, _weaponOffset, Quaternion.identity);
-            laserObject.SetEnemyLaser(false);
+            laserObject.Initialize(Vector3.up, false);
         }        
         
         
@@ -220,7 +220,8 @@ public class Player : MonoBehaviour
         _fireDelayControl = Time.time + _fireRate;
         _weaponOffset = transform.position + _laserOffsetPosition;
 
-        Instantiate(_aoeBombPrefab, _weaponOffset, Quaternion.identity);
+        Instantiate(_aoeBombPrefab, _weaponOffset, Quaternion.identity);        
+    
     }
 
     public void DamagePlayer()

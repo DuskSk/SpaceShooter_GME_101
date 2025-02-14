@@ -5,8 +5,7 @@ public class SpawnManager : MonoBehaviour
 {
     #region Variables
     [SerializeField] private GameObject _enemyPrefab;
-    [SerializeField] private GameObject _enemyContainer;
-    private Enemy _enemy;
+    [SerializeField] private GameObject _enemyContainer;    
     private UIManager _uiManager;
 
     [Header("Common PowerUp Spawns")]
@@ -33,6 +32,12 @@ public class SpawnManager : MonoBehaviour
     [SerializeField] private float _minDebuffSpawnRate;
     [SerializeField] private float _maxDebuffSpawnRate;
 
+    [Header("Common Enemy Spawn")]
+    [SerializeField] private GameObject _commonEnemyPrefab;
+
+    [Header("Uncommon Enemy Spawn")]
+    [SerializeField] private GameObject _uncommonEnemyPrefab;
+
     [Header("Enemy Spawn Position - Vertical")]
     [SerializeField] private float _minSpawnRangeX;
     [SerializeField] private float _maxSpawnRangeX;
@@ -53,9 +58,14 @@ public class SpawnManager : MonoBehaviour
     private bool _isGameOver = false;
 
 
-    [Header("Rarity Range Control")]
+    [Header("PowerUp Rarity Range Control")]
     [Tooltip("Set between 0 and 1")][SerializeField] private float _commonMaxPercentage;
     [Tooltip("Set it higher then Common range")][SerializeField] private float _rareMaxPercentage;
+
+    [Header("Enemy Rarity Range Control")]
+    [Tooltip("Set between 0 and 1")][SerializeField] private float _commonEnemyMaxPercentage;
+    [SerializeField] private float _uncommonEnemyMaxPercentage;
+    [Tooltip("Set it higher then Common range")][SerializeField] private float _rareEnemyMaxPercentage;
     private float _spawnRarityControl;
 
     private WaveState _currentWaveState;
@@ -70,7 +80,7 @@ public class SpawnManager : MonoBehaviour
 
     private void Start()
     {
-        _enemy = _enemyPrefab.GetComponent<Enemy>();        
+                
         _uiManager = GameObject.Find("Canvas").GetComponent<UIManager>();
         _enemiesToNextWave = (int)_maxEnemyCount;
         _currentWave = 1;
@@ -178,6 +188,20 @@ public class SpawnManager : MonoBehaviour
             
             
             spawnPosition = new Vector3(Random.Range(_minSpawnRangeX, _maxSpawnRangeX), _spawnRangeY, 0);
+            _spawnRarityControl = Random.Range(0f, 1.01f);
+            if (_spawnRarityControl <= _commonEnemyMaxPercentage)
+            {
+                _enemyPrefab = _commonEnemyPrefab;
+            }
+            else if (_spawnRarityControl > _commonEnemyMaxPercentage && _spawnRarityControl <= _uncommonEnemyMaxPercentage)
+            {
+                _enemyPrefab = _uncommonEnemyPrefab;
+            }
+            else if (_spawnRarityControl > _rareEnemyMaxPercentage)
+            {
+                //_enemyPrefab = _uncommonEnemyPrefab;
+                Debug.Log("Rare Enemy Spawned");
+            }   
             _enemySpawnCount++;
             GameObject newEnemy = Instantiate(_enemyPrefab, spawnPosition, Quaternion.identity);
             newEnemy.transform.parent = _enemyContainer.transform;

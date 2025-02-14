@@ -433,7 +433,7 @@ MonoBehaviour:
   _isSpeedBoostEnable: 0
   _isShieldEnable: 0
   _isThrusterEnable: 0
-  _isAoeBombEnable: 0
+  _isAoeBombEnable: 1
   _laserPrefab: {fileID: 8143371257873752616, guid: 3ed94ccddb5cf7443b29408ad7ec39fe,
     type: 3}
   _tripleLaserPrefab: {fileID: 6988458246696329540, guid: 292021a7cbde7be45b6b0cb342240aee,
@@ -1849,75 +1849,6 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!1001 &1353213483
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 8943118820227940201, guid: c45d2f44861a93c4185fcc788513f465,
-        type: 3}
-      propertyPath: m_Name
-      value: WaveEnemy
-      objectReference: {fileID: 0}
-    - target: {fileID: 8943118820227940205, guid: c45d2f44861a93c4185fcc788513f465,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 12
-      objectReference: {fileID: 0}
-    - target: {fileID: 8943118820227940205, guid: c45d2f44861a93c4185fcc788513f465,
-        type: 3}
-      propertyPath: m_LocalPosition.x
-      value: -15.06
-      objectReference: {fileID: 0}
-    - target: {fileID: 8943118820227940205, guid: c45d2f44861a93c4185fcc788513f465,
-        type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 4.91
-      objectReference: {fileID: 0}
-    - target: {fileID: 8943118820227940205, guid: c45d2f44861a93c4185fcc788513f465,
-        type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8943118820227940205, guid: c45d2f44861a93c4185fcc788513f465,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8943118820227940205, guid: c45d2f44861a93c4185fcc788513f465,
-        type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8943118820227940205, guid: c45d2f44861a93c4185fcc788513f465,
-        type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8943118820227940205, guid: c45d2f44861a93c4185fcc788513f465,
-        type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8943118820227940205, guid: c45d2f44861a93c4185fcc788513f465,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8943118820227940205, guid: c45d2f44861a93c4185fcc788513f465,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8943118820227940205, guid: c45d2f44861a93c4185fcc788513f465,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: c45d2f44861a93c4185fcc788513f465, type: 3}
 --- !u!1 &1402533215
 GameObject:
   m_ObjectHideFlags: 0
@@ -2200,6 +2131,80 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!1001 &1724020914
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: -2244840257301714423, guid: c45d2f44861a93c4185fcc788513f465,
+        type: 3}
+      propertyPath: _enemySpeed
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8943118820227940201, guid: c45d2f44861a93c4185fcc788513f465,
+        type: 3}
+      propertyPath: m_Name
+      value: WaveEnemy
+      objectReference: {fileID: 0}
+    - target: {fileID: 8943118820227940205, guid: c45d2f44861a93c4185fcc788513f465,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 8943118820227940205, guid: c45d2f44861a93c4185fcc788513f465,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -6.46
+      objectReference: {fileID: 0}
+    - target: {fileID: 8943118820227940205, guid: c45d2f44861a93c4185fcc788513f465,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 3.74
+      objectReference: {fileID: 0}
+    - target: {fileID: 8943118820227940205, guid: c45d2f44861a93c4185fcc788513f465,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8943118820227940205, guid: c45d2f44861a93c4185fcc788513f465,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8943118820227940205, guid: c45d2f44861a93c4185fcc788513f465,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8943118820227940205, guid: c45d2f44861a93c4185fcc788513f465,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8943118820227940205, guid: c45d2f44861a93c4185fcc788513f465,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8943118820227940205, guid: c45d2f44861a93c4185fcc788513f465,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8943118820227940205, guid: c45d2f44861a93c4185fcc788513f465,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8943118820227940205, guid: c45d2f44861a93c4185fcc788513f465,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: c45d2f44861a93c4185fcc788513f465, type: 3}
 --- !u!1 &1838825275
 GameObject:
   m_ObjectHideFlags: 0

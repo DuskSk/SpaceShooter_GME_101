@@ -57,6 +57,12 @@ public class Enemy : BaseEnemy
 
     }
 
+    //public override void StartOnDeathEffects()
+    //{
+    //    base.StartOnDeathEffects();
+    //    Destroy(this.gameObject, _delayToDestroyEnemy);
+    //}
+
     //fires Laser for now
     //TODO 
     //implement projectile interface
@@ -66,7 +72,7 @@ public class Enemy : BaseEnemy
         _laserOffset = transform.position + _laserOffsetPosition;
 
         Laser laserObject = Instantiate(_laserPrefab, _laserOffset, Quaternion.identity);        
-        laserObject.SetEnemyLaser(true);
+        laserObject.Initialize(Vector3.down, true);
     }
 
     private IEnumerator LaserShootingCoroutine()
@@ -82,7 +88,8 @@ public class Enemy : BaseEnemy
             Fire();     
         }
         
-    }    
+    }   
+    
 
 
     
