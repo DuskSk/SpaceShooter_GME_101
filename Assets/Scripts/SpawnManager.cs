@@ -196,6 +196,8 @@ public class SpawnManager : MonoBehaviour
 
             GameObject enemyPrefab;
             _spawnRarityControl = Random.Range(0f, 1.01f);
+            // TODO
+            // Implement a variable on enemy to hold the Vector3 position for the spawn
             if (_spawnRarityControl <= _commonEnemyMaxPercentage)
             {
                 enemyPrefab = _commonEnemyPrefab;

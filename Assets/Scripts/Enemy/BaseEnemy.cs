@@ -5,6 +5,8 @@ public abstract class BaseEnemy : MonoBehaviour
 {
     [SerializeField] protected int _enemyScoreValue = 10;
     [SerializeField] protected float _enemySpeed;
+    [SerializeField] protected float _chanceToEnableShield;
+    [SerializeField] bool _isShieldEnabled = false;
     protected Animator _animator;
     protected float _delayToDestroyEnemy = 2.6f;
     protected AudioManager _audioManager;
@@ -12,6 +14,7 @@ public abstract class BaseEnemy : MonoBehaviour
     protected Collider2D _myCollider2D;
     protected Player _player;
     protected Camera _mainCamera;
+    protected ParticleSystem _shieldParticle;
 
 
     protected virtual void Start()
@@ -23,6 +26,8 @@ public abstract class BaseEnemy : MonoBehaviour
         _myCollider2D = GetComponent<Collider2D>();
         _player = FindObjectOfType<Player>().GetComponent<Player>();
         _mainCamera = Camera.main;
+        _shieldParticle = GetComponent<ParticleSystem>();
+        EnableShieldOnStart();
 
     }
     protected abstract void MoveEnemy();
@@ -31,6 +36,12 @@ public abstract class BaseEnemy : MonoBehaviour
 
     public virtual void StartOnDeathEffects()
     {
+        if (_isShieldEnabled)
+        {
+            DisableShield();
+            return;
+        }
+
         _myCollider2D.enabled = false;
         _animator.SetTrigger("OnEnemyDeath");
         _enemySpeed = 0f;
@@ -40,6 +51,22 @@ public abstract class BaseEnemy : MonoBehaviour
         StopAllCoroutines();
         Destroy(gameObject, _delayToDestroyEnemy);
     }
+
+    protected virtual void EnableShieldOnStart()
+    {
+        if (Random.value < _chanceToEnableShield)
+        {
+            _isShieldEnabled = true;            
+            _shieldParticle.Play();
+        }
+    }
+
+    protected void DisableShield() 
+    {
+        _isShieldEnabled = false;
+        _shieldParticle.Stop();
+    }
+    
 
     protected virtual void OnTriggerEnter2D(Collider2D other)
     {
