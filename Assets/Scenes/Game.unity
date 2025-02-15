@@ -679,7 +679,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 5b17a0088dcdf924fa92da5af1e1be07, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 0.249
+  m_Volume: 0.047
   m_Pitch: 1
   Loop: 1
   Mute: 0
@@ -1229,8 +1229,8 @@ MonoBehaviour:
   _commonMaxPercentage: 0.9
   _uncommonMaxPercentage: 0
   _rareMaxPercentage: 0
-  _commonEnemyMaxPercentage: 0
-  _uncommonEnemyMaxPercentage: 1
+  _commonEnemyMaxPercentage: 0.8
+  _uncommonEnemyMaxPercentage: 0.9
   _rareEnemyMaxPercentage: 0
 --- !u!4 &745990394
 Transform:
@@ -1531,7 +1531,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 963194225}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1, z: -0.74}
+  m_LocalPosition: {x: 0, y: 1, z: -0.76}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}

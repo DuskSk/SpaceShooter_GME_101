@@ -6,7 +6,8 @@ public abstract class BaseEnemy : MonoBehaviour
     [SerializeField] protected int _enemyScoreValue = 10;
     [SerializeField] protected float _enemySpeed;
     [SerializeField] protected float _chanceToEnableShield;
-    [SerializeField] bool _isShieldEnabled = false;
+    [SerializeField] protected bool _isShieldEnabled = false;
+    [SerializeField] protected float _detectionRadius = 3f;
     protected Animator _animator;
     protected float _delayToDestroyEnemy = 2.6f;
     protected AudioManager _audioManager;
@@ -15,6 +16,11 @@ public abstract class BaseEnemy : MonoBehaviour
     protected Player _player;
     protected Camera _mainCamera;
     protected ParticleSystem _shieldParticle;
+
+    private bool _isPlayerNearby = false;
+    private Vector3 _targetPosition;
+    private float _ramAttackCooldown = 2f;
+    private float _ramLastAttackTime = -Mathf.Infinity;
 
 
     protected virtual void Start()
@@ -28,11 +34,57 @@ public abstract class BaseEnemy : MonoBehaviour
         _mainCamera = Camera.main;
         _shieldParticle = GetComponent<ParticleSystem>();
         EnableShieldOnStart();
+        InvokeRepeating("DetectPlayerNearby", 0f, 0.5f);
 
+    }
+
+    protected virtual void Update()
+    {
+
+        if (_isPlayerNearby)
+        {
+            ChargeAtPlayer();
+        }else
+        {
+            MoveEnemy();
+        }           
+        
     }
     protected abstract void MoveEnemy();
     protected abstract void Fire();
     protected abstract void CheckIfEnemyHasLeftScreen();
+
+    protected virtual void DetectPlayerNearby()
+    {
+
+        // check if enough time has passed since last attack
+        if (Time.time - _ramLastAttackTime < _ramAttackCooldown)
+        {
+            return;
+        }   
+        Collider2D otherCollider = Physics2D.OverlapCircle(transform.position, _detectionRadius);
+
+        if (otherCollider != null && otherCollider.CompareTag("Player"))
+        {
+            _targetPosition = otherCollider.transform.position;
+            _isPlayerNearby = true;
+            _ramLastAttackTime = Time.time;
+            CancelInvoke("DetectPlayerNearby");
+        }
+    }        
+
+    protected virtual void ChargeAtPlayer()
+    {
+        Vector3 direction = (_targetPosition - transform.position).normalized;
+        transform.Translate(direction * _enemySpeed * Time.deltaTime);
+
+        if (Vector3.Distance(transform.position, _targetPosition) < 0.1f)
+        {
+            _isPlayerNearby = false;
+            CancelInvoke("DetectPlayerNearby");
+            InvokeRepeating("DetectPlayerNearby", 0f, 0.5f);
+        }
+    }
 
     public virtual void StartOnDeathEffects()
     {

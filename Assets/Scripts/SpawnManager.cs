@@ -201,17 +201,17 @@ public class SpawnManager : MonoBehaviour
             if (_spawnRarityControl <= _commonEnemyMaxPercentage)
             {
                 enemyPrefab = _commonEnemyPrefab;
-                viewportSpawnPosition = new Vector3(Random.Range(0.05f, 1f), 1.1f, 0);
+                viewportSpawnPosition = new Vector3(Random.Range(0.05f, 1f), 1.1f, 1f);
             }
             else if (_spawnRarityControl > _commonEnemyMaxPercentage && _spawnRarityControl <= _uncommonEnemyMaxPercentage)
             {
                 enemyPrefab = _uncommonEnemyPrefab;                
-                viewportSpawnPosition = new Vector3(-0.1f, Random.Range(0.5f, 0.9f), 0);
+                viewportSpawnPosition = new Vector3(-0.1f, Random.Range(0.5f, 0.9f), 1f);
             }
             else
             {
                 enemyPrefab = _commonEnemyPrefab;
-                viewportSpawnPosition = new Vector3(Random.Range(0.05f, 1f), 1.1f, 0);
+                viewportSpawnPosition = new Vector3(Random.Range(0.05f, 1f), 1.1f, 1f);
                 Debug.Log("Rare Enemy Spawned");
             }
             spawnPosition = _maincamera.ViewportToWorldPoint(viewportSpawnPosition);

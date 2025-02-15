@@ -38,9 +38,9 @@ public class Enemy : BaseEnemy
         StartCoroutine(LaserShootingCoroutine());
     }
     
-    void Update()
+    protected override void Update()
     {
-
+        base.Update();
         MoveEnemy();
         
     }
