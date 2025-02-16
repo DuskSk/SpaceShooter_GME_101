@@ -145,10 +145,6 @@ public abstract class BaseEnemy : MonoBehaviour
 
             }
 
-        }else if (other.CompareTag("Bomb"))
-        {
-            Destroy(other.gameObject);
-            StartOnDeathEffects();
         }
     }
 }

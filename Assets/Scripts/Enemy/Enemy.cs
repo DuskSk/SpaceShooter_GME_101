@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using UnityEngine;
+using static UnityEngine.UI.Image;
 
 public class Enemy : BaseEnemy
 {
@@ -7,8 +8,7 @@ public class Enemy : BaseEnemy
     
     
 
-    [Header("Enemy Vertical Movement")]
-    [SerializeField] private float _enemyVerticalSpeed = 4f;
+    [Header("Enemy Vertical Movement")]    
     [SerializeField] private float _xMinLimit = -10f, _xMaxLimit = 10f;    
     [SerializeField] private float _yTopRespawnPoint = 8f;
   
@@ -20,8 +20,17 @@ public class Enemy : BaseEnemy
     [SerializeField] private float _minDelayToShoot = 0.5f, _maxDelayToShoot = 2.0f;
     private Vector3 _laserOffset;
 
+    [Header("Back Laser Configuration")]
+    [SerializeField] private float _rayDetectionDistance = 10f;
+
     [Header("Screen Boundary Offset")]
     [SerializeField] private float _screenOffset = 0.5f;
+
+    [SerializeField] LayerMask _playerLayer;
+
+    RaycastHit2D[] _raycastHit2D;
+
+
 
 
 
@@ -34,8 +43,10 @@ public class Enemy : BaseEnemy
         {
             Debug.Log("Player component is NULL");
         }
-
+        _raycastHit2D = new RaycastHit2D[1];
+        InvokeRepeating("CheckPlayerBehindEnemy", 0f, 0.3f);
         StartCoroutine(LaserShootingCoroutine());
+        
     }
     
     protected override void Update()
@@ -48,7 +59,7 @@ public class Enemy : BaseEnemy
     
     protected override void MoveEnemy()    
     {
-        transform.Translate(Vector3.down * _enemyVerticalSpeed * Time.deltaTime);
+        transform.Translate(Vector3.down * _enemySpeed * Time.deltaTime);
 
         CheckIfEnemyHasLeftScreen();
 
@@ -62,6 +73,28 @@ public class Enemy : BaseEnemy
             transform.position = new Vector3(Random.Range(_xMinLimit, _xMaxLimit), _yTopRespawnPoint, 0);
             
         }
+    }
+
+    protected void CheckPlayerBehindEnemy()
+    {
+        Vector2 origin = transform.position;
+        
+
+        Physics2D.RaycastNonAlloc(origin, Vector2.up , _raycastHit2D, _rayDetectionDistance, _playerLayer);
+
+        if (_raycastHit2D[0].collider != null)
+        {
+            Debug.Log("raycast detected Player:  " + _raycastHit2D[0].collider.tag);
+        }
+
+        //RaycastHit2D hit = Physics2D.Raycast(origin, direction, _rayDetectionDistance, _playerLayer, 0f, Mathf.Infinity);
+
+        //if (hit.collider != null)
+        //{
+        //    Debug.Log("Player detectado pelo Raycast!");
+        //}
+        Debug.DrawRay(transform.position, Vector3.up * _rayDetectionDistance, Color.red);
+        
     }
     
 

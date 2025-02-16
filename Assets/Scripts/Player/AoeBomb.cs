@@ -1,21 +1,18 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class AoeBomb : MonoBehaviour
 {
     [SerializeField] private float _bombSpeed;
-    [SerializeField] private float _bombRadiusIncreaseRate = 1f, _bombMaxRadius = 2.5f;
+    [SerializeField] private float _bombMaxRadius = 2.5f;
     [SerializeField] private float _yBombLimit = 7.5f;
     
     private CircleCollider2D _circleCollider;
-    private Transform _imageTransform;
-
-    private Coroutine _radiusCoroutine;
+    private Transform _bombSprite;
+    
     void Start()
     {
         _circleCollider = GetComponent<CircleCollider2D>();
-        _imageTransform = GetComponentInChildren<Transform>();
+        _bombSprite = GetComponentInChildren<Transform>();
     }
 
    
@@ -38,24 +35,9 @@ public class AoeBomb : MonoBehaviour
 
     private void IncreaseBombImageScale()
     {
-        this._imageTransform.localScale = new Vector3(5, 5, 0);
+        _bombSprite.transform.localScale = new Vector3(9f, 9f, 0);
     }
-
-    //Increases the collider radius in a steady rate
-    private IEnumerator IncreaseBombRadiusRoutine()
-    {
-        while (true) 
-        {
-            _circleCollider.radius += _bombRadiusIncreaseRate * Time.deltaTime;
-            if (_circleCollider.radius >= _bombMaxRadius)
-            {
-                _circleCollider.radius = _bombMaxRadius;
-                break;
-            }
-            yield return new WaitForEndOfFrame();
-        }    
-        
-    }
+    
 
     private void OnTriggerEnter2D(Collider2D other)
     {
@@ -80,8 +62,8 @@ public class AoeBomb : MonoBehaviour
                 }
             }
 
-            
-            Destroy(this.gameObject);
+            _circleCollider.enabled = false;
+            Destroy(this.gameObject, 0.5f);
             
         }
         
