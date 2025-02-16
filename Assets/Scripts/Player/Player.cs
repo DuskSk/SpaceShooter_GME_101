@@ -3,6 +3,7 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
+    #region Variables
     [Header("Player Speed")]
     [SerializeField] private float _baseSpeed = 3.0f;
     [SerializeField] private float _speedWithBoost = 7.0f;
@@ -50,6 +51,11 @@ public class Player : MonoBehaviour
     [SerializeField] private GameObject _thrusterVisualizer;
     [SerializeField] private AudioClip _laserAudioClip;
 
+    [Header("PowerUp Attraction")]
+    [SerializeField] private float _attractionRadius = 3f;
+    private Collider2D[] _powerupColliderList;
+    
+
 
     private AudioManager _audioManager;
     private AudioSource _audioSource;
@@ -60,7 +66,7 @@ public class Player : MonoBehaviour
     private int _shieldLives = 3;
 
     private CameraShake _cameraShake;
-
+    #endregion
     public bool IsThrusterEnable
     {
         get { return _isThrusterEnable; }    }
@@ -112,9 +118,13 @@ public class Player : MonoBehaviour
         else
         {
             EnableThruster(false);
-        }          
-        
-        
+        }
+
+        if (Input.GetKey(KeyCode.C))
+        {
+            AttractNearbyPowerUp();
+        }
+       
         CalculateMovement();
 
         CheckScreenBoundaries();
@@ -155,8 +165,7 @@ public class Player : MonoBehaviour
         }
         else
         {
-            transform.Translate(_direction * _baseSpeed * Time.deltaTime);
-            Debug.Log("none active");
+            transform.Translate(_direction * _baseSpeed * Time.deltaTime);            
         }
 
         
@@ -303,6 +312,19 @@ public class Player : MonoBehaviour
 
     }
 
+    private void AttractNearbyPowerUp()
+    {
+        _powerupColliderList = Physics2D.OverlapCircleAll(transform.position, _attractionRadius);
+        //Debug.DrawLine(transform.position, transform.position + Vector3.up * _attractionRadius, Color.red);
+        foreach (Collider2D collider in _powerupColliderList)
+        {
+            if (collider.CompareTag("Powerup"))
+            {
+                Vector3 direction = (collider.transform.position - transform.position).normalized;
+                collider.transform.position = Vector3.MoveTowards(collider.transform.position, transform.position, 3f * Time.deltaTime);
+            }
+        }
+    }
     #region PowerUp effects
 
     public void EnableSpeedBoost()
@@ -370,7 +392,7 @@ public class Player : MonoBehaviour
         _uiManager.UpdateScoreText(_playerScore);
     }
 
-
+    #region Coroutines
     IEnumerator SpeedBoostCooldownRoutine()
     {
         yield return new WaitForSeconds(7f);
@@ -396,7 +418,7 @@ public class Player : MonoBehaviour
         yield return new WaitForSeconds(7f);
         _baseSpeed = currentSpeed;
     }
-
+    #endregion
 }
 
 
