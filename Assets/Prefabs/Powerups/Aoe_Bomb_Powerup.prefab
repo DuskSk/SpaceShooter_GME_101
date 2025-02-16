@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 3979466608427458756}
   - component: {fileID: 7829125939113016615}
   - component: {fileID: 5155479395825206776}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Aoe_Bomb_Powerup
   m_TagString: Powerup
   m_Icon: {fileID: 0}

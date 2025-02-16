@@ -170,7 +170,6 @@ MonoBehaviour:
   _chanceToEnableShield: 0.1
   _isShieldEnabled: 0
   _detectionRadius: 5
-  _enemyVerticalSpeed: 2
   _xMinLimit: -18
   _xMaxLimit: 18
   _yTopRespawnPoint: 12
@@ -179,7 +178,15 @@ MonoBehaviour:
     type: 3}
   _minDelayToShoot: 0.5
   _maxDelayToShoot: 2
+  _rayDetectionDistance: 10
+  _laserDelay: 2
+  _playerLayer:
+    serializedVersion: 2
+    m_Bits: 1024
   _screenOffset: 0.2
+  _powerupLayer:
+    serializedVersion: 2
+    m_Bits: 2048
 --- !u!198 &6061950697694105306
 ParticleSystem:
   m_ObjectHideFlags: 0

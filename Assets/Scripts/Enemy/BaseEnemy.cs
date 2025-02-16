@@ -3,8 +3,10 @@
 public abstract class BaseEnemy : MonoBehaviour
 
 {
+    [Header("BaseEnemy variables")]
     [SerializeField] protected int _enemyScoreValue = 10;
     [SerializeField] protected float _enemySpeed;
+    [SerializeField] protected float _enemyChargeSpeed = 7f;
     [SerializeField] protected float _chanceToEnableShield;
     [SerializeField] protected bool _isShieldEnabled = false;
     [SerializeField] protected float _detectionRadius = 3f;
@@ -52,6 +54,7 @@ public abstract class BaseEnemy : MonoBehaviour
     }
     protected abstract void MoveEnemy();
     protected abstract void Fire();
+    
     protected abstract void CheckIfEnemyHasLeftScreen();
 
     protected virtual void DetectPlayerNearby()
@@ -76,7 +79,7 @@ public abstract class BaseEnemy : MonoBehaviour
     protected virtual void ChargeAtPlayer()
     {
         Vector3 direction = (_targetPosition - transform.position).normalized;
-        transform.Translate(direction * _enemySpeed * Time.deltaTime);
+        transform.Translate(direction * _enemyChargeSpeed * Time.deltaTime);
 
         if (Vector3.Distance(transform.position, _targetPosition) < 0.1f)
         {

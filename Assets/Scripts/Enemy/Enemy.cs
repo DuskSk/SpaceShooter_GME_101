@@ -22,13 +22,22 @@ public class Enemy : BaseEnemy
 
     [Header("Back Laser Configuration")]
     [SerializeField] private float _rayDetectionDistance = 10f;
+    [SerializeField] private float _laserDelay = 1f;
+    [SerializeField] LayerMask _playerLayer;
+    private float _lastLaserTime;
+    private bool _isPlayerBehindEnemy = false;  
 
     [Header("Screen Boundary Offset")]
     [SerializeField] private float _screenOffset = 0.5f;
 
-    [SerializeField] LayerMask _playerLayer;
+
+    
+    [SerializeField] LayerMask _powerupLayer;
+    private bool _isPowerupInFrontOfEnemy = false;
 
     RaycastHit2D[] _raycastHit2D;
+    Vector2 originPosition;
+
 
 
 
@@ -45,6 +54,7 @@ public class Enemy : BaseEnemy
         }
         _raycastHit2D = new RaycastHit2D[1];
         InvokeRepeating("CheckPlayerBehindEnemy", 0f, 0.3f);
+        InvokeRepeating("CheckPowerupInFrontOfEnemy", 0f, 0.5f);
         StartCoroutine(LaserShootingCoroutine());
         
     }
@@ -77,37 +87,71 @@ public class Enemy : BaseEnemy
 
     protected void CheckPlayerBehindEnemy()
     {
-        Vector2 origin = transform.position;
-        
+        originPosition = transform.position;
 
-        Physics2D.RaycastNonAlloc(origin, Vector2.up , _raycastHit2D, _rayDetectionDistance, _playerLayer);
+        int hitCount = Physics2D.RaycastNonAlloc(originPosition, Vector2.up , _raycastHit2D, _rayDetectionDistance, _playerLayer);
 
-        if (_raycastHit2D[0].collider != null)
+        if (hitCount > 0 && _raycastHit2D[0].collider != null && _raycastHit2D[0].collider.CompareTag("Player"))
         {
-            Debug.Log("raycast detected Player:  " + _raycastHit2D[0].collider.tag);
+            _isPlayerBehindEnemy = true;
+
+            if (Time.time >= _lastLaserTime)
+            {
+                Fire(Vector3.up);
+                _lastLaserTime = Time.time + _laserDelay;
+                Debug.Log("raycast detected Player:  " + _raycastHit2D[0].collider.tag);
+            }
+            else
+            {
+                _isPlayerBehindEnemy = false;
+            }         
+            
         }
-
-        //RaycastHit2D hit = Physics2D.Raycast(origin, direction, _rayDetectionDistance, _playerLayer, 0f, Mathf.Infinity);
-
-        //if (hit.collider != null)
-        //{
-        //    Debug.Log("Player detectado pelo Raycast!");
-        //}
+        
         Debug.DrawRay(transform.position, Vector3.up * _rayDetectionDistance, Color.red);
         
     }
+
+    protected void CheckPowerupInFrontOfEnemy()
+    {
+        originPosition = transform.position;
+
+        int hitCount = Physics2D.RaycastNonAlloc(originPosition, Vector2.down, _raycastHit2D, _rayDetectionDistance, _powerupLayer);
+
+        if (hitCount > 0 && _raycastHit2D[0].collider != null && _raycastHit2D[0].collider.CompareTag("Powerup"))
+        {
+            _isPowerupInFrontOfEnemy = true;
+
+            if (Time.time >= _lastLaserTime)
+            {
+                Fire(Vector3.down);
+                _lastLaserTime = Time.time + _laserDelay;
+                Debug.Log("raycast detected Powerup:  " + _raycastHit2D[0].collider.tag);
+            }
+            else
+            {
+                _isPowerupInFrontOfEnemy = false;
+            }
+
+        }
+
+        Debug.DrawRay(transform.position, Vector3.down * _rayDetectionDistance, Color.green);
+    }
     
 
-    //fires Laser for now
-    //TODO 
-    //implement projectile interface
+    
     protected override void Fire()
     {
-        
-        _laserOffset = transform.position + _laserOffsetPosition;
 
-        Laser laserObject = Instantiate(_laserPrefab, _laserOffset, Quaternion.identity);        
-        laserObject.Initialize(Vector3.down, true);
+        Fire(Vector3.down);
+    }
+
+    protected void Fire(Vector3 direction)
+    {
+        _laserOffset = transform.position + _laserOffsetPosition;
+        Laser laserObject = Instantiate(_laserPrefab, _laserOffset, Quaternion.identity);
+        laserObject.GetComponent<SpriteRenderer>().color = Color.yellow;
+        laserObject.Initialize(direction, true);
     }
 
     private IEnumerator LaserShootingCoroutine()

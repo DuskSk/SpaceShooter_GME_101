@@ -48,12 +48,7 @@ public class Laser : MonoBehaviour, IProjectile
         
         
     }
-
-    public void SetEnemyLaser(bool isEnemy)
-    {
-        _isEnemyLaser = isEnemy;
-
-    }
+    
     public void Initialize(Vector3 direction, bool isEnemy)
     {
         Debug.Log("Laser script: " + _direction);
@@ -73,6 +68,10 @@ public class Laser : MonoBehaviour, IProjectile
             player.DamagePlayer();
             DestroyLaser();
             
+        }else if (other.CompareTag("Powerup"))
+        {
+            Destroy(other.gameObject);
+            DestroyLaser();
         }
     }
 
