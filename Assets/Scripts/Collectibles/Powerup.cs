@@ -8,7 +8,7 @@ public class Powerup : BaseCollectible
 {
    
 
-    private enum PowerUpType {TripleLaser, SpeedBoost, Shield, AmmoRefil, LifeRegeneration, AoeBomb};
+    private enum PowerUpType {TripleLaser, SpeedBoost, Shield, AmmoRefil, LifeRegeneration, AoeBomb, HomingShoot};
     [SerializeField] private PowerUpType _powerUpType;
      
     void Update()
@@ -40,6 +40,9 @@ public class Powerup : BaseCollectible
                 break;
             case PowerUpType.AoeBomb:
                 player.EnableAoeBomb();
+                break;
+            case PowerUpType.HomingShoot:
+                player.EnableHomingShoot();
                 break;
 
         }

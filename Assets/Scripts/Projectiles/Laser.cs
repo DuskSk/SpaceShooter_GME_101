@@ -3,16 +3,22 @@
 public class Laser : MonoBehaviour, IProjectile
 {
     [SerializeField] private float _laserSpeed = 8f, _yLaserLimit = 7.5f;
+    [SerializeField] private float _laserDamageToBoss = 10f;
     private bool _isEnemyLaser = true;
 
     [SerializeField] AudioClip _laserAudioClip;
     private Vector3 _direction;
-    
+    private Space _spaceRelativeTo;
+
     public bool IsEnemyLaser
     {
         get { return _isEnemyLaser; }
     }
-    
+    public float LaserDamageToBoss
+    {
+        get { return _laserDamageToBoss; }
+    }
+
     void Start()
     {
         AudioSource.PlayClipAtPoint(_laserAudioClip, transform.position);
@@ -39,7 +45,7 @@ public class Laser : MonoBehaviour, IProjectile
     
     public void Move()
     {
-        transform.Translate(_direction * _laserSpeed * Time.deltaTime);
+        transform.Translate(_direction * _laserSpeed * Time.deltaTime, _spaceRelativeTo);
 
         if (transform.position.y >= _yLaserLimit || transform.position.y <= -_yLaserLimit)
         {
@@ -53,12 +59,20 @@ public class Laser : MonoBehaviour, IProjectile
     {
         Debug.Log("Laser script: " + _direction);
         _direction = direction;
-        _isEnemyLaser = isEnemy;      
-
+        _isEnemyLaser = isEnemy;  
 
     }
 
-    
+    public void Initialize(Vector3 direction, bool isEnemy,Space spaceRelativeTo = Space.Self)
+    {
+        Debug.Log("Laser script: " + _direction);
+        _direction = direction;
+        _isEnemyLaser = isEnemy;
+        _spaceRelativeTo = spaceRelativeTo;
+
+    }
+
+
 
     private void OnTriggerEnter2D(Collider2D other)
     {

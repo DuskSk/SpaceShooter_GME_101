@@ -18,6 +18,7 @@ public class WaveEnemy : BaseEnemy
     protected override void Start()
     {
         base.Start();
+        _myCollider2D = GetComponent<BoxCollider2D>();
         _startPosition = transform.position;        
         StartCoroutine(LaserShootingCoroutine());
         

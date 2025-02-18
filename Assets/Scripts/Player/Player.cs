@@ -41,18 +41,21 @@ public class Player : MonoBehaviour
     [SerializeField] private bool _isShieldEnable = false;
     [SerializeField] private bool _isThrusterEnable = false;
     [SerializeField] private bool _isAoeBombEnable = false;
+    [SerializeField] private bool _isHomingShootEnable = false;
 
     [Header("Attached GameObjects")]
     [SerializeField] private Laser _laserPrefab;
     [SerializeField] private GameObject _tripleLaserPrefab;
     [SerializeField] private GameObject _aoeBombPrefab;
+    [SerializeField] private GameObject _homingShootPrefab;
     [SerializeField] private GameObject _shieldVisualizer; 
     [SerializeField] private GameObject[] _fireOnEngine;
     [SerializeField] private GameObject _thrusterVisualizer;
     [SerializeField] private AudioClip _laserAudioClip;
 
     [Header("PowerUp Attraction")]
-    [SerializeField] private float _attractionRadius = 3f;
+    [SerializeField] private float _attractionRadius = 3.5f;
+    [SerializeField] private float _attractionSpeed = 3f;
     private Collider2D[] _powerupColliderList;
     
 
@@ -131,11 +134,18 @@ public class Player : MonoBehaviour
 
         if(Input.GetKeyDown(KeyCode.Space) && Time.time > _fireDelayControl)
         {
+            //TODO
+            //create a enum to handle current active weapon
+            //only one weapon can be active at a time
             if (_isAoeBombEnable)
             {
                 FireAoeBomb();
             }
-            else if(_currentAmmo > 0)
+            else if (_isHomingShootEnable)
+            {
+                FireHomingShoot();
+            }
+            else if (_currentAmmo > 0)
             {
                 FireLaser();
             }
@@ -223,7 +233,6 @@ public class Player : MonoBehaviour
         
     }
     
-
     private void FireAoeBomb()
     {
         _fireDelayControl = Time.time + _fireRate;
@@ -233,6 +242,13 @@ public class Player : MonoBehaviour
     
     }
 
+    private void FireHomingShoot()
+    {
+        _fireDelayControl = Time.time + _fireRate;
+        _weaponOffset = transform.position + _laserOffsetPosition;
+
+        Instantiate(_homingShootPrefab, _weaponOffset, Quaternion.identity);
+    }
     public void DamagePlayer()
     {
         
@@ -319,9 +335,8 @@ public class Player : MonoBehaviour
         foreach (Collider2D collider in _powerupColliderList)
         {
             if (collider.CompareTag("Powerup"))
-            {
-                Vector3 direction = (collider.transform.position - transform.position).normalized;
-                collider.transform.position = Vector3.MoveTowards(collider.transform.position, transform.position, 3f * Time.deltaTime);
+            {                
+                collider.transform.position = Vector3.MoveTowards(collider.transform.position, transform.position, _attractionSpeed * Time.deltaTime);
             }
         }
     }
@@ -343,6 +358,12 @@ public class Player : MonoBehaviour
     {
         _isAoeBombEnable = true;
         StartCoroutine(AoeBombCooldownRoutine());
+    }
+
+    public void EnableHomingShoot()
+    {
+        _isHomingShootEnable = true;
+        StartCoroutine(HomingShootCooldownRoutine());
     }
 
     public void EnableShield()
@@ -409,6 +430,12 @@ public class Player : MonoBehaviour
     {
         yield return new WaitForSeconds(5f);
         _isAoeBombEnable = false;
+    }
+
+    IEnumerator HomingShootCooldownRoutine()
+    {
+        yield return new WaitForSeconds(3f);
+        _isHomingShootEnable = false;
     }
 
     IEnumerator SlowDebuffCooldownRoutine()

@@ -12,11 +12,12 @@ GameObject:
   - component: {fileID: -2681173675553452210}
   - component: {fileID: 2798325186864031182}
   - component: {fileID: -473986354178014778}
+  - component: {fileID: 259799388391887061}
   - component: {fileID: 1561466682}
   - component: {fileID: -130056208340895836}
   - component: {fileID: 6061950697694105306}
   - component: {fileID: 456119263941216221}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Enemy
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -134,6 +135,22 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 2.081685, y: 2.5504565}
   m_EdgeRadius: 0
+--- !u!70 &259799388391887061
+CapsuleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7635470433513147934}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: -0.7386923}
+  m_Size: {x: 2.7572162, y: 5.2431164}
+  m_Direction: 0
 --- !u!95 &1561466682
 Animator:
   serializedVersion: 3
@@ -166,13 +183,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _enemyScoreValue: 10
-  _enemySpeed: 4
+  _enemySpeed: 0
+  _enemyChargeSpeed: 7
   _chanceToEnableShield: 0.1
   _isShieldEnabled: 0
   _detectionRadius: 5
   _xMinLimit: -18
   _xMaxLimit: 18
   _yTopRespawnPoint: 12
+  _evadeSpeed: 60
+  _evadeDuration: 1.5
+  _evadeCooldown: 3
   _laserOffsetPosition: {x: 0, y: -0.9, z: 0}
   _laserPrefab: {fileID: 8143371257873752616, guid: 3ed94ccddb5cf7443b29408ad7ec39fe,
     type: 3}

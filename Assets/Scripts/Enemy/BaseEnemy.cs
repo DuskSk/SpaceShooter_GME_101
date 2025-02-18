@@ -30,8 +30,7 @@ public abstract class BaseEnemy : MonoBehaviour
                 
         _animator = GetComponent<Animator>();
         _audioManager = GameObject.FindGameObjectWithTag("Audio_Manager").GetComponent<AudioManager>();        
-        _spawnManager = GameObject.FindGameObjectWithTag("Spawn_Manager").GetComponent<SpawnManager>();
-        _myCollider2D = GetComponent<Collider2D>();
+        _spawnManager = GameObject.FindGameObjectWithTag("Spawn_Manager").GetComponent<SpawnManager>();        
         _player = FindObjectOfType<Player>().GetComponent<Player>();
         _mainCamera = Camera.main;
         _shieldParticle = GetComponent<ParticleSystem>();
@@ -125,29 +124,50 @@ public abstract class BaseEnemy : MonoBehaviour
 
     protected virtual void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.CompareTag("Player"))
+        string tag = other.tag;
+
+        switch (tag)
         {
+            case "Player":
+                Player player = other.GetComponent<Player>();
+                if (player != null)
+                {
+                    player.DamagePlayer();
+                }
+                StartOnDeathEffects();
+                break;
+            case "Laser":
+                Laser laser = other.GetComponent<Laser>();
+                if (!laser.IsEnemyLaser)
+                {
 
-            Player player = other.GetComponent<Player>();
+                    Destroy(other.gameObject);
+                    StartOnDeathEffects();
 
-            if (player != null)
-            {
-                player.DamagePlayer();
-            }
-            StartOnDeathEffects();
-
-        }
-        else if (other.CompareTag("Laser"))
-        {
-            Laser laser = other.GetComponent<Laser>();
-            if (!laser.IsEnemyLaser)
-            {   
-                
+                }
+                break;
+            case "Bomb":
                 Destroy(other.gameObject);
                 StartOnDeathEffects();
-
-            }
-
+                break;
         }
-    }
+
+                //if (other.CompareTag("Player"))
+                //{
+
+                //    Player player = other.GetComponent<Player>();
+
+                //    if (player != null)
+                //    {
+                //        player.DamagePlayer();
+                //    }
+                //    StartOnDeathEffects();
+
+                //}
+                //else if (other.CompareTag("Laser"))
+                //{
+
+
+                //}
+        }
 }

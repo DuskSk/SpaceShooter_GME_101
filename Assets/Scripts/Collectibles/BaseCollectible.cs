@@ -8,6 +8,8 @@ public abstract class BaseCollectible : MonoBehaviour
     [SerializeField] protected float _yLimitToDestroy = -8f;
     [SerializeField] protected AudioClip _audioClip;
     
+    //TODO
+    //add camera limit to destroy object
     protected virtual void Move()
     {
         transform.Translate(Vector3.down * _speed * Time.deltaTime);
