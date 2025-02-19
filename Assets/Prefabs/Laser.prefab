@@ -143,6 +143,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fc6916ad0f03b8f45b7c8513d529628b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _laserSpeed: 5
+  _laserSpeed: 10
   _yLaserLimit: 11
+  _laserDamageToBoss: 10
   _laserAudioClip: {fileID: 8300000, guid: 75676f361bdfeaf41a46623e95df3dbc, type: 3}

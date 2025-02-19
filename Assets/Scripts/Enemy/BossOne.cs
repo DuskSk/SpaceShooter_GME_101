@@ -5,6 +5,7 @@ public class BossOne : BaseBoss
 {
     [SerializeField] protected float _speed = 2f;
     [SerializeField] protected GameObject _laserPrefab;
+    [SerializeField] protected GameObject _beamPrefab;
     private Laser _laser;
 
     [Header("Spiral Attack Cnfiguration")]
@@ -13,9 +14,21 @@ public class BossOne : BaseBoss
     [SerializeField] protected float _fireRate = 0.3f; // 🔹 Tempo entre cada tiro
     [SerializeField] protected float _fireRatePhase2 = 0.1f;
 
+    [Header("Beam Attack Configuration")]
+    [SerializeField] protected float _beamTimeToLive = 5f;
+    [SerializeField] protected float _beamCooldown = 5f;
+    [SerializeField] protected bool _beamClockwise = false;     
+    [SerializeField] protected float _rightBeamInitialRotation = 30f;
+    [SerializeField] protected float _leftBeamInitialRotation = 30f;
+
+    [SerializeField]protected GameObject[] _beamOffset;
+
     void Start()
     {
+
         StartCoroutine(SpiralAttackPattern());
+        StartCoroutine(LaserBeamAttackPattern(false,_rightBeamInitialRotation , 0));
+        StartCoroutine(LaserBeamAttackPattern(true, _leftBeamInitialRotation, 1));
     }
 
     
@@ -75,6 +88,12 @@ public class BossOne : BaseBoss
         //}
     }
 
+    protected void FireLaserBeam()
+    {
+        GameObject beam1 = Instantiate(_beamPrefab, _beamOffset[0].transform.position, Quaternion.Euler(0,0,30f));
+        beam1.GetComponent<Beam>().Initialize(_beamClockwise);
+    }
+
     IEnumerator AttackPatternRoutine()
     {
         while (true)
@@ -108,5 +127,21 @@ public class BossOne : BaseBoss
             
 
         }
+    }
+
+    IEnumerator LaserBeamAttackPattern(bool isClockWise,float initialRotation,  int beamOffsetIndex = 0)
+    {
+        while (true)
+        {
+            yield return new WaitForSeconds(_beamCooldown);
+            GameObject beam1 = Instantiate(_beamPrefab, _beamOffset[beamOffsetIndex].transform.position, Quaternion.Euler(0, 0, initialRotation));
+            beam1.GetComponent<Beam>().Initialize(isClockWise);
+            yield return new WaitForSeconds(_beamTimeToLive);
+            Destroy(beam1);
+
+
+        }
+        
+       
     }
 }

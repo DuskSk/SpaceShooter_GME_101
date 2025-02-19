@@ -16,6 +16,7 @@ TagManager:
   - Wave_Manager
   - MultiShoot
   - Boss
+  - Beam
   layers:
   - Default
   - TransparentFX

@@ -3,9 +3,13 @@
 public abstract class BaseBoss : MonoBehaviour
 {
     protected enum BossPhase { Phase1, Phase2, Phase3 };
-    [SerializeField]protected BossPhase _bossPhase = BossPhase.Phase1;
+    [SerializeField] protected BossPhase _bossPhase = BossPhase.Phase1;
     [SerializeField] protected float _bossHealth = 1000f;
     
+    public float BossHealth
+    {
+        get { return _bossHealth; }
+    }
 
     protected abstract void MoveBoss();
 
@@ -56,7 +60,8 @@ public abstract class BaseBoss : MonoBehaviour
                 }
                 break;
             case "Bomb":
-
+                //TODO
+                //Implement bomb damage
                 TakeDamage(30f);
                 break;
         }

@@ -183,7 +183,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _enemyScoreValue: 10
-  _enemySpeed: 0
+  _enemySpeed: 3.5
   _enemyChargeSpeed: 7
   _chanceToEnableShield: 0.1
   _isShieldEnabled: 0

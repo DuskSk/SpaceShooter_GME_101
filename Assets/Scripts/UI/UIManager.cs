@@ -11,6 +11,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] private TMP_Text _reloadText;
     [SerializeField] private TMP_Text _ammoText;
 
+    [Header("Player UI")]
     [SerializeField] private Player _player;
     [SerializeField] private Sprite[] _livesSpritesList;
     [SerializeField] private Image _livesImage;
@@ -21,8 +22,12 @@ public class UIManager : MonoBehaviour
     [SerializeField] private float _chargeSpeed, _depleteChargeSpeed;
     private bool _isThrusterCharged = false;
     private float _maxChargeValue = 100;
-    
-        
+
+    [Header("Boss UI")]
+    [SerializeField] private GameObject _boss;
+    [SerializeField] private Slider _bossHealthSlider;
+    private float _bossMaxHealth;
+
     public bool IsThrusterCharged
     {
         get { return _isThrusterCharged; }
@@ -36,6 +41,8 @@ public class UIManager : MonoBehaviour
         _reloadText.gameObject.SetActive(false);
         _gameManager = GameObject.FindWithTag("Game_Manager").GetComponent<GameManager>();        
         _maxChargeValue = _chargeSlider.maxValue;
+        BossOne bossOne = _boss.GetComponent<BossOne>();
+        _bossMaxHealth = bossOne.BossHealth;
 
         if (_gameManager == null)
         {
@@ -106,6 +113,18 @@ public class UIManager : MonoBehaviour
             
         }
 
+    }
+
+    //TODO
+    //create boss HP slider
+    //implement final boss battle UI elements
+    public void UpdateBossHealthSlider(float currentHealth)
+    {
+        _bossHealthSlider.value = currentHealth;
+        if (currentHealth <= 0)
+        {
+            StartWinSequence();
+        }
     }
 
     private void StartGameOverSequence()
