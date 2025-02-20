@@ -100,7 +100,7 @@ public abstract class BaseEnemy : MonoBehaviour
         _animator.SetTrigger("OnEnemyDeath");
         _enemySpeed = 0f;
         _audioManager.PlayExplosionAudio();
-        _spawnManager.UpdateAvailableEnemies();        
+        WaveManager.Instance.ReduceEnemyCount();        
         _player.UpdatePlayerScore(_enemyScoreValue);
         StopAllCoroutines();
         Destroy(gameObject, _delayToDestroyEnemy);

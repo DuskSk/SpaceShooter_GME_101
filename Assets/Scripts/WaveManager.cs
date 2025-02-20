@@ -4,42 +4,109 @@ using UnityEngine;
 
 public class WaveManager : MonoBehaviour
 {
-    [SerializeField] private int _currentWave;
-    [SerializeField] private int _maxWaveAmount;    
-    [SerializeField] private float _maxEnemyCount;
     
-    public float MaxEnemyCount
+    [SerializeField] private int _totalWaves;    
+    [SerializeField] private int _totalEnemies;
+    [SerializeField] private float _waveCooldown;
+    [SerializeField] private float _wavePowerupCooldown = 5f;
+    [SerializeField] private float _waveMultiplier;
+    private int _enemiesRemaining;
+    private int _currentWave;
+
+    public static WaveManager Instance { get; private set; }
+
+
+
+    private void Awake()
     {
-        get { return _maxEnemyCount; }
+        if (Instance == null)
+        {
+            Instance = this;
+        }
+        else
+        {
+            Destroy(this);
+        }
     }
 
-    public int CurrentWave
+    public void StartWave()
     {
-        get { return _currentWave; }
-    }
+        if (_currentWave >= _totalWaves)
+        {
+            Debug.Log(" All waves concluded");
+            GameManager.Instance.GameOver();
+            return;
+        }
 
-    public int MaxWaveAmount
-    {
-        get { return _maxWaveAmount; }
-    }
-
-    void Start()
-    {
-        _currentWave = 1;
-    }
-
-
-    public void IncreaseWave()
-    {
+        _enemiesRemaining = _totalEnemies;
+        
+        Debug.Log($"Wave {_currentWave} has started with {_totalEnemies} enemies");
         _currentWave++;
-        Debug.Log(_currentWave);
+        if (IsBossWave())
+        {
+            SpawnManager.Instance.SpawnBoss();
+        }
+        else
+        {
+            SpawnManager.Instance.SpawnEnemies(_totalEnemies);
+            StartPowerupSpawn();    
+
+        }
+        _totalEnemies = (int)(_totalEnemies * _waveMultiplier);
+
     }
 
-    public void UpdateWaveWeight(float weight)
+    private void StartPowerupSpawn()
     {
-        _maxEnemyCount *= weight;
-        Debug.Log(_maxEnemyCount);
+        SpawnManager.Instance.SpawnPowerups();
+        SpawnManager.Instance.SpawnDebuffs();
     }
+
+
+
+    private void EndWave()
+    {
+        if(_currentWave < _totalWaves)
+        {
+            
+            StartCoroutine(StartWaveWithCooldown());
+        }
+    }
+
+    public void ReduceEnemyCount()
+    {
+        _enemiesRemaining--;
+        if (_enemiesRemaining <= 0)
+        {
+            EndWave();
+        }
+    }
+
+    private IEnumerator StartWaveWithCooldown()
+    {
+        Debug.Log($"Awaiting {_waveCooldown}s for next wave to start.. ");
+        yield return new WaitForSeconds(_waveCooldown);
+        StartWave();        
+    }    
+    public bool IsBossWave()
+    {
+        return _currentWave == _totalWaves;
+    }
+
+    public int GetRemainingEnemies()
+    {
+        return _enemiesRemaining;
+    }
+
+    public int GetTotalEnemies()
+    {
+        return _totalEnemies;
+    }
+
+
+    
+
+    
 
 
     

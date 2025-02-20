@@ -1,11 +1,12 @@
-﻿using System.Collections;
-using UnityEngine;
+﻿using UnityEngine;
+using System.Collections;
+
 
 public class SpawnManager : MonoBehaviour
 {
     #region Variables
-    
-    [SerializeField] private GameObject _enemyContainer;    
+
+    [SerializeField] private GameObject _enemyContainer;
     private UIManager _uiManager;
 
     [Header("Common PowerUp Spawns")]
@@ -21,7 +22,7 @@ public class SpawnManager : MonoBehaviour
     [SerializeField] private GameObject[] _debuffPrefab;
 
     [Header("Spawn rate")]
-    [SerializeField] private float _enemySpawnRateInSeconds = 5f;    
+    [SerializeField] private float _enemySpawnRateInSeconds = 5f;
     [SerializeField] private float _delayToStartSpawnRoutine = 3.0f;
     [SerializeField] private float _delayToStartPowerUpSpawnRoutine = 4.0f;
     [SerializeField] private float _delayToStartDebuffSpawnRoutine = 3.0f;
@@ -51,13 +52,7 @@ public class SpawnManager : MonoBehaviour
     [SerializeField] private float _zzMaxSpawnRangeY;
     [SerializeField] private float _zzSpawnRangeX;
 
-    [Header("Wave Configuration")]    
-    [SerializeField] private float _waveWeight;
-    [SerializeField] private int _currentWave;
-    [SerializeField] private int _maxWaveAmount;
-    [SerializeField] private float _maxEnemyCount;    
-    private int _enemySpawnCount;
-    private int _enemiesToNextWave;
+    [Header("Wave Configuration")]       
     private bool _isGameOver = false;
 
 
@@ -74,124 +69,68 @@ public class SpawnManager : MonoBehaviour
 
     private Camera _maincamera;
 
-    private WaveState _currentWaveState;
+    public static SpawnManager Instance { get; private set; }
+
     #endregion
 
-    public enum WaveState 
-    { 
-        Spawning, 
-        Waiting, 
-        Transitioning 
-    };
+
+    private void Awake()
+    {
+        if (Instance == null)
+        {
+            Instance = this;
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+    }
 
     private void Start()
     {
-                
+
         _uiManager = GameObject.Find("Canvas").GetComponent<UIManager>();
-        _enemiesToNextWave = (int)_maxEnemyCount;
-        _currentWave = 1;
-        _currentWaveState = WaveState.Waiting;
-        _maincamera = Camera.main;  
+        _maincamera = Camera.main;
+    }    
+
+    public void SpawnEnemies(int enemyCount)
+    {
+        StartCoroutine(SpawnEnemyRoutine(_enemySpawnRateInSeconds, enemyCount));
     }
 
-    private void Update()
+    public void SpawnPowerups()
     {
-        switch (_currentWaveState)
-        {
-            case WaveState.Spawning:
-                if (_enemySpawnCount == Mathf.RoundToInt(_maxEnemyCount))
-                {
-                    CheckCurrentWave();                    
-                }
-                break;
-            case WaveState.Waiting:
-                if (_enemiesToNextWave <= 0)
-                {                    
-                    _currentWaveState = WaveState.Transitioning;
-                }
-                break;
-            case WaveState.Transitioning:
-                PrepareNextWave();
-                break;
-        }
-        
-
-               
-
-        if (_isGameOver)
-        {
-            _uiManager.StartWinSequence();
-            _isGameOver = false;
-        }
-    }
-
-    
-
-    public void StartSpawning()
-    {
-        _enemySpawnCount = 0;
-        _isSpawning = true;
-        _currentWaveState = WaveState.Spawning;
-        StartCoroutine(SpawnEnemyRoutine(_enemySpawnRateInSeconds));
         StartCoroutine(SpawnPowerupRoutine());
-        StartCoroutine(SpawnDebuffRoutine());
-
     }
 
-    public void UpdateAvailableEnemies()
+    public void SpawnDebuffs()
     {
-        _enemiesToNextWave--;
-        Debug.Log($"Avaialable enemies: {_enemiesToNextWave}");
+        StartCoroutine(SpawnDebuffRoutine());
     }
+
+    public void SpawnBoss()
+    {
+        // TODO
+        // Implement Boss Spawn
+    }
+
 
     public void OnPlayerDeath()
     {
         _isSpawning = false;
     }
 
-    private void CheckCurrentWave()
-    {    
-        _isSpawning = false;
-        StopCoroutine("SpawnEnemyRoutine");
-        _currentWaveState = WaveState.Waiting;
-
-    }
-    private void PrepareNextWave()
-    {
-        IncreaseWave();
-        if (_currentWave > _maxWaveAmount)
-        {
-            _isGameOver = true;
-            return;
-        }
-        UpdateWaveWeight(_waveWeight);
-        _enemiesToNextWave = (int)_maxEnemyCount;
-        StartSpawning();
-    }    
-
-    private void IncreaseWave()
-    {
-        _currentWave++;
-        Debug.Log(_currentWave);
-    }
-
-    private void UpdateWaveWeight(float weight)
-    {
-        _maxEnemyCount *= weight;
-        Debug.Log(_maxEnemyCount);
-        
-    }
 
 
     #region Routines
-    IEnumerator SpawnEnemyRoutine(float enemySpawnRate)
+    IEnumerator SpawnEnemyRoutine(float enemySpawnRate, int enemyCount)
     {
         
         yield return new WaitForSeconds(_delayToStartSpawnRoutine);
         Vector3 spawnPosition;
         Vector3 viewportSpawnPosition;
 
-        while (_isSpawning)
+        while (enemyCount > 0)
         {
 
             GameObject enemyPrefab;
@@ -205,7 +144,7 @@ public class SpawnManager : MonoBehaviour
             }
             else if (_spawnRarityControl > _commonEnemyMaxPercentage && _spawnRarityControl <= _uncommonEnemyMaxPercentage)
             {
-                enemyPrefab = _uncommonEnemyPrefab;                
+                enemyPrefab = _uncommonEnemyPrefab;
                 viewportSpawnPosition = new Vector3(-0.1f, Random.Range(0.5f, 0.9f), 1f);
             }
             else
@@ -214,14 +153,14 @@ public class SpawnManager : MonoBehaviour
                 viewportSpawnPosition = new Vector3(Random.Range(0.05f, 1f), 1.1f, 1f);
                 Debug.Log("Rare Enemy Spawned");
             }
-            spawnPosition = _maincamera.ViewportToWorldPoint(viewportSpawnPosition);
-            _enemySpawnCount++;
+            spawnPosition = _maincamera.ViewportToWorldPoint(viewportSpawnPosition);            
             GameObject newEnemy = Instantiate(enemyPrefab, spawnPosition, Quaternion.identity);
             newEnemy.transform.parent = _enemyContainer.transform;
+            enemyCount--;
             yield return new WaitForSeconds(enemySpawnRate);
-             
-                      
-            
+
+
+
         }
     }
 
@@ -229,7 +168,7 @@ public class SpawnManager : MonoBehaviour
     {
         yield return new WaitForSeconds(_delayToStartPowerUpSpawnRoutine);
 
-        while (_isSpawning) 
+        while (_isSpawning)
         {
             GameObject powerupPrefab;
             int powerupRandomId;
@@ -240,9 +179,9 @@ public class SpawnManager : MonoBehaviour
             {
                 powerupRandomId = Random.Range(0, _commonPowerupPrefab.Length);
                 powerupPrefab = _commonPowerupPrefab[powerupRandomId];
-                
+
             }
-            else if(_spawnRarityControl > _commonMaxPercentage && _spawnRarityControl <= _uncommonMaxPercentage)
+            else if (_spawnRarityControl > _commonMaxPercentage && _spawnRarityControl <= _uncommonMaxPercentage)
             {
                 powerupRandomId = Random.Range(0, _uncommonPowerupPrefab.Length);
                 powerupPrefab = _uncommonPowerupPrefab[powerupRandomId];
@@ -250,7 +189,7 @@ public class SpawnManager : MonoBehaviour
             else
             {
                 powerupRandomId = Random.Range(0, _rarePowerupPrefab.Length);
-                powerupPrefab = _rarePowerupPrefab[powerupRandomId];   
+                powerupPrefab = _rarePowerupPrefab[powerupRandomId];
             }
 
             Instantiate(powerupPrefab, spawnPosition, Quaternion.identity);

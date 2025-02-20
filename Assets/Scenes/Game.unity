@@ -1250,13 +1250,9 @@ MonoBehaviour:
   _zzMinSpawnRangeY: 8
   _zzMaxSpawnRangeY: 1
   _zzSpawnRangeX: 18
-  _waveWeight: 1.5
-  _currentWave: 1
-  _maxWaveAmount: 3
-  _maxEnemyCount: 10
-  _commonMaxPercentage: 0.9
-  _uncommonMaxPercentage: 0
-  _rareMaxPercentage: 0
+  _commonMaxPercentage: 0.7
+  _uncommonMaxPercentage: 0.9
+  _rareMaxPercentage: 1
   _commonEnemyMaxPercentage: 0.8
   _uncommonEnemyMaxPercentage: 0.9
   _rareEnemyMaxPercentage: 0
@@ -1884,75 +1880,6 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!1001 &1117282624
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 8748689758413725241, guid: 66ef4193fbb6ddd4daddcca81bc6f3a5,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 12
-      objectReference: {fileID: 0}
-    - target: {fileID: 8748689758413725241, guid: 66ef4193fbb6ddd4daddcca81bc6f3a5,
-        type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8748689758413725241, guid: 66ef4193fbb6ddd4daddcca81bc6f3a5,
-        type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 3.7
-      objectReference: {fileID: 0}
-    - target: {fileID: 8748689758413725241, guid: 66ef4193fbb6ddd4daddcca81bc6f3a5,
-        type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8748689758413725241, guid: 66ef4193fbb6ddd4daddcca81bc6f3a5,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8748689758413725241, guid: 66ef4193fbb6ddd4daddcca81bc6f3a5,
-        type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8748689758413725241, guid: 66ef4193fbb6ddd4daddcca81bc6f3a5,
-        type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8748689758413725241, guid: 66ef4193fbb6ddd4daddcca81bc6f3a5,
-        type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8748689758413725241, guid: 66ef4193fbb6ddd4daddcca81bc6f3a5,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8748689758413725241, guid: 66ef4193fbb6ddd4daddcca81bc6f3a5,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8748689758413725241, guid: 66ef4193fbb6ddd4daddcca81bc6f3a5,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8748689758413725245, guid: 66ef4193fbb6ddd4daddcca81bc6f3a5,
-        type: 3}
-      propertyPath: m_Name
-      value: Boss
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 66ef4193fbb6ddd4daddcca81bc6f3a5, type: 3}
 --- !u!1 &1402533215
 GameObject:
   m_ObjectHideFlags: 0
@@ -2380,9 +2307,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f584dd7c642e96a41a56c0d0d0341c50, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _currentWave: 1
-  _maxWaveAmount: 3
-  _maxEnemyCount: 5
+  _totalWaves: 5
+  _totalEnemies: 3
+  _waveCooldown: 2
+  _wavePowerupCooldown: 5
+  _waveMultiplier: 1.1
 --- !u!1 &1895423131
 GameObject:
   m_ObjectHideFlags: 0
@@ -2618,6 +2547,8 @@ MonoBehaviour:
   _chargeSlider: {fileID: 844782726}
   _chargeSpeed: 30
   _depleteChargeSpeed: 60
+  _boss: {fileID: 0}
+  _bossHealthSlider: {fileID: 0}
 --- !u!1 &2114247123
 GameObject:
   m_ObjectHideFlags: 0

@@ -38,8 +38,7 @@ public class UIManager : MonoBehaviour
         _scoreText.text = $"Score: {0}";
         _ammoText.text = $"Ammo: {15}";
         _gameOverText.gameObject.SetActive(false);
-        _reloadText.gameObject.SetActive(false);
-        _gameManager = GameObject.FindWithTag("Game_Manager").GetComponent<GameManager>();        
+        _reloadText.gameObject.SetActive(false);                
         _maxChargeValue = _chargeSlider.maxValue;
         BossOne bossOne = _boss.GetComponent<BossOne>();
         _bossMaxHealth = bossOne.BossHealth;
@@ -131,7 +130,7 @@ public class UIManager : MonoBehaviour
     {
         StartCoroutine(GameOverFlickerRoutine());
         _reloadText.gameObject.SetActive(true);
-        _gameManager.GameOver();
+        GameManager.Instance.GameOver();
     }
 
     //placeholder for final wave WIN sequence
