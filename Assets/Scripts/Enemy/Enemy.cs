@@ -23,7 +23,7 @@ public class Enemy : BaseEnemy
     [Header("Enemy Laser Configuration")]
     [SerializeField] private Vector3 _laserOffsetPosition = new Vector3(0, -0.9f, 0);    
     [SerializeField] private Laser _laserPrefab;
-    [SerializeField] private float _minDelayToShoot = 0.5f, _maxDelayToShoot = 2.0f;
+    [SerializeField] private float _minDelayToShoot = 0.5f, _maxDelayToShoot = 2.0f;    
     private Vector3 _laserOffset;
 
     [Header("Back Laser Configuration")]
@@ -164,7 +164,7 @@ public class Enemy : BaseEnemy
         _laserOffset = transform.position + _laserOffsetPosition;
         Laser laserObject = Instantiate(_laserPrefab, _laserOffset, Quaternion.identity);
         laserObject.GetComponent<SpriteRenderer>().color = Color.yellow;
-        laserObject.Initialize(direction, true);
+        laserObject.Initialize(direction, _projectileSpeed, true);
     }
 
     protected void StartEvade()

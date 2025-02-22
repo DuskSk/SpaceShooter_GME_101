@@ -15,9 +15,12 @@ public abstract class BaseBoss : MonoBehaviour
 
     protected abstract void Fire();
 
+    protected abstract void CheckBossPhase();
+
     protected virtual void TakeDamage(float damage)
     {
         _bossHealth -= damage;
+        UIManager.Instance.UpdateBossHealthSlider(_bossHealth);
         if (_bossHealth <= 0)
         {
             Die();
@@ -55,7 +58,7 @@ public abstract class BaseBoss : MonoBehaviour
                 Laser laser = other.GetComponent<Laser>();
                 if (!laser.IsEnemyLaser)
                 {
-
+                    Destroy(other.gameObject);
                     TakeDamage(laser.LaserDamageToBoss);
                 }
                 break;

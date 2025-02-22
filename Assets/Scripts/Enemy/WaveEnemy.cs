@@ -70,7 +70,7 @@ public class WaveEnemy : BaseEnemy
             Vector3 shootOffset = transform.position + direction * 0.5f; // Adjust offset as needed
             GameObject projectileObject = Instantiate(_projectilePrefab, shootOffset, Quaternion.identity);
             IProjectile projectile = projectileObject.GetComponent<IProjectile>();
-            projectile.Initialize(direction, true);
+            projectile.Initialize(direction, _projectileSpeed, true);
             
         }
     }

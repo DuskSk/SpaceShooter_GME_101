@@ -1,11 +1,12 @@
 ﻿using UnityEngine;
 
-public class AoeBomb : MonoBehaviour
+public class AoeBomb : MonoBehaviour, IProjectile
 {
     [SerializeField] private float _bombSpeed;
     [SerializeField] private float _bombMaxRadius = 2.5f;
     [SerializeField] private float _yBombLimit = 7.5f;
-    
+    private Vector3 _direction;
+
     private CircleCollider2D _circleCollider;
     private Transform _bombSprite;
     
@@ -19,19 +20,27 @@ public class AoeBomb : MonoBehaviour
     void Update()
     {
         
-        MoveBomb();
+        Move();
         
     }
 
-    private void MoveBomb()
+    public void Move()
     {
-        transform.Translate(Vector3.up * _bombSpeed * Time.deltaTime);
+        transform.Translate(_direction * _bombSpeed * Time.deltaTime);
         if (transform.position.y >= _yBombLimit)
         {
             Destroy(this.gameObject);
         }
         
     }
+
+    public void Initialize(Vector3 direction, float speed, bool isEnemy = false)
+    {
+        _bombSpeed = speed;
+        _direction = direction;
+    }
+
+
 
     private void IncreaseBombImageScale()
     {

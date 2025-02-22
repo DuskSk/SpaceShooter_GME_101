@@ -11,8 +11,9 @@ public class BossOne : BaseBoss
     [Header("Spiral Attack Cnfiguration")]
     [SerializeField] protected float _angle = 270f; // 🔹 Começa atirando para baixo (270°)
     [SerializeField] protected float _angleIncrease = 15f; // 🔹 Define o quanto o ângulo gira a cada tiro
-    [SerializeField] protected float _fireRate = 0.3f; // 🔹 Tempo entre cada tiro
-    [SerializeField] protected float _fireRatePhase2 = 0.1f;
+    [SerializeField] protected float _fireRate = 0.5f; // 🔹 Tempo entre cada tiro
+    [SerializeField] protected float _fireRatePhase2 = 0.3f;
+    [SerializeField] protected float _fireRatePhase3 = 0.1f;
 
     [Header("Beam Attack Configuration")]
     [SerializeField] protected float _beamTimeToLive = 5f;
@@ -23,12 +24,14 @@ public class BossOne : BaseBoss
 
     [SerializeField]protected GameObject[] _beamOffset;
 
+    private float _bossMaxHealth;
+
     void Start()
     {
-
-        StartCoroutine(SpiralAttackPattern());
-        StartCoroutine(LaserBeamAttackPattern(false,_rightBeamInitialRotation , 0));
-        StartCoroutine(LaserBeamAttackPattern(true, _leftBeamInitialRotation, 1));
+        UIManager.Instance.SetBossHealth(_bossHealth);
+        StartCoroutine(SpiralAttackPattern());  
+        InvokeRepeating(nameof(CheckBossPhase), 0, 0.5f);
+        _bossMaxHealth = _bossHealth;
     }
 
     
@@ -44,6 +47,22 @@ public class BossOne : BaseBoss
     protected override void MoveBoss()
     {
         transform.Translate(Vector3.down * _speed * Time.deltaTime);
+    }
+
+    protected override void CheckBossPhase()
+    {
+        
+        Debug.Log($"Checking Boss Phase | Current: {_bossPhase} | Current health: {_bossHealth}");
+        if (_bossHealth <= (_bossMaxHealth * 0.6f) && _bossPhase == BossPhase.Phase1)
+        {
+            ActivatePhase(BossPhase.Phase2);
+            StartCoroutine(LaserBeamAttackPattern(false, _rightBeamInitialRotation, 0));
+        }
+        else if(_bossHealth <= (_bossMaxHealth * 0.3f) && _bossPhase == BossPhase.Phase2)
+        {
+            ActivatePhase(BossPhase.Phase3);
+            StartCoroutine(LaserBeamAttackPattern(true, _leftBeamInitialRotation, 1));
+        }
     }
 
     protected override void Fire()
@@ -66,26 +85,7 @@ public class BossOne : BaseBoss
         {
             _laser.Initialize(direction, true, Space.World);
         }
-        //GameObject _projectileInstance = Instantiate(_laserPrefab, transform.position, Quaternion.identity);
-
-        //IProjectile projectile = _projectileInstance.GetComponent<IProjectile>();
-
-
-
-        //if (projectile != null)
-        //{
-        //    Laser projectileLaser = projectile as Laser;
-
-        //    if (projectileLaser != null)
-        //    {
-        //        projectileLaser.Initialize(direction, true, Space.World);
-        //    }
-        //    else
-        //    {
-        //        projectile.Initialize(direction, true);
-
-        //    }
-        //}
+        
     }
 
     protected void FireLaserBeam()
@@ -93,15 +93,7 @@ public class BossOne : BaseBoss
         GameObject beam1 = Instantiate(_beamPrefab, _beamOffset[0].transform.position, Quaternion.Euler(0,0,30f));
         beam1.GetComponent<Beam>().Initialize(_beamClockwise);
     }
-
-    IEnumerator AttackPatternRoutine()
-    {
-        while (true)
-        {
-            Fire();
-            yield return new WaitForSeconds(3f);
-        }
-    }
+    
 
     IEnumerator SpiralAttackPattern()
     {
@@ -122,6 +114,9 @@ public class BossOne : BaseBoss
                     break;
                 case BossPhase.Phase2:
                     yield return new WaitForSeconds(_fireRatePhase2);
+                    break;
+                case BossPhase.Phase3:
+                    yield return new WaitForSeconds(_fireRatePhase3);
                     break;
             }
             

@@ -46,7 +46,7 @@ public class HomingShoot : MonoBehaviour, IProjectile
         }
     }
 
-    public void Initialize(Vector3 direction, bool isEnemy = false)
+    public void Initialize(Vector3 direction, float speed, bool isEnemy = false)
     {
         _direction = direction;
     }

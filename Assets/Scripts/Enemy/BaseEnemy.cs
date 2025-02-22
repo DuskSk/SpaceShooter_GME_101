@@ -10,6 +10,7 @@ public abstract class BaseEnemy : MonoBehaviour
     [SerializeField] protected float _chanceToEnableShield;
     [SerializeField] protected bool _isShieldEnabled = false;
     [SerializeField] protected float _detectionRadius = 3f;
+    [SerializeField] protected float _projectileSpeed = 8f;
     protected Animator _animator;
     protected float _delayToDestroyEnemy = 2.6f;
     protected AudioManager _audioManager;

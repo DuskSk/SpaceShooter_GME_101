@@ -9,8 +9,11 @@ public class Player : MonoBehaviour
     [SerializeField] private float _speedWithBoost = 7.0f;
     [SerializeField] private float _speedWithThruster = 5.0f;
 
-    
-    
+    [Header("Player Projectile Speeds")]
+    [SerializeField] private float _laserSpeed = 8.0f;
+    [SerializeField] private float _homingSpeed = 5.0f;
+    [SerializeField] private float _aoeBombSpeed = 5.0f;
+
     [SerializeField] private Vector3 _laserOffsetPosition = new Vector3(0, 1.05f, 0);
     private Vector3 _weaponOffset;
 
@@ -46,8 +49,8 @@ public class Player : MonoBehaviour
     [Header("Attached GameObjects")]
     [SerializeField] private Laser _laserPrefab;
     [SerializeField] private GameObject _tripleLaserPrefab;
-    [SerializeField] private GameObject _aoeBombPrefab;
-    [SerializeField] private GameObject _homingShootPrefab;
+    [SerializeField] private AoeBomb _aoeBombPrefab;
+    [SerializeField] private HomingShoot _homingShootPrefab;
     [SerializeField] private GameObject _shieldVisualizer; 
     [SerializeField] private GameObject[] _fireOnEngine;
     [SerializeField] private GameObject _thrusterVisualizer;
@@ -221,13 +224,20 @@ public class Player : MonoBehaviour
        
         if (_isTripleLaserEnable)
         {
-             Instantiate(_tripleLaserPrefab, transform.position, Quaternion.identity);
-            
+             GameObject tripleLaser = Instantiate(_tripleLaserPrefab, transform.position, Quaternion.identity);
+            foreach (Transform child in tripleLaser.transform)
+            {
+                Laser laser = child.GetComponent<Laser>();
+                if (laser != null)
+                {
+                    laser.Initialize(Vector3.up, _laserSpeed,false);
+                }
+            }
         }
         else
         {
             Laser laserObject = Instantiate(_laserPrefab, _weaponOffset, Quaternion.identity);
-            laserObject.Initialize(Vector3.up, false);
+            laserObject.Initialize(Vector3.up, _laserSpeed, false);
         }        
         
         
@@ -238,8 +248,8 @@ public class Player : MonoBehaviour
         _fireDelayControl = Time.time + _fireRate;
         _weaponOffset = transform.position + _laserOffsetPosition;
 
-        Instantiate(_aoeBombPrefab, _weaponOffset, Quaternion.identity);        
-    
+        AoeBomb aoebombObject = Instantiate(_aoeBombPrefab, _weaponOffset, Quaternion.identity);        
+        aoebombObject.Initialize(Vector3.up, _aoeBombSpeed, false);
     }
 
     private void FireHomingShoot()
@@ -247,8 +257,10 @@ public class Player : MonoBehaviour
         _fireDelayControl = Time.time + _fireRate;
         _weaponOffset = transform.position + _laserOffsetPosition;
 
-        Instantiate(_homingShootPrefab, _weaponOffset, Quaternion.identity);
-    }
+        HomingShoot homingObject = Instantiate(_homingShootPrefab, _weaponOffset, Quaternion.identity);
+        homingObject.Initialize(Vector3.up, _homingSpeed, false);
+    }    
+
     public void DamagePlayer()
     {
         

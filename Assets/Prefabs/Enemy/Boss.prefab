@@ -206,7 +206,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _bossPhase: 0
-  _bossHealth: 1000
+  _bossHealth: 500
   _speed: 2
   _laserPrefab: {fileID: 8675887681110026092, guid: 3ed94ccddb5cf7443b29408ad7ec39fe,
     type: 3}
@@ -214,11 +214,13 @@ MonoBehaviour:
     type: 3}
   _angle: 270
   _angleIncrease: 15
-  _fireRate: 0.4
-  _fireRatePhase2: 0.1
-  _beamTimeToLive: 3
+  _fireRate: 0.5
+  _fireRatePhase2: 0.3
+  _fireRatePhase3: 0.1
+  _beamTimeToLive: 4
+  _beamCooldown: 3
   _beamClockwise: 0
-  _rightBeamInitialRotation: 0
+  _rightBeamInitialRotation: 30
   _leftBeamInitialRotation: -180
   _beamOffset:
   - {fileID: 8143981751443493206}

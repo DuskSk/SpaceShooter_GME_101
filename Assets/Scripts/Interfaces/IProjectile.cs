@@ -4,8 +4,8 @@ using UnityEngine;
 
 public interface IProjectile
 {
-    void Move();
-    void Initialize(Vector3 direction, bool isEnemy);
+    void Move();  
 
+    void Initialize(Vector3 direction, float speed, bool isEnemy);
 
 }

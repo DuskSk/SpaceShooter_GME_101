@@ -27,8 +27,9 @@ public class MultiShoot : MonoBehaviour, IProjectile
             Destroy(this.gameObject);
         }
     }
+    
 
-    public void Initialize(Vector3 direction, bool isEnemy = true)
+    public void Initialize(Vector3 direction, float speed, bool isEnemy = true)
     {
         _direction = direction;      
         

@@ -55,20 +55,22 @@ public class Laser : MonoBehaviour, IProjectile
         
     }
     
-    public void Initialize(Vector3 direction, bool isEnemy)
+    public void Initialize(Vector3 direction, float speed, bool isEnemy)
     {
         Debug.Log("Laser script: " + _direction);
         _direction = direction;
-        _isEnemyLaser = isEnemy;  
+        _isEnemyLaser = isEnemy;
+        _laserSpeed = speed;
 
     }
 
-    public void Initialize(Vector3 direction, bool isEnemy,Space spaceRelativeTo = Space.Self)
+    public void Initialize(Vector3 direction, float speed , bool isEnemy, Space spaceRelativeTo = Space.Self)
     {
         Debug.Log("Laser script: " + _direction);
         _direction = direction;
         _isEnemyLaser = isEnemy;
         _spaceRelativeTo = spaceRelativeTo;
+        _laserSpeed = speed;
 
     }
 
