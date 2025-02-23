@@ -135,7 +135,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _speed: 6
-  _yLimitToDestroy: -6
+  _yLimitToDestroy: -12
   _audioClip: {fileID: 8300000, guid: 5ee343246919d2b4bba63ae629e95494, type: 3}
   _powerUpType: 1
 --- !u!95 &2590974425892645136

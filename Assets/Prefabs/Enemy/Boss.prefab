@@ -24,7 +24,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1228950733326495114}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.16, y: -0.161, z: 0}
+  m_LocalPosition: {x: -1, y: -1, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 8748689758413725241}
@@ -54,7 +54,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8143981751443493206}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.16, y: -0.161, z: 0}
+  m_LocalPosition: {x: 1, y: -1, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 8748689758413725241}
@@ -70,9 +70,9 @@ GameObject:
   m_Component:
   - component: {fileID: 8748689758413725241}
   - component: {fileID: 5356393642348486509}
-  - component: {fileID: 3912098596989351405}
-  - component: {fileID: 7634510596393914853}
   - component: {fileID: 49605025220586570}
+  - component: {fileID: 3912098596989351405}
+  - component: {fileID: 2022778814477179294}
   m_Layer: 12
   m_Name: Boss
   m_TagString: Boss
@@ -89,7 +89,7 @@ Transform:
   m_GameObject: {fileID: 8748689758413725245}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -8.31, y: 3.27, z: 0}
-  m_LocalScale: {x: 10, y: 10, z: 1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 6688565674286862692}
   - {fileID: 1421427697041142592}
@@ -135,10 +135,10 @@ SpriteRenderer:
   m_SortingLayerID: 42678075
   m_SortingLayer: 2
   m_SortingOrder: 1
-  m_Sprite: {fileID: 21300000, guid: 481a21985f8bdc64882f08c5c9e51707, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 8bbc087e9e380f5489f352c3a3b9d608, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_FlipX: 0
-  m_FlipY: 0
+  m_FlipX: 1
+  m_FlipY: 1
   m_DrawMode: 0
   m_Size: {x: 5.12, y: 5.12}
   m_AdaptiveModeThreshold: 0.5
@@ -146,6 +146,39 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &49605025220586570
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8748689758413725245}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 610dd2c60901d2d4a8149fca02b8d38a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _bossPhase: 0
+  _bossHealth: 500
+  _speed: 3
+  _laserPrefab: {fileID: 8675887681110026092, guid: 3ed94ccddb5cf7443b29408ad7ec39fe,
+    type: 3}
+  _beamPrefab: {fileID: 5949149549762278269, guid: 6275a00ea9feb084e8e6b897712e33a6,
+    type: 3}
+  _angle: 270
+  _angleIncrease: 15
+  _fireRate: 0.5
+  _fireRatePhase2: 0.3
+  _fireRatePhase3: 0.1
+  _shootSpeed: 3
+  _beamTimeToLive: 4
+  _beamCooldown: 3
+  _beamClockwise: 0
+  _rightBeamInitialRotation: 30
+  _leftBeamInitialRotation: -180
+  _beamOffset:
+  - {fileID: 8143981751443493206}
+  - {fileID: 1228950733326495114}
 --- !u!50 &3912098596989351405
 Rigidbody2D:
   serializedVersion: 4
@@ -167,8 +200,8 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
---- !u!61 &7634510596393914853
-BoxCollider2D:
+--- !u!70 &2022778814477179294
+CapsuleCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -180,48 +213,6 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 0.64, y: 0.64}
-    newSize: {x: 5.12, y: 5.12}
-    adaptiveTilingThreshold: 0.5
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  serializedVersion: 2
-  m_Size: {x: 0.48471564, y: 0.4821902}
-  m_EdgeRadius: 0
---- !u!114 &49605025220586570
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8748689758413725245}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 610dd2c60901d2d4a8149fca02b8d38a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _bossPhase: 0
-  _bossHealth: 500
-  _speed: 2
-  _laserPrefab: {fileID: 8675887681110026092, guid: 3ed94ccddb5cf7443b29408ad7ec39fe,
-    type: 3}
-  _beamPrefab: {fileID: 5949149549762278269, guid: 6275a00ea9feb084e8e6b897712e33a6,
-    type: 3}
-  _angle: 270
-  _angleIncrease: 15
-  _fireRate: 0.5
-  _fireRatePhase2: 0.3
-  _fireRatePhase3: 0.1
-  _beamTimeToLive: 4
-  _beamCooldown: 3
-  _beamClockwise: 0
-  _rightBeamInitialRotation: 30
-  _leftBeamInitialRotation: -180
-  _beamOffset:
-  - {fileID: 8143981751443493206}
-  - {fileID: 1228950733326495114}
+  m_Offset: {x: 0, y: -0.026668072}
+  m_Size: {x: 2.6886067, y: 3.8008118}
+  m_Direction: 0
