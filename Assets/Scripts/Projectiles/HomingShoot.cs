@@ -67,7 +67,7 @@ public class HomingShoot : MonoBehaviour, IProjectile
         }
 
         _enemyCollider = Physics2D.OverlapCircle(transform.position, _detectionRadius, _enemyLayer);
-        if (_enemyCollider != null && _enemyCollider.CompareTag("Enemy"))
+        if (_enemyCollider != null && (_enemyCollider.CompareTag("Enemy") || _enemyCollider.CompareTag("Boss")))
         {
             Debug.Log("Enemy detected");
             _homingState = HomingState.Homing;

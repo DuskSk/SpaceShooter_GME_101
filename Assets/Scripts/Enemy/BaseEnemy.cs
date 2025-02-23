@@ -12,13 +12,14 @@ public abstract class BaseEnemy : MonoBehaviour
     [SerializeField] protected float _detectionRadius = 3f;
     [SerializeField] protected float _projectileSpeed = 8f;
     protected Animator _animator;
-    protected float _delayToDestroyEnemy = 2.6f;
+    [SerializeField] protected float _delayToDestroyEnemy = 2.6f;
     protected AudioManager _audioManager;
     protected SpawnManager _spawnManager;
     protected Collider2D _myCollider2D;
     protected Player _player;
     protected Camera _mainCamera;
     protected ParticleSystem _shieldParticle;
+    protected GameObject _engineObject;
 
     private bool _isPlayerNearby = false;
     private Vector3 _targetPosition;
@@ -28,7 +29,7 @@ public abstract class BaseEnemy : MonoBehaviour
 
     protected virtual void Start()
     {
-                
+        _engineObject = transform.GetChild(0).gameObject;
         _animator = GetComponent<Animator>();
         _audioManager = GameObject.FindGameObjectWithTag("Audio_Manager").GetComponent<AudioManager>();        
         _spawnManager = GameObject.FindGameObjectWithTag("Spawn_Manager").GetComponent<SpawnManager>();        
@@ -97,14 +98,28 @@ public abstract class BaseEnemy : MonoBehaviour
             return;
         }
 
-        _myCollider2D.enabled = false;
-        _animator.SetTrigger("OnEnemyDeath");
-        _enemySpeed = 0f;
-        _audioManager.PlayExplosionAudio();
-        WaveManager.Instance.ReduceEnemyCount();        
-        _player.UpdatePlayerScore(_enemyScoreValue);
-        StopAllCoroutines();
-        Destroy(gameObject, _delayToDestroyEnemy);
+        try
+        {
+            _engineObject.SetActive(false);
+            CancelInvoke(nameof(DetectPlayerNearby));
+            _myCollider2D.enabled = false;
+            _animator.SetTrigger("OnEnemyDeath");
+            _enemySpeed = 0f;
+            _audioManager.PlayExplosionAudio();
+            WaveManager.Instance.ReduceEnemyCount();
+            _player.UpdatePlayerScore(_enemyScoreValue);
+            StopAllCoroutines();
+        }
+        catch (System.Exception e)
+        {
+            Debug.LogError("Error on StartOnDeathEffects: " + e.Message);
+        }
+        finally
+        {
+            Destroy(gameObject, _delayToDestroyEnemy);
+        }
+
+        
     }
 
     protected virtual void EnableShieldOnStart()
@@ -138,13 +153,13 @@ public abstract class BaseEnemy : MonoBehaviour
                 StartOnDeathEffects();
                 break;
             case "Laser":
+                Debug.Log("Laser hit enemy");   
                 Laser laser = other.GetComponent<Laser>();
                 if (!laser.IsEnemyLaser)
                 {
 
                     Destroy(other.gameObject);
                     StartOnDeathEffects();
-
                 }
                 break;
             case "Bomb":
@@ -152,6 +167,7 @@ public abstract class BaseEnemy : MonoBehaviour
                 StartOnDeathEffects();
                 break;
         }
+        return;
 
                 //if (other.CompareTag("Player"))
                 //{

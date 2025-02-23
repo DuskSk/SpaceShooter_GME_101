@@ -10,10 +10,11 @@ public class BossOne : BaseBoss
 
     [Header("Spiral Attack Cnfiguration")]
     [SerializeField] protected float _angle = 270f; // 🔹 Começa atirando para baixo (270°)
-    [SerializeField] protected float _angleIncrease = 15f; // 🔹 Define o quanto o ângulo gira a cada tiro
+    [SerializeField] protected float _angleIncrease = 15f; // 🔹 Define o quanto o ângulo gira a cada tir
     [SerializeField] protected float _fireRate = 0.5f; // 🔹 Tempo entre cada tiro
     [SerializeField] protected float _fireRatePhase2 = 0.3f;
     [SerializeField] protected float _fireRatePhase3 = 0.1f;
+    [SerializeField] protected float _shootSpeed = 2f;
 
     [Header("Beam Attack Configuration")]
     [SerializeField] protected float _beamTimeToLive = 5f;
@@ -83,7 +84,7 @@ public class BossOne : BaseBoss
 
         if (_laser != null)
         {
-            _laser.Initialize(direction, true, Space.World);
+            _laser.Initialize(direction, _shootSpeed,true, Space.World);
         }
         
     }

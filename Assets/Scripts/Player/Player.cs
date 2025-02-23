@@ -21,7 +21,7 @@ public class Player : MonoBehaviour
     [SerializeField] private float _fireRate = 0.5f;
     private float _fireDelayControl = -1f;
 
-    [SerializeField] private int _maxAmmoAmount = 15;
+    [SerializeField] private int _maxAmmoAmount = default;
     private int _currentAmmo;
 
     [SerializeField] private int _lives = 3; 

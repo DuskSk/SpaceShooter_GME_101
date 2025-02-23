@@ -51,7 +51,8 @@ public class UIManager : MonoBehaviour
         _scoreText.text = $"Score: {0}";
         _ammoText.text = $"Ammo: {15}";
         _gameOverText.gameObject.SetActive(false);
-        _reloadText.gameObject.SetActive(false);                
+        _reloadText.gameObject.SetActive(false); 
+        _bossHealthSlider.gameObject.SetActive(false);
         _maxChargeValue = _chargeSlider.maxValue;      
 
         
@@ -120,9 +121,7 @@ public class UIManager : MonoBehaviour
 
     }
 
-    //TODO
-    //create boss HP slider
-    //implement final boss battle UI elements
+   
     public void UpdateBossHealthSlider(float currentHealth)
     {
         _bossHealthSlider.value = currentHealth;
@@ -134,6 +133,7 @@ public class UIManager : MonoBehaviour
 
     public void SetBossHealth(float hpValue)
     {
+        _bossHealthSlider.gameObject.SetActive(true);
         _bossHealthSlider.maxValue = hpValue;
     }
 

@@ -52,6 +52,10 @@ public class SpawnManager : MonoBehaviour
     [SerializeField] private float _zzMaxSpawnRangeY;
     [SerializeField] private float _zzSpawnRangeX;
 
+    [Header("Boss Spawn Configuration")]
+    [SerializeField] private GameObject _bossPrefab;
+    [SerializeField] private Vector3 _bossSpawnPosition;
+
     [Header("Wave Configuration")]       
     private bool _isGameOver = false;
 
@@ -111,8 +115,8 @@ public class SpawnManager : MonoBehaviour
 
     public void SpawnBoss()
     {
-        // TODO
-        // Implement Boss Spawn
+
+        Instantiate(_bossPrefab, _bossSpawnPosition, Quaternion.identity);        
     }
 
 
@@ -204,7 +208,7 @@ public class SpawnManager : MonoBehaviour
     {
         yield return new WaitForSeconds(_delayToStartDebuffSpawnRoutine);
         while (_isSpawning)
-        {
+        {            
             Vector3 spawnPosition = new Vector3(Random.Range(_minSpawnRangeX, _maxSpawnRangeX), _spawnRangeY, 0);
             int debuffRandomId = Random.Range(0, _debuffPrefab.Length);
             Instantiate(_debuffPrefab[debuffRandomId], spawnPosition, Quaternion.identity);

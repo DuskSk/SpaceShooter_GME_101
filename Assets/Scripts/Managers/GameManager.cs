@@ -6,8 +6,13 @@ public  class GameManager : MonoBehaviour
         
 
     private void Awake()
-    {       
+    {      
 
+        
+    }
+
+    private void Start()
+    {        
         if (WaveManager.Instance == null)
         {
             Debug.LogError("WaveManager is NULL");
@@ -17,11 +22,8 @@ public  class GameManager : MonoBehaviour
         {
             Debug.LogError("SpawnManager is NULL");
         }
-    }
-
-    private void Start()
-    {
-        //WaveManager.Instance.StartWave();
+        WaveManager.Instance.StartWave();
+        WaveManager.Instance.StartPowerupSpawn();
     }
 
     void Update()

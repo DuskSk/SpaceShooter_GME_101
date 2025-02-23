@@ -170,6 +170,7 @@ public class Enemy : BaseEnemy
     protected void StartEvade()
     {
         _enemyState = EnemyState.Evading;
+        _evasionCollider.enabled = false;
 
         Vector3 evadeDirection = (Random.value > 0.5f) ? Vector3.left : Vector3.right;
 
@@ -177,12 +178,14 @@ public class Enemy : BaseEnemy
 
         _lastEvadeTime = Time.time + _evadeCooldown;
 
-        Invoke("StopEvade", _evadeDuration);
+        Invoke("StopEvade", _evadeCooldown);
     }
 
     protected void StopEvade()
     {
         _enemyState = EnemyState.Move;
+        _evasionCollider.enabled = true;
+
     }
 
     private IEnumerator LaserShootingCoroutine()
@@ -200,9 +203,11 @@ public class Enemy : BaseEnemy
         
     }
 
+
+
     protected override void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.CompareTag("Laser") && _enemyState == EnemyState.Move )
+        if (other.CompareTag("Laser") && _enemyState == EnemyState.Move && _evasionCollider.isActiveAndEnabled)
         {
             if (other.IsTouching(_evasionCollider))
             {
@@ -216,16 +221,18 @@ public class Enemy : BaseEnemy
 
                     }
                 }
-            }
+            }      
             
             
 
         }
-        else if((other.CompareTag("Laser") || other.CompareTag("Bomb")) && other.IsTouching(_myCollider2D))
+        
+        else if(other.IsTouching(_myCollider2D))
         {
             base.OnTriggerEnter2D(other);
         }
-        
+
+
 
 
     }

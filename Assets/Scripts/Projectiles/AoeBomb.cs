@@ -7,12 +7,12 @@ public class AoeBomb : MonoBehaviour, IProjectile
     [SerializeField] private float _yBombLimit = 7.5f;
     private Vector3 _direction;
 
-    private CircleCollider2D _circleCollider;
+    private CircleCollider2D _myCollider;
     private Transform _bombSprite;
     
     void Start()
     {
-        _circleCollider = GetComponent<CircleCollider2D>();
+        _myCollider = GetComponent<CircleCollider2D>();
         _bombSprite = GetComponentInChildren<Transform>();
     }
 
@@ -46,6 +46,27 @@ public class AoeBomb : MonoBehaviour, IProjectile
     {
         _bombSprite.transform.localScale = new Vector3(9f, 9f, 0);
     }
+
+    private void BombAoeExplosionEffect()
+    {
+        _bombSpeed = 0f;
+        //if(_radiusCoroutine == null)
+        //{                
+        //    _radiusCoroutine = StartCoroutine(IncreaseBombRadiusRoutine());
+        //    Debug.LogWarning("New radius Coroutine started");
+        //}            
+        Collider2D[] colliderList = Physics2D.OverlapCircleAll(transform.position, _bombMaxRadius);
+        IncreaseBombImageScale();
+        for (int i = 0; i < colliderList.Length; i++)
+        {
+            Debug.Log(colliderList[i].tag);
+            if (colliderList[i].CompareTag("Enemy"))
+            {
+                colliderList[i].gameObject.GetComponent<BaseEnemy>().StartOnDeathEffects();
+
+            }
+        }
+    }
     
 
     private void OnTriggerEnter2D(Collider2D other)
@@ -53,26 +74,16 @@ public class AoeBomb : MonoBehaviour, IProjectile
           
         if (other.CompareTag("Enemy"))
         {
-            _bombSpeed = 0f;            
-            //if(_radiusCoroutine == null)
-            //{                
-            //    _radiusCoroutine = StartCoroutine(IncreaseBombRadiusRoutine());
-            //    Debug.LogWarning("New radius Coroutine started");
-            //}            
-            Collider2D[] colliderList = Physics2D.OverlapCircleAll(transform.position, _bombMaxRadius);
-            IncreaseBombImageScale();
-            for (int i = 0; i < colliderList.Length;i++)
+            BoxCollider2D enemyBoxCollider = other.GetComponent<BoxCollider2D>();
+
+            if (_myCollider.IsTouching(enemyBoxCollider))
             {
-                Debug.Log(colliderList[i].tag);
-                if (colliderList[i].CompareTag("Enemy"))
-                {
-                    colliderList[i].gameObject.GetComponent<BaseEnemy>().StartOnDeathEffects();
+                BombAoeExplosionEffect();
+                _myCollider.enabled = false;
+                Destroy(this.gameObject, 0.5f);
+            }       
 
-                }
-            }
-
-            _circleCollider.enabled = false;
-            Destroy(this.gameObject, 0.5f);
+            
             
         }
         

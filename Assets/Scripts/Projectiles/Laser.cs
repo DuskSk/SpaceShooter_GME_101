@@ -21,7 +21,7 @@ public class Laser : MonoBehaviour, IProjectile
 
     void Start()
     {
-        AudioSource.PlayClipAtPoint(_laserAudioClip, transform.position);
+        AudioSource.PlayClipAtPoint(_laserAudioClip, transform.position, 0.1f);
         
     }
     

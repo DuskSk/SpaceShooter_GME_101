@@ -31,7 +31,7 @@ public class WaveManager : MonoBehaviour
 
     private void Start()
     {
-        //StartWave();
+        
     }
 
     public void StartWave()
@@ -53,14 +53,14 @@ public class WaveManager : MonoBehaviour
         else
         {
             SpawnManager.Instance.SpawnEnemies(_totalEnemies);
-            StartPowerupSpawn();    
+              
 
         }
         _totalEnemies = (int)(_totalEnemies * _waveMultiplier);
 
     }
 
-    private void StartPowerupSpawn()
+    public void StartPowerupSpawn()
     {
         SpawnManager.Instance.SpawnPowerups();
         SpawnManager.Instance.SpawnDebuffs();

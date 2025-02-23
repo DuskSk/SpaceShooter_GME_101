@@ -63,8 +63,8 @@ public abstract class BaseBoss : MonoBehaviour
                 }
                 break;
             case "Bomb":
-                //TODO
-                //Implement bomb damage
+
+                Destroy(other.gameObject);
                 TakeDamage(30f);
                 break;
         }
