@@ -186,7 +186,7 @@ MonoBehaviour:
   _enemyScoreValue: 10
   _enemySpeed: 1
   _enemyChargeSpeed: 6
-  _chanceToEnableShield: 0.1
+  _chanceToEnableShield: 0.9
   _isShieldEnabled: 0
   _detectionRadius: 4
   _projectileSpeed: 10
@@ -219,7 +219,7 @@ ParticleSystem:
   m_GameObject: {fileID: 7635470433513147934}
   serializedVersion: 6
   lengthInSec: 1
-  simulationSpeed: 1.79
+  simulationSpeed: 1.07
   stopAction: 0
   cullingMode: 0
   ringBufferMode: 0
@@ -283,9 +283,9 @@ ParticleSystem:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-  moveWithTransform: 0
-  moveWithCustomTransform: {fileID: 0}
-  scalingMode: 1
+  moveWithTransform: 2
+  moveWithCustomTransform: {fileID: 7635470433513147930}
+  scalingMode: 2
   randomSeed: 0
   InitialModule:
     serializedVersion: 3
@@ -4912,9 +4912,9 @@ ParticleSystemRenderer:
   m_SortMode: 0
   m_MinParticleSize: 0
   m_MaxParticleSize: 0.09
-  m_CameraVelocityScale: 15.7
-  m_VelocityScale: -0.46
-  m_LengthScale: 2
+  m_CameraVelocityScale: 0
+  m_VelocityScale: 0.1
+  m_LengthScale: 1.3
   m_SortingFudge: 0
   m_NormalDirection: 1
   m_ShadowBias: 0

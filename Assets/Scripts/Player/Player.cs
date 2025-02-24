@@ -442,7 +442,7 @@ public class Player : MonoBehaviour
 
     IEnumerator HomingShootCooldownRoutine()
     {
-        yield return new WaitForSeconds(3f);
+        yield return new WaitForSeconds(5f);
         _isHomingShootEnable = false;
     }
 
@@ -450,7 +450,7 @@ public class Player : MonoBehaviour
     {
          float currentSpeed = _baseSpeed;
         _baseSpeed *= 0.2f;
-        yield return new WaitForSeconds(7f);
+        yield return new WaitForSeconds(5f);
         _baseSpeed = currentSpeed;
     }
     #endregion

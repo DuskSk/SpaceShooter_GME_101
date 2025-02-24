@@ -11,19 +11,11 @@ public abstract class BaseWeapon : MonoBehaviour
 
     protected Vector3 _viewportPosition;
     protected Camera _mainCamera;
-    
-    
-    
-    void Start()
-    {
-        
-    }
 
-    
-    void Update()
-    {
-        
-    }
+    //TODO
+    //Implement Base class on other weapon classes
+    //homing, laser, triple shot, etc.
+
 
     protected abstract void Move();
 
