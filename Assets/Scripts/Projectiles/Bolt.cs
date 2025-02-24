@@ -7,6 +7,7 @@ public class Bolt : BaseWeapon, IProjectile
     void Start()
     {
         InvokeRepeating(nameof(RepeatScreenChecking), 0.1f, 0.5f);
+        _mainCamera = Camera.main;
     }
 
     
@@ -23,7 +24,7 @@ public class Bolt : BaseWeapon, IProjectile
 
     private void RepeatScreenChecking()
     {
-        this.DestroyOnScreenExit(transform.position, this.gameObject);
+        this.DestroyOnScreenExit(transform.position, this.gameObject, this._mainCamera);
     }
     public override void Initialize(Vector3 direction, float speed, bool isEnemy = false)
     {

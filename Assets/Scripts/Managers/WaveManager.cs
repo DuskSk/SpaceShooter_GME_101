@@ -37,9 +37,9 @@ public class WaveManager : MonoBehaviour
         }
 
         _enemiesRemaining = _totalEnemies;
-        
-        Debug.Log($"Wave {_currentWave} has started with {_totalEnemies} enemies");
         _currentWave++;
+        Debug.Log($"Wave {_currentWave} has started with {_totalEnemies} enemies");
+        
         if (IsBossWave())
         {
             SpawnManager.Instance.SpawnBoss();

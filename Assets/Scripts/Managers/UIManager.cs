@@ -10,6 +10,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] private TMP_Text _gameOverText;
     [SerializeField] private TMP_Text _reloadText;
     [SerializeField] private TMP_Text _ammoText;
+    private int _playerScore = 0;
 
     [Header("Player UI")]
     [SerializeField] private Player _player;
@@ -97,7 +98,8 @@ public class UIManager : MonoBehaviour
 
     public void UpdateScoreText(int playerScore)
     {
-        _scoreText.text = $"Score: {playerScore}";
+        _playerScore += playerScore;
+        _scoreText.text = $"Score: {_playerScore}";
     }
 
     public void UpdateAmmoText(int ammoAmount)

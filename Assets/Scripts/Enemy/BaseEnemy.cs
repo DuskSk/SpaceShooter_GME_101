@@ -26,6 +26,9 @@ public abstract class BaseEnemy : MonoBehaviour
     private float _ramAttackCooldown = 2f;
     private float _ramLastAttackTime = -Mathf.Infinity;
 
+    private enum EnemyDeathState { Move, Explode, Dead };
+    private EnemyDeathState _enemyDeathState = EnemyDeathState.Move;
+
 
     protected virtual void Start()
     {
@@ -33,7 +36,7 @@ public abstract class BaseEnemy : MonoBehaviour
         _animator = GetComponent<Animator>();
         _audioManager = GameObject.FindGameObjectWithTag("Audio_Manager").GetComponent<AudioManager>();        
         _spawnManager = GameObject.FindGameObjectWithTag("Spawn_Manager").GetComponent<SpawnManager>();        
-        _player = FindObjectOfType<Player>().GetComponent<Player>();
+        
         _mainCamera = Camera.main;
         _shieldParticle = GetComponent<ParticleSystem>();
         EnableShieldOnStart();
@@ -98,26 +101,33 @@ public abstract class BaseEnemy : MonoBehaviour
             return;
         }
 
-        try
+        if (_enemyDeathState == EnemyDeathState.Move)
         {
-            _engineObject.SetActive(false);
-            CancelInvoke(nameof(DetectPlayerNearby));
-            _myCollider2D.enabled = false;
-            _animator.SetTrigger("OnEnemyDeath");
-            _enemySpeed = 0f;
-            _audioManager.PlayExplosionAudio();
-            WaveManager.Instance.ReduceEnemyCount();
-            _player.UpdatePlayerScore(_enemyScoreValue);
-            StopAllCoroutines();
+            try
+            {
+                _enemyDeathState = EnemyDeathState.Explode;
+                _engineObject.SetActive(false);
+                CancelInvoke(nameof(DetectPlayerNearby));
+                _myCollider2D.enabled = false;
+                _animator.SetTrigger("OnEnemyDeath");
+                _enemySpeed = 0f;
+                _audioManager.PlayExplosionAudio();
+                UIManager.Instance.UpdateScoreText(_enemyScoreValue);
+                WaveManager.Instance.ReduceEnemyCount();
+                StopAllCoroutines();
+            }
+            catch (System.Exception e)
+            {
+                Debug.LogError("Error on StartOnDeathEffects: " + e.Message);
+            }
+            finally
+            {
+                _enemyDeathState = EnemyDeathState.Dead;
+                Destroy(gameObject, _delayToDestroyEnemy);
+            }
         }
-        catch (System.Exception e)
-        {
-            Debug.LogError("Error on StartOnDeathEffects: " + e.Message);
-        }
-        finally
-        {
-            Destroy(gameObject, _delayToDestroyEnemy);
-        }
+        
+        
 
         
     }

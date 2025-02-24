@@ -21,7 +21,8 @@ public class WaveEnemy : BaseEnemy
         _myCollider2D = GetComponent<BoxCollider2D>();
         _startPosition = transform.position;        
         StartCoroutine(LaserShootingCoroutine());
-        
+        InvokeRepeating(nameof(CheckIfEnemyHasLeftScreen), 1f, 0.5f);
+
     }
 
     protected override void Update()
@@ -37,14 +38,12 @@ public class WaveEnemy : BaseEnemy
 
         transform.position = new Vector3(_xCalculation + transform.position.x, _yCalculation + _startPosition.y, 0);
         
-        CheckIfEnemyHasLeftScreen();
-
     }
 
     protected override void CheckIfEnemyHasLeftScreen()
     {
         // Check if the enemy has left the screen horizontally using viewport coordinates
-        Vector3 viewportPosition = _mainCamera.WorldToViewportPoint(transform.position);
+        Vector3 viewportPosition = this._mainCamera.WorldToViewportPoint(transform.position);
         if (viewportPosition.x > 1 + _screenOffset || viewportPosition.x < 0 - _screenOffset)
         {
             float newXPosition = (_waveDirection == Direction.LeftToRight) ? -_screenOffset : 1 + _screenOffset;

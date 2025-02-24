@@ -266,7 +266,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fd9863146a54b54438b5adab827b3a62, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _enemyScoreValue: 15
+  _enemyScoreValue: 20
   _enemySpeed: 2
   _enemyChargeSpeed: 7
   _chanceToEnableShield: 0.1

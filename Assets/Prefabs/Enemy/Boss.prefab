@@ -173,10 +173,10 @@ MonoBehaviour:
   _fireRatePhase2: 0.3
   _fireRatePhase3: 0.1
   _shootSpeed: 5
-  _beamTimeToLive: 4
+  _beamTimeToLive: 3
   _beamCooldown: 3
   _beamClockwise: 0
-  _rightBeamInitialRotation: 30
+  _rightBeamInitialRotation: 0
   _leftBeamInitialRotation: -180
   _beamOffset:
   - {fileID: 8143981751443493206}

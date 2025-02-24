@@ -16,7 +16,7 @@ public abstract class BaseWeapon : MonoBehaviour
     
     void Start()
     {
-        _mainCamera = Camera.main;
+        
     }
 
     
@@ -29,9 +29,9 @@ public abstract class BaseWeapon : MonoBehaviour
 
     public abstract void Initialize(Vector3 direction, float speed, bool isEnemy = false);
 
-    protected virtual void DestroyOnScreenExit(Vector3 objectPosition, GameObject myGameObject)
+    protected virtual void DestroyOnScreenExit(Vector3 objectPosition, GameObject myGameObject, Camera mainCamera)
     {
-        _viewportPosition = _mainCamera.WorldToViewportPoint(objectPosition);
+        _viewportPosition = mainCamera.WorldToViewportPoint(objectPosition);
         if (_viewportPosition.x > 1 || _viewportPosition.x < 0 || _viewportPosition.y > 1 || _viewportPosition.y < 0)
         {
             Destroy(myGameObject);

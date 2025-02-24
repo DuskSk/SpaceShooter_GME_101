@@ -514,7 +514,7 @@ MonoBehaviour:
   _homingSpeed: 7
   _aoeBombSpeed: 7
   _laserOffsetPosition: {x: 0, y: 1.05, z: 0}
-  _fireRate: 0.1
+  _fireRate: 0.15
   _maxAmmoAmount: 20
   _lives: 3
   _yLimitUp: 9
@@ -541,7 +541,7 @@ MonoBehaviour:
   _thrusterVisualizer: {fileID: 1489470706}
   _laserAudioClip: {fileID: 8300000, guid: 75676f361bdfeaf41a46623e95df3dbc, type: 3}
   _attractionRadius: 3.5
-  _attractionSpeed: 5
+  _attractionSpeed: 7
 --- !u!212 &498659302
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -1362,8 +1362,8 @@ MonoBehaviour:
   _delayToStartSpawnRoutine: 3
   _delayToStartPowerUpSpawnRoutine: 5
   _delayToStartDebuffSpawnRoutine: 3
-  _minPowerUpSpawnRate: 1
-  _maxPowerUpSpawnRate: 2
+  _minPowerUpSpawnRate: 2
+  _maxPowerUpSpawnRate: 3
   _minDebuffSpawnRate: 7
   _maxDebuffSpawnRate: 9
   _commonEnemyPrefab: {fileID: 7635470433513147934, guid: a6df7bdf58aaa984390443ec01836d7b,
@@ -1383,7 +1383,7 @@ MonoBehaviour:
   _uncommonMaxPercentage: 0.9
   _rareMaxPercentage: 1
   _commonEnemyMaxPercentage: 0.7
-  _uncommonEnemyMaxPercentage: 0.9
+  _uncommonEnemyMaxPercentage: 1
   _rareEnemyMaxPercentage: 0
 --- !u!4 &745990394
 Transform:
@@ -2510,10 +2510,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f584dd7c642e96a41a56c0d0d0341c50, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _totalWaves: 3
-  _totalEnemies: 3
-  _waveCooldown: 4
-  _waveMultiplier: 1.1
+  _totalWaves: 5
+  _totalEnemies: 5
+  _waveCooldown: 5
+  _waveMultiplier: 1.5
 --- !u!1 &1895423131
 GameObject:
   m_ObjectHideFlags: 0

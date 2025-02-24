@@ -419,11 +419,7 @@ public class Player : MonoBehaviour
     }
 
     #endregion
-    public void UpdatePlayerScore(int points)
-    {
-        _playerScore += points;
-        _uiManager.UpdateScoreText(_playerScore);
-    }
+    
 
     #region Coroutines
     IEnumerator SpeedBoostCooldownRoutine()
