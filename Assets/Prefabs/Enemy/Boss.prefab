@@ -165,12 +165,14 @@ MonoBehaviour:
     type: 3}
   _beamPrefab: {fileID: 5949149549762278269, guid: 6275a00ea9feb084e8e6b897712e33a6,
     type: 3}
+  _boltPrefab: {fileID: 431771871812435165, guid: 9fdd5dcf704b1d34da201da8f5955cff,
+    type: 3}
   _angle: 270
   _angleIncrease: 15
   _fireRate: 0.5
   _fireRatePhase2: 0.3
   _fireRatePhase3: 0.1
-  _shootSpeed: 3
+  _shootSpeed: 5
   _beamTimeToLive: 4
   _beamCooldown: 3
   _beamClockwise: 0

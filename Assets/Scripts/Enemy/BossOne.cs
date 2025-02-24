@@ -6,7 +6,9 @@ public class BossOne : BaseBoss
     [SerializeField] protected float _speed = 2f;
     [SerializeField] protected GameObject _laserPrefab;
     [SerializeField] protected GameObject _beamPrefab;
+    [SerializeField] protected GameObject _boltPrefab;
     private Laser _laser;
+    private Bolt _boltObject;  
 
     [Header("Spiral Attack Cnfiguration")]
     [SerializeField] protected float _angle = 270f; // 🔹 Começa atirando para baixo (270°)
@@ -89,6 +91,22 @@ public class BossOne : BaseBoss
         
     }
 
+    protected void FireBolt(Vector3 direction, Quaternion rotation)
+    {
+        if (_boltPrefab == null)
+        {
+            Debug.LogError("No Laser prefab detect on Boss");
+            return;
+        }
+
+        _boltObject = Instantiate(_boltPrefab, transform.position, rotation).GetComponent<Bolt>();
+
+        if (_boltObject != null)
+        {
+            _boltObject.Initialize(direction, _shootSpeed, true, Space.World);
+        }
+    }
+
     protected void FireLaserBeam()
     {
         GameObject beam1 = Instantiate(_beamPrefab, _beamOffset[0].transform.position, Quaternion.Euler(0,0,30f));
@@ -105,7 +123,7 @@ public class BossOne : BaseBoss
             // Convert the angle to a direction (unit vector)
             Vector3 direction = new Vector3(Mathf.Cos(_angle * Mathf.Deg2Rad), Mathf.Sin(_angle * Mathf.Deg2Rad), 0);
             Quaternion rotation = Quaternion.Euler(0, 0, _angle - 90f);
-            Fire(direction, rotation);
+            FireBolt(direction, rotation);
             _angle += _angleIncrease;
             if (_angle >= 360) _angle -= 360f; // Turn the angle counterclockwise
             switch (_bossPhase)

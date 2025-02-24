@@ -13,8 +13,7 @@ public class Enemy : BaseEnemy
     [SerializeField] private float _yTopRespawnPoint = 8f;
 
     [Header("Enemy Evasion Configuration")]
-    [SerializeField] private float _evadeSpeed = 4f;
-    [SerializeField] private float _evadeDuration = 1.5f;
+    [SerializeField] private float _evadeSpeed = 4f;    
     [SerializeField] private float _evadeCooldown = 3f;
     private float _lastEvadeTime = 0f;
     private CapsuleCollider2D _evasionCollider;
@@ -114,13 +113,14 @@ public class Enemy : BaseEnemy
                 _lastLaserTime = Time.time + _laserDelay;
                 Debug.Log("raycast detected Player:  " + _raycastHit2D[0].collider.tag);
             }
-            else
-            {
-                _isPlayerBehindEnemy = false;
-            }         
+                    
             
         }
-        
+        else
+        {
+            _isPlayerBehindEnemy = false;
+        }
+
         Debug.DrawRay(transform.position, Vector3.up * _rayDetectionDistance, Color.red);
         
     }
@@ -141,11 +141,12 @@ public class Enemy : BaseEnemy
                 _lastLaserTime = Time.time + _laserDelay;
                 Debug.Log("raycast detected Powerup:  " + _raycastHit2D[0].collider.tag);
             }
-            else
-            {
-                _isPowerupInFrontOfEnemy = false;
-            }
+            
 
+        }
+        else
+        {
+            _isPowerupInFrontOfEnemy = false;
         }
 
         Debug.DrawRay(transform.position, Vector3.down * _rayDetectionDistance, Color.green);

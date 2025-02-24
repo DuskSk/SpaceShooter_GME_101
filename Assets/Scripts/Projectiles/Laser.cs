@@ -84,7 +84,7 @@ public class Laser : MonoBehaviour, IProjectile
             player.DamagePlayer();
             DestroyLaser();
             
-        }else if (other.CompareTag("Powerup"))
+        }else if (other.CompareTag("Powerup") && !_isEnemyLaser)
         {
             Destroy(other.gameObject);
             DestroyLaser();

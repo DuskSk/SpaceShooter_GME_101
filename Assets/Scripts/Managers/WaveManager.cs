@@ -1,5 +1,4 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class WaveManager : MonoBehaviour
@@ -7,8 +6,7 @@ public class WaveManager : MonoBehaviour
     
     [SerializeField] private int _totalWaves;    
     [SerializeField] private int _totalEnemies;
-    [SerializeField] private float _waveCooldown;
-    [SerializeField] private float _wavePowerupCooldown = 5f;
+    [SerializeField] private float _waveCooldown;    
     [SerializeField] private float _waveMultiplier;
     private int _enemiesRemaining;
     private int _currentWave;
@@ -28,11 +26,7 @@ public class WaveManager : MonoBehaviour
             Destroy(this);
         }
     }
-
-    private void Start()
-    {
-        
-    }
+    
 
     public void StartWave()
     {

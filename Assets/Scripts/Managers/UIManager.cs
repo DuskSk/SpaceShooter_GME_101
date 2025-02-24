@@ -48,8 +48,7 @@ public class UIManager : MonoBehaviour
 
     void Start()
     {
-        _scoreText.text = $"Score: {0}";
-        _ammoText.text = $"Ammo: {15}";
+        _scoreText.text = $"Score: {0}";        
         _gameOverText.gameObject.SetActive(false);
         _reloadText.gameObject.SetActive(false); 
         _bossHealthSlider.gameObject.SetActive(false);

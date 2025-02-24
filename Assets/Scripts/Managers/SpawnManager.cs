@@ -54,10 +54,7 @@ public class SpawnManager : MonoBehaviour
 
     [Header("Boss Spawn Configuration")]
     [SerializeField] private GameObject _bossPrefab;
-    [SerializeField] private Vector3 _bossSpawnPosition;
-
-    [Header("Wave Configuration")]       
-    private bool _isGameOver = false;
+    [SerializeField] private Vector3 _bossSpawnPosition;    
 
 
     [Header("PowerUp Rarity Range Control")]

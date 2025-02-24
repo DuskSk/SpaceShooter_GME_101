@@ -270,7 +270,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &136890225
 RectTransform:
   m_ObjectHideFlags: 0
@@ -515,7 +515,7 @@ MonoBehaviour:
   _aoeBombSpeed: 7
   _laserOffsetPosition: {x: 0, y: 1.05, z: 0}
   _fireRate: 0.1
-  _maxAmmoAmount: 300
+  _maxAmmoAmount: 20
   _lives: 3
   _yLimitUp: 9
   _yLimitDown: -7
@@ -1364,7 +1364,7 @@ MonoBehaviour:
   _delayToStartDebuffSpawnRoutine: 3
   _minPowerUpSpawnRate: 1
   _maxPowerUpSpawnRate: 2
-  _minDebuffSpawnRate: 5
+  _minDebuffSpawnRate: 7
   _maxDebuffSpawnRate: 9
   _commonEnemyPrefab: {fileID: 7635470433513147934, guid: a6df7bdf58aaa984390443ec01836d7b,
     type: 3}
@@ -2042,7 +2042,7 @@ RectTransform:
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 14.7}
   m_SizeDelta: {x: 10, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -2083,75 +2083,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1241264417}
   m_CullTransparentMesh: 0
---- !u!1001 &1325016323
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 8748689758413725241, guid: 66ef4193fbb6ddd4daddcca81bc6f3a5,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 12
-      objectReference: {fileID: 0}
-    - target: {fileID: 8748689758413725241, guid: 66ef4193fbb6ddd4daddcca81bc6f3a5,
-        type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 1.22
-      objectReference: {fileID: 0}
-    - target: {fileID: 8748689758413725241, guid: 66ef4193fbb6ddd4daddcca81bc6f3a5,
-        type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 3.63
-      objectReference: {fileID: 0}
-    - target: {fileID: 8748689758413725241, guid: 66ef4193fbb6ddd4daddcca81bc6f3a5,
-        type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8748689758413725241, guid: 66ef4193fbb6ddd4daddcca81bc6f3a5,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8748689758413725241, guid: 66ef4193fbb6ddd4daddcca81bc6f3a5,
-        type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8748689758413725241, guid: 66ef4193fbb6ddd4daddcca81bc6f3a5,
-        type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8748689758413725241, guid: 66ef4193fbb6ddd4daddcca81bc6f3a5,
-        type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8748689758413725241, guid: 66ef4193fbb6ddd4daddcca81bc6f3a5,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8748689758413725241, guid: 66ef4193fbb6ddd4daddcca81bc6f3a5,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8748689758413725241, guid: 66ef4193fbb6ddd4daddcca81bc6f3a5,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8748689758413725245, guid: 66ef4193fbb6ddd4daddcca81bc6f3a5,
-        type: 3}
-      propertyPath: m_Name
-      value: Boss
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 66ef4193fbb6ddd4daddcca81bc6f3a5, type: 3}
 --- !u!1 &1402533215
 GameObject:
   m_ObjectHideFlags: 0
@@ -2582,7 +2513,6 @@ MonoBehaviour:
   _totalWaves: 3
   _totalEnemies: 3
   _waveCooldown: 4
-  _wavePowerupCooldown: 5
   _waveMultiplier: 1.1
 --- !u!1 &1895423131
 GameObject:
