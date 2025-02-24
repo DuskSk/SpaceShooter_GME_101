@@ -188,14 +188,13 @@ MonoBehaviour:
   _enemyChargeSpeed: 6
   _chanceToEnableShield: 0.1
   _isShieldEnabled: 0
-  _detectionRadius: 5
+  _detectionRadius: 4
   _projectileSpeed: 10
   _delayToDestroyEnemy: 0.5
   _xMinLimit: -18
   _xMaxLimit: 18
   _yTopRespawnPoint: 12
   _evadeSpeed: 60
-  _evadeDuration: 1.5
   _evadeCooldown: 6
   _laserOffsetPosition: {x: 0, y: -0.9, z: 0}
   _laserPrefab: {fileID: 8143371257873752616, guid: 3ed94ccddb5cf7443b29408ad7ec39fe,

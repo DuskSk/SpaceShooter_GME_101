@@ -107,9 +107,9 @@ public abstract class BaseEnemy : MonoBehaviour
             {
                 _enemyDeathState = EnemyDeathState.Explode;
                 _engineObject.SetActive(false);
-                CancelInvoke(nameof(DetectPlayerNearby));
-                _myCollider2D.enabled = false;
                 _animator.SetTrigger("OnEnemyDeath");
+                CancelInvoke(nameof(DetectPlayerNearby));
+                _myCollider2D.enabled = false;                
                 _enemySpeed = 0f;
                 _audioManager.PlayExplosionAudio();
                 UIManager.Instance.UpdateScoreText(_enemyScoreValue);

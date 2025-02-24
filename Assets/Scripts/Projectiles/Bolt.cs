@@ -6,8 +6,8 @@ public class Bolt : BaseWeapon, IProjectile
     
     void Start()
     {
-        InvokeRepeating(nameof(RepeatScreenChecking), 0.1f, 0.5f);
         _mainCamera = Camera.main;
+        InvokeRepeating(nameof(RepeatScreenChecking), 0.1f, 0.5f);        
     }
 
     
