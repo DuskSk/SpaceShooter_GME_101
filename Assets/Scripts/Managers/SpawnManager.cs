@@ -70,9 +70,24 @@ public class SpawnManager : MonoBehaviour
 
     private Camera _maincamera;
 
-    public static SpawnManager Instance { get; private set; }
+    #endregion
+
+    #region Variable for Local usage
+
+    private GameObject _enemyPrefab;
+    private GameObject _powerupPrefab;
+    private Vector3 _enemySpawnPosition, 
+        _viewportSpawnPosition, 
+        _powerupSpawnPosition,
+        _debuffSpawnPosition;
+    private int _powerupRandomId,
+        _debuffRandomId;
 
     #endregion
+
+    public static SpawnManager Instance { get; private set; }
+
+    
 
 
     private void Awake()
@@ -93,7 +108,9 @@ public class SpawnManager : MonoBehaviour
         _uiManager = GameObject.Find("Canvas").GetComponent<UIManager>();
         _maincamera = Camera.main;
         
-    }    
+    }
+
+    #region Spawn Methods
 
     public void SpawnEnemies(int enemyCount)
     {
@@ -116,47 +133,45 @@ public class SpawnManager : MonoBehaviour
         Instantiate(_bossPrefab, _bossSpawnPosition, Quaternion.identity);        
     }
 
-
+    #endregion
     public void OnPlayerDeath()
     {
         _isSpawning = false;
     }
 
 
-
     #region Routines
     IEnumerator SpawnEnemyRoutine(float enemySpawnRate, int enemyCount)
     {
         
-        yield return new WaitForSeconds(_delayToStartSpawnRoutine);
-        Vector3 spawnPosition;
-        Vector3 viewportSpawnPosition;
+        yield return new WaitForSeconds(_delayToStartSpawnRoutine);      
+        
 
         while (enemyCount > 0)
         {
 
-            GameObject enemyPrefab;
+            
             _spawnRarityControl = Random.Range(0f, 1.01f);
             // TODO
             // Implement a variable on enemy to hold the Vector3 position for the spawn
             if (_spawnRarityControl <= _commonEnemyMaxPercentage)
             {
-                enemyPrefab = _commonEnemyPrefab;
-                viewportSpawnPosition = new Vector3(Random.Range(0.05f, 1f), 1.1f, 1f);
+                _enemyPrefab = _commonEnemyPrefab;
+                _viewportSpawnPosition = new Vector3(Random.Range(0.05f, 1f), 1.1f, 1f);
             }
             else if (_spawnRarityControl > _commonEnemyMaxPercentage && _spawnRarityControl <= _uncommonEnemyMaxPercentage)
             {
-                enemyPrefab = _uncommonEnemyPrefab;
-                viewportSpawnPosition = new Vector3(-0.1f, Random.Range(0.5f, 0.9f), 1f);
+                _enemyPrefab = _uncommonEnemyPrefab;
+                _viewportSpawnPosition = new Vector3(-0.1f, Random.Range(0.5f, 0.9f), 1f);
             }
             else
             {
-                enemyPrefab = _commonEnemyPrefab;
-                viewportSpawnPosition = new Vector3(Random.Range(0.05f, 1f), 1.1f, 1f);
+                _enemyPrefab = _commonEnemyPrefab;
+                _viewportSpawnPosition = new Vector3(Random.Range(0.05f, 1f), 1.1f, 1f);
                 Debug.Log("Rare Enemy Spawned");
             }
-            spawnPosition = _maincamera.ViewportToWorldPoint(viewportSpawnPosition);            
-            GameObject newEnemy = Instantiate(enemyPrefab, spawnPosition, Quaternion.identity);
+            _enemySpawnPosition = _maincamera.ViewportToWorldPoint(_viewportSpawnPosition);            
+            GameObject newEnemy = Instantiate(_enemyPrefab, _enemySpawnPosition, Quaternion.identity);
             newEnemy.transform.parent = _enemyContainer.transform;
             enemyCount--;
             yield return new WaitForSeconds(enemySpawnRate);
@@ -171,30 +186,29 @@ public class SpawnManager : MonoBehaviour
         yield return new WaitForSeconds(_delayToStartPowerUpSpawnRoutine);
 
         while (_isSpawning)
-        {
-            GameObject powerupPrefab;
-            int powerupRandomId;
-            Vector3 spawnPosition = new Vector3(Random.Range(_minSpawnRangeX, _maxSpawnRangeX), _spawnRangeY, 0);
+        {            
+            
+            _powerupSpawnPosition = new Vector3(Random.Range(_minSpawnRangeX, _maxSpawnRangeX), _spawnRangeY, 0);
 
             _spawnRarityControl = Random.Range(0f, 1.01f);
             if (_spawnRarityControl <= _commonMaxPercentage)
             {
-                powerupRandomId = Random.Range(0, _commonPowerupPrefab.Length);
-                powerupPrefab = _commonPowerupPrefab[powerupRandomId];
+                _powerupRandomId = Random.Range(0, _commonPowerupPrefab.Length);
+                _powerupPrefab = _commonPowerupPrefab[_powerupRandomId];
 
             }
             else if (_spawnRarityControl > _commonMaxPercentage && _spawnRarityControl <= _uncommonMaxPercentage)
             {
-                powerupRandomId = Random.Range(0, _uncommonPowerupPrefab.Length);
-                powerupPrefab = _uncommonPowerupPrefab[powerupRandomId];
+                _powerupRandomId = Random.Range(0, _uncommonPowerupPrefab.Length);
+                _powerupPrefab = _uncommonPowerupPrefab[_powerupRandomId];
             }
             else
             {
-                powerupRandomId = Random.Range(0, _rarePowerupPrefab.Length);
-                powerupPrefab = _rarePowerupPrefab[powerupRandomId];
+                _powerupRandomId = Random.Range(0, _rarePowerupPrefab.Length);
+                _powerupPrefab = _rarePowerupPrefab[_powerupRandomId];
             }
 
-            Instantiate(powerupPrefab, spawnPosition, Quaternion.identity);
+            Instantiate(_powerupPrefab, _powerupSpawnPosition, Quaternion.identity);
 
             yield return new WaitForSeconds(Random.Range(_minPowerUpSpawnRate, _maxPowerUpSpawnRate));
         }
@@ -206,9 +220,9 @@ public class SpawnManager : MonoBehaviour
         yield return new WaitForSeconds(_delayToStartDebuffSpawnRoutine);
         while (_isSpawning)
         {            
-            Vector3 spawnPosition = new Vector3(Random.Range(_minSpawnRangeX, _maxSpawnRangeX), _spawnRangeY, 0);
-            int debuffRandomId = Random.Range(0, _debuffPrefab.Length);
-            Instantiate(_debuffPrefab[debuffRandomId], spawnPosition, Quaternion.identity);
+            _debuffSpawnPosition = new Vector3(Random.Range(_minSpawnRangeX, _maxSpawnRangeX), _spawnRangeY, 0);
+            _debuffRandomId = Random.Range(0, _debuffPrefab.Length);
+            Instantiate(_debuffPrefab[_debuffRandomId], _debuffSpawnPosition, Quaternion.identity);
 
             yield return new WaitForSeconds(Random.Range(_minDebuffSpawnRate, _maxDebuffSpawnRate));
         }
