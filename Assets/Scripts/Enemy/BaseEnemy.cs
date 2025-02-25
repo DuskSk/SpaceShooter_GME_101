@@ -21,13 +21,13 @@ public abstract class BaseEnemy : MonoBehaviour
     protected ParticleSystem _shieldParticle;
     protected GameObject _engineObject;
 
-    private bool _isPlayerNearby = false;
-    private Vector3 _targetPosition;
-    private float _ramAttackCooldown = 2f;
-    private float _ramLastAttackTime = -Mathf.Infinity;
+    protected bool _isPlayerNearby = false;
+    protected Vector3 _targetPosition;
+    protected float _ramAttackCooldown = 2f;
+    protected float _ramLastAttackTime = -Mathf.Infinity;
 
-    private enum EnemyDeathState { Move, Explode, Dead };
-    private EnemyDeathState _enemyDeathState = EnemyDeathState.Move;
+    protected enum EnemyDeathState { Move, Explode, Dead };
+    protected EnemyDeathState _enemyDeathState = EnemyDeathState.Move;
 
 
     protected virtual void Start()
@@ -40,22 +40,11 @@ public abstract class BaseEnemy : MonoBehaviour
         _mainCamera = Camera.main;
         _shieldParticle = GetComponent<ParticleSystem>();
         EnableShieldOnStart();
-        InvokeRepeating("DetectPlayerNearby", 0f, 0.5f);
-
-    }
-
-    protected virtual void Update()
-    {
-
-        if (_isPlayerNearby)
-        {
-            ChargeAtPlayer();
-        }else
-        {
-            MoveEnemy();
-        }           
         
+
     }
+
+    
     protected abstract void MoveEnemy();
     protected abstract void Fire();
     

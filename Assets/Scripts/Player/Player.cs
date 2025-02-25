@@ -12,18 +12,19 @@ public class Player : MonoBehaviour
     [Header("Player Projectile Speeds")]
     [SerializeField] private float _laserSpeed = 8.0f;
     [SerializeField] private float _homingSpeed = 5.0f;
+    [SerializeField] private float _homingShootSpeed;
     [SerializeField] private float _aoeBombSpeed = 5.0f;
 
+
+    [Header("Misc Projectile related")]
     [SerializeField] private Vector3 _laserOffsetPosition = new Vector3(0, 1.05f, 0);
     private Vector3 _weaponOffset;
-
-
     [SerializeField] private float _fireRate = 0.5f;
     private float _fireDelayControl = -1f;
-
     [SerializeField] private int _maxAmmoAmount = default;
     private int _currentAmmo;
 
+    [Header("Player Lives")]
     [SerializeField] private int _lives = 3; 
     private SpawnManager _spawnManager;
     private UIManager _uiManager;
@@ -258,7 +259,7 @@ public class Player : MonoBehaviour
         _weaponOffset = transform.position + _laserOffsetPosition;
 
         HomingShoot homingObject = Instantiate(_homingShootPrefab, _weaponOffset, Quaternion.identity);
-        homingObject.Initialize(Vector3.up, _homingSpeed, false);
+        homingObject.Initialize(Vector3.up, _homingShootSpeed, _homingSpeed, false);
     }    
 
     public void DamagePlayer()

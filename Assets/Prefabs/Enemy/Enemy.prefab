@@ -186,7 +186,7 @@ MonoBehaviour:
   _enemyScoreValue: 10
   _enemySpeed: 1
   _enemyChargeSpeed: 6
-  _chanceToEnableShield: 0.9
+  _chanceToEnableShield: 0.1
   _isShieldEnabled: 0
   _detectionRadius: 4
   _projectileSpeed: 10

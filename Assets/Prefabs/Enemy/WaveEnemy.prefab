@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 8442820637863047767}
   - component: {fileID: 6304798497773992069}
   - component: {fileID: 2259904925057119816}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Nairan - Frigate - Engine_0
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -116,7 +116,7 @@ GameObject:
   - component: {fileID: 7820213937689931953}
   - component: {fileID: 1579343762672674381}
   - component: {fileID: -2244840257301714423}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: WaveEnemy
   m_TagString: Enemy
   m_Icon: {fileID: 0}

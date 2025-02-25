@@ -62,16 +62,25 @@ public class Enemy : BaseEnemy
         _raycastHit2D = new RaycastHit2D[1];        
         InvokeRepeating("CheckPlayerBehindEnemy", 0f, 0.3f);
         InvokeRepeating("CheckPowerupInFrontOfEnemy", 0f, 0.5f);
+        InvokeRepeating("DetectPlayerNearby", 0f, 1f);
         StartCoroutine(LaserShootingCoroutine());
         
     }
     
-    protected override void Update()
+    protected void Update()
     {
-        base.Update();
+        
         if(_enemyState == EnemyState.Move)
         {
-            MoveEnemy();
+            if (this._isPlayerNearby)
+            {
+                ChargeAtPlayer();
+            }
+            else
+            {
+                MoveEnemy();
+            }
+            
         }
         
         

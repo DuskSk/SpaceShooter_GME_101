@@ -511,8 +511,9 @@ MonoBehaviour:
   _speedWithBoost: 13
   _speedWithThruster: 10
   _laserSpeed: 10
-  _homingSpeed: 9
-  _aoeBombSpeed: 9
+  _homingSpeed: 8
+  _homingShootSpeed: 7
+  _aoeBombSpeed: 10
   _laserOffsetPosition: {x: 0, y: 1.05, z: 0}
   _fireRate: 0.15
   _maxAmmoAmount: 20
@@ -525,7 +526,7 @@ MonoBehaviour:
   _isShieldEnable: 0
   _isThrusterEnable: 0
   _isAoeBombEnable: 0
-  _isHomingShootEnable: 0
+  _isHomingShootEnable: 1
   _laserPrefab: {fileID: 8143371257873752616, guid: 3ed94ccddb5cf7443b29408ad7ec39fe,
     type: 3}
   _tripleLaserPrefab: {fileID: 6988458246696329540, guid: 292021a7cbde7be45b6b0cb342240aee,
@@ -1394,7 +1395,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 745990392}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.55, y: 7.86, z: -12.2914915}
+  m_LocalPosition: {x: -8.41, y: 1.86, z: -12.2914915}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1895423132}
@@ -2615,7 +2616,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _totalWaves: 5
   _totalEnemies: 15
-  _waveCooldown: 5
+  _waveCooldown: 3
   _waveMultiplier: 1.2
 --- !u!1 &1895423131
 GameObject:

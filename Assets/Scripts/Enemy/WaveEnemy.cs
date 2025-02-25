@@ -25,9 +25,9 @@ public class WaveEnemy : BaseEnemy
 
     }
 
-    protected override void Update()
+    protected void Update()
     {
-        base.Update();
+        
         MoveEnemy();
     }
 

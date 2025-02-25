@@ -8,7 +8,7 @@ public class HomingShoot : MonoBehaviour, IProjectile
     [SerializeField] private float _speed;
     [SerializeField] private float _homingSpeed;
     [SerializeField] private float _detectionRadius = 3f;
-    [SerializeField] private float _detectionInterval = 0.5f;
+    [SerializeField] private float _detectionInterval = 0.2f;
     [SerializeField] LayerMask _enemyLayer;
 
     private Transform _targetEnemy;
@@ -49,6 +49,15 @@ public class HomingShoot : MonoBehaviour, IProjectile
     public void Initialize(Vector3 direction, float speed, bool isEnemy = false)
     {
         _direction = direction;
+        _speed = speed;
+    }
+
+    public void Initialize(Vector3 direction, float speed,float homingSpeed, bool isEnemy = false)
+    {
+        _direction = direction;
+        _speed = speed;
+        _homingSpeed = homingSpeed;
+
     }
 
     private void MoveTowardsEnemy()

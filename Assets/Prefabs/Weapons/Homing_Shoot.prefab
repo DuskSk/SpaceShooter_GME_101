@@ -184,10 +184,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: da22dbe5c871f7e4e9d5e9e369c0907f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _speed: 2
-  _homingSpeed: 1
-  _detectionRadius: 3
-  _detectionInterval: 0.5
+  _speed: 3
+  _homingSpeed: 10
+  _detectionRadius: 2
+  _detectionInterval: 0.3
   _enemyLayer:
     serializedVersion: 2
     m_Bits: 4096
