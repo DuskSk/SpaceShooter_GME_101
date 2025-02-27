@@ -271,7 +271,7 @@ MonoBehaviour:
   _enemyScoreValue: 20
   _enemySpeed: 2
   _enemyChargeSpeed: 7
-  _chanceToEnableShield: 0.8
+  _chanceToEnableShield: 0.1
   _isShieldEnabled: 0
   _detectionRadius: 5
   _projectileSpeed: 8
@@ -282,8 +282,8 @@ MonoBehaviour:
     type: 3}
   _waveDirection: 0
   _screenOffset: 0.2
-  _minDelayToShoot: 20
-  _maxDelayToShoot: 25
+  _minDelayToShoot: 3
+  _maxDelayToShoot: 5
 --- !u!198 &-3054887777458982068
 ParticleSystem:
   m_ObjectHideFlags: 0

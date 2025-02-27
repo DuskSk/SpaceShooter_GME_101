@@ -186,7 +186,7 @@ MonoBehaviour:
   _enemyScoreValue: 10
   _enemySpeed: 1
   _enemyChargeSpeed: 6
-  _chanceToEnableShield: 0.1
+  _chanceToEnableShield: 0.2
   _isShieldEnabled: 0
   _detectionRadius: 4
   _projectileSpeed: 10
@@ -199,8 +199,8 @@ MonoBehaviour:
   _laserOffsetPosition: {x: 0, y: -0.9, z: 0}
   _laserPrefab: {fileID: 8143371257873752616, guid: 3ed94ccddb5cf7443b29408ad7ec39fe,
     type: 3}
-  _minDelayToShoot: 10
-  _maxDelayToShoot: 15
+  _minDelayToShoot: 3
+  _maxDelayToShoot: 4
   _rayDetectionDistance: 10
   _laserDelay: 4
   _playerLayer:
