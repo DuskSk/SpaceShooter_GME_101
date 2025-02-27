@@ -11,6 +11,10 @@ public class WaveEnemy : BaseEnemy
     [SerializeField] private GameObject _projectilePrefab;
     [SerializeField] private Direction _waveDirection;
     [SerializeField] private float _screenOffset = 0.5f;
+
+    [Header("Shoot configuration")]
+    [SerializeField] private float _minDelayToShoot;
+    [SerializeField] private float _maxDelayToShoot;
     private Vector3 _startPosition;
     
 
@@ -21,7 +25,7 @@ public class WaveEnemy : BaseEnemy
         _myCollider2D = GetComponent<BoxCollider2D>();
         _startPosition = transform.position;        
         StartCoroutine(LaserShootingCoroutine());
-        InvokeRepeating(nameof(CheckIfEnemyHasLeftScreen), 1f, 0.5f);
+        InvokeRepeating(nameof(CheckIfEnemyHasLeftScreen), 0f, 0.5f);
 
     }
 
@@ -46,9 +50,18 @@ public class WaveEnemy : BaseEnemy
         Vector3 viewportPosition = this._mainCamera.WorldToViewportPoint(transform.position);
         if (viewportPosition.x > 1 + _screenOffset || viewportPosition.x < 0 - _screenOffset)
         {
-            float newXPosition = (_waveDirection == Direction.LeftToRight) ? -_screenOffset : 1 + _screenOffset;
-            Vector3 newWorldPosition = _mainCamera.ViewportToWorldPoint(new Vector3(newXPosition, viewportPosition.y, viewportPosition.z));
+            //float newXPosition = (_waveDirection == Direction.LeftToRight) ? -_screenOffset : 1 + _screenOffset;
+            //Vector3 newWorldPosition = _mainCamera.ViewportToWorldPoint(new Vector3(newXPosition, viewportPosition.y, viewportPosition.z));
+            //transform.position = new Vector3(newWorldPosition.x, transform.position.y, transform.position.z);
+
+            // GPT test
+            float newViewportX = (viewportPosition.x > 1) ? 0 : 1;
+
+            // 🔹 Convert to world coordinates while preserving Y and Z
+            Vector3 newWorldPosition = _mainCamera.ViewportToWorldPoint(new Vector3(newViewportX, viewportPosition.y, viewportPosition.z));
             transform.position = new Vector3(newWorldPosition.x, transform.position.y, transform.position.z);
+
+            Debug.Log($"🔄 Enemy repositioned to: {transform.position}");
         }
     }
 
@@ -80,7 +93,7 @@ public class WaveEnemy : BaseEnemy
     {
         while (true)
         {
-            yield return new WaitForSeconds(Random.Range(0.5f, 2.0f)); // Random delay between shots
+            yield return new WaitForSeconds(Random.Range(_minDelayToShoot, _maxDelayToShoot)); // Random delay between shots
             if (!_myCollider2D.enabled)
             {
                 Debug.Log("Collider not enabled");

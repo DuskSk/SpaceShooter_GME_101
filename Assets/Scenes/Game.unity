@@ -474,6 +474,120 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 159312519}
   m_CullTransparentMesh: 0
+--- !u!1 &187185337
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 187185338}
+  m_Layer: 0
+  m_Name: EnemyContainer
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &187185338
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 187185337}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 331013374}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &331013372
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 331013374}
+  - component: {fileID: 331013373}
+  m_Layer: 0
+  m_Name: SpawnManager (1)
+  m_TagString: Spawn_Manager
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &331013373
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 331013372}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 80efa20c6ebfb4c46826623b28abc4ae, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _enemyContainer: {fileID: 187185337}
+  _commonPowerupPrefab:
+  - {fileID: 5063759286010916095, guid: 0114f7cbfe8688f448319c3805f4fe9e, type: 3}
+  - {fileID: 6420919696423904555, guid: aace90ff2ffebe44cad8b287ad72797a, type: 3}
+  _uncommonPowerupPrefab:
+  - {fileID: 6221563551128551034, guid: 5f7d1074843a5c946aa5b9dbcd02ce90, type: 3}
+  - {fileID: 5226624074175360245, guid: c8f53813ff7e4224ab8e3900f5dec074, type: 3}
+  - {fileID: 5990541478412343259, guid: 497f05ebf60ea1744a46e32315e39bd7, type: 3}
+  _rarePowerupPrefab:
+  - {fileID: 1206529448549707878, guid: bceacf672e7c74145929bb1383f347f8, type: 3}
+  - {fileID: 4553403561354577074, guid: 90c2eb7612ae38d4094cc798c63c2f8d, type: 3}
+  _debuffPrefab:
+  - {fileID: 4455012261887512207, guid: e75eabc26f399244fb0664bf0b30ec4b, type: 3}
+  _enemySpawnRateInSeconds: 3
+  _delayToStartSpawnRoutine: 6
+  _delayToStartPowerUpSpawnRoutine: 7
+  _delayToStartDebuffSpawnRoutine: 10
+  _minPowerUpSpawnRate: 2
+  _maxPowerUpSpawnRate: 3
+  _minDebuffSpawnRate: 7
+  _maxDebuffSpawnRate: 15
+  _commonEnemyPrefab: {fileID: 7635470433513147934, guid: a6df7bdf58aaa984390443ec01836d7b,
+    type: 3}
+  _uncommonEnemyPrefab: {fileID: 8943118820227940201, guid: c45d2f44861a93c4185fcc788513f465,
+    type: 3}
+  _minSpawnRangeX: -15
+  _maxSpawnRangeX: 15
+  _spawnRangeY: 12
+  _zzMinSpawnRangeY: 8
+  _zzMaxSpawnRangeY: 1
+  _zzSpawnRangeX: 18
+  _bossPrefab: {fileID: 8748689758413725245, guid: 66ef4193fbb6ddd4daddcca81bc6f3a5,
+    type: 3}
+  _bossSpawnPosition: {x: 0, y: 13, z: 0}
+  _commonMaxPercentage: 0.7
+  _uncommonMaxPercentage: 0.9
+  _rareMaxPercentage: 1
+  _commonEnemyMaxPercentage: 0.2
+  _uncommonEnemyMaxPercentage: 1
+  _rareEnemyMaxPercentage: 0
+--- !u!4 &331013374
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 331013372}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -8.41, y: 1.86, z: -12.2914915}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 187185338}
+  m_Father: {fileID: 0}
+  m_RootOrder: 11
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &498659300
 GameObject:
   m_ObjectHideFlags: 0
@@ -526,7 +640,7 @@ MonoBehaviour:
   _isShieldEnable: 0
   _isThrusterEnable: 0
   _isAoeBombEnable: 0
-  _isHomingShootEnable: 1
+  _isHomingShootEnable: 0
   _laserPrefab: {fileID: 8143371257873752616, guid: 3ed94ccddb5cf7443b29408ad7ec39fe,
     type: 3}
   _tripleLaserPrefab: {fileID: 6988458246696329540, guid: 292021a7cbde7be45b6b0cb342240aee,
@@ -1372,8 +1486,8 @@ MonoBehaviour:
     type: 3}
   _uncommonEnemyPrefab: {fileID: 8943118820227940201, guid: c45d2f44861a93c4185fcc788513f465,
     type: 3}
-  _minSpawnRangeX: -16
-  _maxSpawnRangeX: 16
+  _minSpawnRangeX: -15
+  _maxSpawnRangeX: 15
   _spawnRangeY: 12
   _zzMinSpawnRangeY: 8
   _zzMaxSpawnRangeY: 1
@@ -1384,7 +1498,7 @@ MonoBehaviour:
   _commonMaxPercentage: 0.7
   _uncommonMaxPercentage: 0.9
   _rareMaxPercentage: 1
-  _commonEnemyMaxPercentage: 0.7
+  _commonEnemyMaxPercentage: 0.5
   _uncommonEnemyMaxPercentage: 1
   _rareEnemyMaxPercentage: 0
 --- !u!4 &745990394

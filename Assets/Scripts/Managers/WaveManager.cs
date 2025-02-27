@@ -74,6 +74,7 @@ public class WaveManager : MonoBehaviour
     public void ReduceEnemyCount()
     {
         _enemiesRemaining--;
+        Debug.Log($"Enemies remaining: {_enemiesRemaining}");
         if (_enemiesRemaining <= 0)
         {
             EndWave();

@@ -194,13 +194,13 @@ MonoBehaviour:
   _xMinLimit: -18
   _xMaxLimit: 18
   _yTopRespawnPoint: 12
-  _evadeSpeed: 60
-  _evadeCooldown: 6
+  _evadeSpeed: 30
+  _evadeCooldown: 3
   _laserOffsetPosition: {x: 0, y: -0.9, z: 0}
   _laserPrefab: {fileID: 8143371257873752616, guid: 3ed94ccddb5cf7443b29408ad7ec39fe,
     type: 3}
-  _minDelayToShoot: 2
-  _maxDelayToShoot: 4
+  _minDelayToShoot: 10
+  _maxDelayToShoot: 15
   _rayDetectionDistance: 10
   _laserDelay: 4
   _playerLayer:

@@ -162,7 +162,8 @@ public class SpawnManager : MonoBehaviour
             else if (_spawnRarityControl > _commonEnemyMaxPercentage && _spawnRarityControl <= _uncommonEnemyMaxPercentage)
             {
                 _enemyPrefab = _uncommonEnemyPrefab;
-                _viewportSpawnPosition = new Vector3(-0.1f, Random.Range(0.5f, 0.9f), 1f);
+                // _viewportSpawnPosition = new Vector3(-0.1f, Random.Range(0.5f, 0.9f), 1f);
+                _viewportSpawnPosition = new Vector3(Random.Range(-0.15f, -0.05f), Random.Range(0.5f, 0.9f), 1f);
             }
             else
             {
